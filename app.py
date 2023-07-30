@@ -61,7 +61,7 @@ class Application:
                 break
 
             while True:  # Make sure valid choice is selected.
-                choice = str(input('\nDo you want to keep playing? 1. Yes 2. No '))  # Choose to play or leave.
+                choice = str(input('\nDo you want to keep playing? 1. Yes 2. No ')).strip()  # Choose to play or leave.
                 if choice not in ['1', '2']:  # If invalid choice is selected, continue while.
                     show_app_invalid_input(invalid_choice=True)
                     continue
