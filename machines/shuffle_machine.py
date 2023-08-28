@@ -1,4 +1,4 @@
-from config import NUMBER_OF_DECKS, CARDS_LIST
+from configs.game_config import NUMBER_OF_DECKS, CARDS_LIST
 from random import shuffle
 from collections import Counter
 import json
