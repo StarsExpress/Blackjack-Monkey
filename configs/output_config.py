@@ -1,4 +1,4 @@
 """All output configurations."""
 
-# Input widgets settings.
-CAPITAL_DISPLAY = ', your cumulated capital is '
+# Output widgets settings.
+CAPITAL_DISPLAY = ': your cumulated capital is '
