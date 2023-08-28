@@ -3,7 +3,7 @@ from configs.game_config import MIN_BET, MAX_CAPITAL
 
 
 def check_name(name):  # Control name length.
-    if len(name.strip()) > MAX_NAME_LEN:
+    if len(name.lstrip().rstrip()) > MAX_NAME_LEN:  # Check length after removal of edge spcaes.
         return 'Name length must <= ' + str(MAX_NAME_LEN) + '.'
 
 

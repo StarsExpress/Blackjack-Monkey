@@ -14,7 +14,7 @@ class Application:
     def execute(self):
         put_markdown(MARKDOWN)
 
-        input_data = input_group(inputs=[
+        input_dict = input_group(inputs=[
             input(label=NAME_DICT['label'], name=NAME_DICT['name'], type=TEXT,
                   validate=check_name, placeholder=NAME_DICT['holder']),
 
@@ -22,9 +22,9 @@ class Application:
                   validate=check_capital, placeholder=CAPITAL_DICT['holder'])
         ])  # Initial capital is a required input.
 
-        if len(input_data[NAME_DICT['name']].strip()) > 0:
-            self.name = NAME_DICT['name']  # If player enters non-empty name, update property.
-        self.initial_capital = input_data[CAPITAL_DICT['name']]
+        if len(input_dict[NAME_DICT['name']].strip()) > 0:  # If player enters non-empty name.
+            self.name = NAME_DICT['name'].lstrip().rstrip()  # Keep middle spaces.
+        self.initial_capital = input_dict[CAPITAL_DICT['name']]
 
         put_text('Dear ' + self.name + CAPITAL_DISPLAY + str(self.initial_capital) + ' dollars')
         hands = slider(HANDS_DICT['label'], min_value=HANDS_DICT['min'], max_value=HANDS_DICT['max'])
