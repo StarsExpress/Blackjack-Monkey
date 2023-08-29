@@ -1,8 +1,7 @@
 from configs.output_config import DEALER_SCOPE
 from configs.game_config import MIN_DEALER_VALUE
 from utils.judges import judge_blackjack
-from utils.properties_tracker import track_properties
-from utils.displayer import show_value
+from utils.tracker import show_properties, show_value
 from pywebio.output import use_scope, put_text
 
 
@@ -38,7 +37,7 @@ class Dealer:
                 put_text(drawn_card_message + 'Dealer has no Blackjack.', scope=DEALER_SCOPE)
                 return
 
-            self.ordinary_21, self.value, self.soft, self.bust = track_properties(self.cards_list)
+            self.ordinary_21, self.value, self.soft, self.bust = show_properties(self.cards_list)
             if self.ordinary_21:  # If dealer has 21, return entire attribute.
                 put_text(drawn_card_message + 'Dealer' + "'" + 's final value: 21.', scope=DEALER_SCOPE)
                 return

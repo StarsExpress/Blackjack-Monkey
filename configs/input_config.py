@@ -13,11 +13,19 @@ NAME_DICT = {'label': '😃 How may we call you, Sir/Madame:', 'name': 'name',
 
 # Initial capital widget dictionary.
 CAPITAL_DICT = {'label': '💰 Cash in your capital, please:', 'name': 'capital',
-                'holder': str(MIN_BET) + ' <= capital <= ' + str(MAX_CAPITAL) + '',
+                'holder': str(MIN_BET) + ' <= capital <= ' + str(MAX_CAPITAL),
                 }
 
 # Each round's hand widget dictionary.
 HANDS_DICT = {'label': 'How many hands do you want', 'min': 1, 'max': 6}
+
+# Chips widget dictionary.
+CHIPS_DICT = {'label': '💰 Put your chips for hand ', 'name': 'chips',
+              'holder': str(MIN_BET) + ' <= chips <= ',
+              'actions': [{'label': 'Enter', 'value': 'enter', 'type': 'submit', 'color': 'primary'},
+                          {'label': 'Reset', 'value': 'reset', 'type': 'reset', 'color': 'secondary'}
+                          ]
+              }
 
 # Continue and exit widget dictionary.
 CHOICES_DICT = {'label': 'Want another round?',
