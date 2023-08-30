@@ -1,11 +1,11 @@
 from configs.game_config import MIN_BET, MAX_BET
 from configs.input_config import CHIPS_DICT
 from configs.output_config import CHIPS_SCOPE
-from utils.input_validity import check_chips
+from utils.reminders import remind_inadequate_chips, remind_betting_amount
+from widgets.inputs import get_chips
+from widgets.outputs import write_text, clear_contents
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
-from pywebio.input import input, NUMBER
-from pywebio.output import put_text, use_scope, clear
 import time
 
 
@@ -15,32 +15,41 @@ class BlackjackGame:
     def __init__(self):
         self.machine, self.dealer, self.capital = ShuffleMachine(), Dealer(), 0
 
+    def check_chips(self, chips):  # Check if placed bets are valid.
+        # PyWebIO's input validation function only accepts one argument.
+        # This function is defined here to receive self.capital as a self-updating global variable.
+        if chips < MIN_BET:
+            return 'Placed chips must >= minimum bet ' + str(MIN_BET) + '.'
+        if chips > MAX_BET:
+            return 'Placed chips must <= maximum bet ' + str(MAX_BET) + '.'
+        if chips > self.capital:
+            return 'Placed chips must <= remaining capital ' + str(self.capital) + '.'
+        if chips % 100 != 0:
+            return 'Placed chips must be in units of 100.'
+
     def set_up(self, head_hands, capital):  # Set up capital amount and shuffle machine before each round.
         self.capital = capital  # Remaining capital amount.
         self.machine.load_and_shuffle()  # Load and shuffle cards.
 
-        # chips_list = []  # List of chips for each hand.
-        # chips_dict = CHIPS_DICT
-        #
-        # for i in range(head_hands):  # Iterate through all wanted head hands.
-        #     if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand, break for loop.
-        #         inadequate_message = 'Your remaining capital ' + self.capital + ' < minimum bet ' + str(MIN_BET) + '.'
-        #         put_text(inadequate_message, scope=CHIPS_SCOPE)
-        #         break
-        #
-        #     chips_dict.update({'label': CHIPS_DICT['label'] + str(i + 1) + ':'})
-        #     chips_dict.update({'holder': CHIPS_DICT['label'] + str(min(self.capital, MAX_BET)) + ':'})
-        #
-        #     with use_scope(CHIPS_SCOPE):
-        #         chips = input(label=chips_dict['label'], name=chips_dict['name'], type=NUMBER, required=True,
-        #                       validate=check_chips(remaining_capital=self.capital), placeholder=chips_dict['holder'])
-        #     print(chips)
-        #     self.capital -= chips  # Deduct chips amount from capital.
-        #     chips_list.append(chips)  # Append chips to list.
-        #
-        # time.sleep(3)  # Sleep for 3 seconds.
-        # clear(CHIPS_SCOPE)  # Right after choice is made, clear chips' scope.
-        # print(chips_list)
+        chips_list = []  # List of chips for each hand.
+        chips_dict = CHIPS_DICT.copy()  # Make a copy from config every time.
+
+        for i in range(head_hands):  # Iterate through all wanted head hands.
+            if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.
+                write_text(remind_inadequate_chips(self.capital), CHIPS_SCOPE)
+                time.sleep(1.5)  # Sleep for 1.5 seconds.
+                break
+
+            # Update label with respect to iterated hand ordinal for displays.
+            chips_dict.update({'label': CHIPS_DICT['label'] + str(i + 1) + ':'})
+            # Update holder text with respect to remaining capital for maximal feasible bet.
+            chips_dict.update({'holder': CHIPS_DICT['holder'] + remind_betting_amount(self.capital)})
+
+            chips = get_chips(chips_dict, self.check_chips)  # Pass validation function check_chips.
+            self.capital -= chips  # Deduct chips amount from capital.
+            chips_list.append(chips)
+
+        clear_contents(CHIPS_SCOPE)  # Right after chips are placed, clear chips scope.
 
         self.dealer.prepare(self.machine.draw())  # Dealer and player preparations.
         self.dealer.add_to_17_plus(self.machine)

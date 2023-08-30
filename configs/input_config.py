@@ -20,7 +20,7 @@ CAPITAL_DICT = {'label': '💰 Cash in your capital, please:', 'name': 'capital'
 HANDS_DICT = {'label': 'How many hands do you want', 'min': 1, 'max': 6}
 
 # Chips widget dictionary.
-CHIPS_DICT = {'label': '💰 Put your chips for hand ', 'name': 'chips',
+CHIPS_DICT = {'label': '💰 Put your chips for hand ',
               'holder': str(MIN_BET) + ' <= chips <= ',
               'actions': [{'label': 'Enter', 'value': 'enter', 'type': 'submit', 'color': 'primary'},
                           {'label': 'Reset', 'value': 'reset', 'type': 'reset', 'color': 'secondary'}
