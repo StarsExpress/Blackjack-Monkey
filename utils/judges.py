@@ -1,4 +1,4 @@
-from configs.game_config import CARD_TO_VALUE_DICT, SURRENDER_TO_ACE, MAX_SPLITS, BLACKJACK_PAYOUT
+from configs.rules_config import CARD_TO_VALUE_DICT, SURRENDER_TO_ACE, MAX_SPLITS, BLACKJACK_PAYOUT
 
 
 def judge_blackjack(cards_list, split=False):  # Blackjack judgement format: (True/False).

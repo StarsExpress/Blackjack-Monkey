@@ -1,5 +1,5 @@
 from configs.input_config import MAX_NAME_LEN
-from configs.game_config import MIN_BET, MAX_CAPITAL
+from configs.rules_config import MIN_BET, MAX_CAPITAL
 
 
 def check_name(name):  # Control player name length.

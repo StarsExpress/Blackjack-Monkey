@@ -1,4 +1,4 @@
-from configs.game_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE
+from configs.rules_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE
 
 
 # Return format: ordinary 21 (True/False), total value, soft (True/False), bust (True/False).

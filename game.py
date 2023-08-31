@@ -1,12 +1,10 @@
-from configs.game_config import MIN_BET, MAX_BET
+from configs.rules_config import MIN_BET, MAX_BET
 from configs.input_config import CHIPS_DICT
-from configs.output_config import CHIPS_SCOPE
-from utils.reminders import remind_inadequate_chips, remind_betting_amount
+from utils.reminders import remind_betting_amount
 from widgets.inputs import get_chips
-from widgets.outputs import write_text, clear_contents
+from widgets.outputs import notify_inadequate_capital
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
-import time
 
 
 class BlackjackGame:
@@ -36,8 +34,7 @@ class BlackjackGame:
 
         for i in range(head_hands):  # Iterate through all wanted head hands.
             if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.
-                write_text(remind_inadequate_chips(self.capital), CHIPS_SCOPE)
-                time.sleep(1.5)  # Sleep for 1.5 seconds.
+                notify_inadequate_capital(self.capital, hands=True)
                 break
 
             # Update label with respect to iterated hand ordinal for displays.
@@ -48,8 +45,6 @@ class BlackjackGame:
             chips = get_chips(chips_dict, self.check_chips)  # Pass validation function check_chips.
             self.capital -= chips  # Deduct chips amount from capital.
             chips_list.append(chips)
-
-        clear_contents(CHIPS_SCOPE)  # Right after chips are placed, clear chips scope.
 
         self.dealer.prepare(self.machine.draw())  # Dealer and player preparations.
         self.dealer.add_to_17_plus(self.machine)

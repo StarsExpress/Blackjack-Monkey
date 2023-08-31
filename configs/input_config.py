@@ -1,6 +1,6 @@
 """All input configurations."""
 
-from configs.game_config import MIN_BET, MAX_CAPITAL
+from configs.rules_config import MIN_BET, MAX_CAPITAL
 
 # Input widgets settings.
 MAX_NAME_LEN = 20  # Maximal player name length.
@@ -13,7 +13,7 @@ NAME_DICT = {'label': '😃 How may we call you, Sir/Madame:', 'name': 'name',
 
 # Initial capital widget dictionary.
 CAPITAL_DICT = {'label': '💰 Cash in your capital, please:', 'name': 'capital',
-                'holder': str(MIN_BET) + ' <= capital <= ' + str(MAX_CAPITAL),
+                'holder': 'Please be integer. Available range: ' + str(MIN_BET) + ' to ' + str(MAX_CAPITAL) + '.',
                 }
 
 # Each round's hand widget dictionary.
@@ -21,7 +21,7 @@ HANDS_DICT = {'label': 'How many hands do you want', 'min': 1, 'max': 6}
 
 # Chips widget dictionary.
 CHIPS_DICT = {'label': '💰 Put your chips for hand ',
-              'holder': str(MIN_BET) + ' <= chips <= ',
+              'holder': 'Please be integer. Available range: ' + str(MIN_BET) + ' to ',
               'actions': [{'label': 'Enter', 'value': 'enter', 'type': 'submit', 'color': 'primary'},
                           {'label': 'Reset', 'value': 'reset', 'type': 'reset', 'color': 'secondary'}
                           ]

@@ -1,8 +1,10 @@
 from configs.output_config import DEALER_SCOPE
-from configs.game_config import MIN_DEALER_VALUE
+from configs.rules_config import MIN_DEALER_VALUE
+from configs.app_config import DEALER_SLEEP
 from utils.judges import judge_blackjack
 from utils.trackers import show_properties, show_value
 from widgets.outputs import write_text
+import time
 
 
 class Dealer:
@@ -48,5 +50,6 @@ class Dealer:
 
             total_value_text = show_value(False, False, self.value, self.soft, self.ordinary_21)
             write_text(drawn_card_text + total_value_text, DEALER_SCOPE)
+            time.sleep(DEALER_SLEEP)  # Pause a moment before drawing a new card.
 
         write_text("Dealer's final value: " + str(self.value) + '.', DEALER_SCOPE)

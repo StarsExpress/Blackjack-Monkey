@@ -1,4 +1,4 @@
-"""All game configurations."""
+"""All rules configurations."""
 
 # Cards and shuffle machine settings.
 NUMBER_OF_DECKS = 6
