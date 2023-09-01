@@ -5,13 +5,14 @@ from widgets.inputs import get_chips
 from widgets.outputs import notify_inadequate_capital
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
+from roles.player import Player
 
 
 class BlackjackGame:
     """Blackjack game."""
 
     def __init__(self):
-        self.machine, self.dealer, self.capital = ShuffleMachine(), Dealer(), 0
+        self.machine, self.dealer, self.player, self.capital = ShuffleMachine(), Dealer(), Player(), 0
 
     def check_chips(self, chips):  # Check if placed bets are valid.
         # PyWebIO's input validation function only accepts one argument.
@@ -47,4 +48,5 @@ class BlackjackGame:
             chips_list.append(chips)
 
         self.dealer.prepare(self.machine.draw())  # Dealer and player preparations.
+        self.player.prepare(chips_list, [list(self.machine.draw(True)) for _ in range(len(chips_list))])
         self.dealer.add_to_17_plus(self.machine)

@@ -19,7 +19,6 @@ MAX_BET = 10000
 MIN_BET = 300
 
 
-# Allowed actions settings.
 # Surrender settings.
 SURRENDER_TO_ACE = False
 

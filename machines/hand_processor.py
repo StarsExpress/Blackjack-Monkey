@@ -1,7 +1,7 @@
 from configs.rules_config import MAX_SPLITS
 from utils.judges import judge_blackjack
-from utils.trackers import show_properties, show_value
-from widgets.outputs import show_cards
+from utils.trackers import show_properties
+from widgets.cards import show_player_value
 
 
 class HandProcessor:
@@ -19,26 +19,31 @@ class HandProcessor:
         self.soft_dict, self.bust_dict = {'1': soft}, {'1': bust}
 
     def print_properties(self, hand_ordinal='1'):
-        show_cards(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal])
-        show_value(self.double_down_dict[hand_ordinal], False, self.value_dict[hand_ordinal],
-                   self.soft_dict[hand_ordinal], self.ordinary_21_dict[hand_ordinal], self.blackjack)
+        show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal],
+                          value=self.value_dict[hand_ordinal], soft=self.soft_dict[hand_ordinal],
+                          blackjack=self.blackjack, need_new=True)
 
     def surrender(self):
         self.surrendered = True  # Turn surrendered mark to True.
-        print('Hand ' + self.head_hand_ordinal + ' has surrendered.\n')
 
     def stand(self, hand_ordinal='1', split_mark=False):
-        show_cards(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], split_mark)
-        show_value(False, True, self.value_dict[hand_ordinal], self.soft_dict[hand_ordinal])
+        pass
+        # show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal],
+        #                   value=self.value_dict[hand_ordinal], split=split_mark, blackjack=self.blackjack)
 
     def hit_or_double_down(self, card, hand_ordinal='1', double_down=False, split_mark=False):
-        if double_down:  # If double down is selected.
-            self.double_down_dict[hand_ordinal] = True  # Switch double down mark to True.
-
         self.cards_dict[hand_ordinal].append(card)  # Append a new card into the hand's list.
         ordinary_21, value, soft, bust = show_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
-        show_cards(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], split_mark)
-        show_value(double_down, False, value, soft, ordinary_21)
+
+        if double_down:  # If double down is selected.
+            self.double_down_dict[hand_ordinal] = True  # Switch double down mark to True.
+            # show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], value=value,
+            #                   split=split_mark)
+
+        else:
+            pass
+            # show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], value=value,
+            #                   split=split_mark)
 
         if bust:
             print('Your hand is busted.\n')
@@ -57,8 +62,7 @@ class HandProcessor:
         self.ordinary_21_dict[hand_ordinal] = ordinary_21  # Update new hand's properties.
         self.value_dict[hand_ordinal], self.soft_dict[hand_ordinal], self.bust_dict[hand_ordinal] = value, soft, bust
 
-        show_cards(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], True)
-        show_value(False, False, value, soft, ordinary_21, split_aces=self.aces_pair)
+        # show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], True)
 
         self.splits += 1  # Add 1 to number of splits.
         if self.splits == 3:  # If number of splits just reaches maximum.
@@ -75,5 +79,4 @@ class HandProcessor:
         self.value_dict[hand_ordinal], self.soft_dict[hand_ordinal], self.bust_dict[hand_ordinal] = value, soft, bust
         self.double_down_dict[hand_ordinal] = False  # Default double down mark is False.
 
-        show_cards(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], True)
-        show_value(False, False, value, soft, ordinary_21, split_aces=self.aces_pair)
+        # show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal], True)

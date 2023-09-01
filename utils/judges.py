@@ -40,7 +40,7 @@ def judge_returned_chips(chips, player_value=0, dealer_value=0, player_bj=False,
         return int(chips * (1 + BLACKJACK_PAYOUT)), " (you have Blackjack and dealer doesn't)"
 
     double_down_multiple = 1 if double_down else 0  # The additional double down amount to be dealt with,
-    if player_value < dealer_value:  # If dealer has a higher value, return 0 as player loses initial bet.
+    if player_value < dealer_value:  # If dealer wins, return 0 as player loses initial bet.
         return 0, ' (dealer' + "'" + 's value ' + str(dealer_value) + ' > your value ' + str(player_value) + ')'
 
     if player_value == dealer_value:  # If a draw happens, return initial bet.
