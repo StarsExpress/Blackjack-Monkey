@@ -1,8 +1,8 @@
 from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
 from configs.input_config import DEFAULT_PLAYER_NAME, NAME_DICT, CAPITAL_DICT
-from configs.output_config import CAPITAL_TEXT, INFO_SCOPE, DEALER_SCOPE, HANDS_SCOPE, INTER_SCOPE
+from configs.output_config import CAPITAL_TEXT, INFO_SCOPE, DEALER_SCOPE, HANDS_SCOPE
 from configs.rules_config import MIN_BET
-from widgets.outputs import configure_name, set_title, put_layout
+from widgets.outputs import configure_name, set_title, put_layouts
 from widgets.outputs import write_text, clear_contents, notify_inadequate_capital
 from widgets.inputs import get_info, get_hands, get_choice
 from game import BlackjackGame
@@ -26,7 +26,7 @@ class Application:
 
         write_text('Dear ' + self.name + CAPITAL_TEXT + str(self.capital) + ' dollars.', INFO_SCOPE, True)
 
-        put_layout()  # Establish all needed scopes.
+        put_layouts()  # Establish all needed scopes.
 
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.
             hands = get_hands()
@@ -38,7 +38,7 @@ class Application:
 
             if self.capital < MIN_BET:  # If remaining capital < minimum bet.
                 time.sleep(GAME_END_SLEEP)  # Pause for a moment.
-                notify_inadequate_capital(self.capital, game=True)  # Send notification.
+                notify_inadequate_capital(self.capital, broke=True)  # Send notification.
                 break
 
             choice = get_choice()  # Right after choice is made, clear hands and dealer scope.
