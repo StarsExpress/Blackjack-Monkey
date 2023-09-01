@@ -1,6 +1,6 @@
 from configs.rules_config import MAX_SPLITS
 from utils.judges import judge_blackjack
-from utils.trackers import show_properties
+from utils.trackers import track_properties
 from widgets.cards import show_player_value
 
 
@@ -13,7 +13,7 @@ class HandProcessor:
         self.head_hand_ordinal, self.splits = head_hand_ordinal, 0  # Splits count and head hand ordinal.
         self.aces_pair = True if cards_list == ['A', 'A'] else False  # Aces pair mark.
 
-        ordinary_21, value, soft, bust = show_properties(cards_list)  # Judge hand properties.
+        ordinary_21, value, soft, bust = track_properties(cards_list)  # Judge hand properties.
         self.cards_dict, self.double_down_dict = {'1': cards_list}, {'1': False}  # Property dictionaries of all hands.
         self.ordinary_21_dict, self.value_dict = {'1': ordinary_21}, {'1': value}
         self.soft_dict, self.bust_dict = {'1': soft}, {'1': bust}
@@ -33,7 +33,7 @@ class HandProcessor:
 
     def hit_or_double_down(self, card, hand_ordinal='1', double_down=False, split_mark=False):
         self.cards_dict[hand_ordinal].append(card)  # Append a new card into the hand's list.
-        ordinary_21, value, soft, bust = show_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
+        ordinary_21, value, soft, bust = track_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
 
         if double_down:  # If double down is selected.
             self.double_down_dict[hand_ordinal] = True  # Switch double down mark to True.
@@ -58,7 +58,7 @@ class HandProcessor:
         self.cards_dict[str(self.splits + 2)] = [self.cards_dict[hand_ordinal][-1]]  # Move the split card to new hand.
         self.cards_dict[hand_ordinal] = [self.cards_dict[hand_ordinal][0], card]
 
-        ordinary_21, value, soft, bust = show_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
+        ordinary_21, value, soft, bust = track_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
         self.ordinary_21_dict[hand_ordinal] = ordinary_21  # Update new hand's properties.
         self.value_dict[hand_ordinal], self.soft_dict[hand_ordinal], self.bust_dict[hand_ordinal] = value, soft, bust
 
@@ -74,7 +74,7 @@ class HandProcessor:
             return
 
         self.cards_dict[hand_ordinal].append(card)  # Update lists of cards, carriers and values for new hand.
-        ordinary_21, value, soft, bust = show_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
+        ordinary_21, value, soft, bust = track_properties(self.cards_dict[hand_ordinal])  # Judge hand properties.
         self.ordinary_21_dict[hand_ordinal] = ordinary_21  # Update new hand's properties.
         self.value_dict[hand_ordinal], self.soft_dict[hand_ordinal], self.bust_dict[hand_ordinal] = value, soft, bust
         self.double_down_dict[hand_ordinal] = False  # Default double down mark is False.

@@ -1,7 +1,7 @@
 from configs.rules_config import MIN_DEALER_VALUE
 from configs.app_config import DEALER_SLEEP
 from utils.judges import judge_blackjack
-from utils.trackers import show_properties
+from utils.trackers import track_properties
 from widgets.cards import show_dealer_value
 import time
 
@@ -15,7 +15,7 @@ class Dealer:
 
     def prepare(self, first_card):  # Load first card for a new round. Reset default marks back to False.
         self.cards_list, self.blackjack = [first_card], False
-        _, self.value, self.soft, self.bust = show_properties(self.cards_list)
+        _, self.value, self.soft, self.bust = track_properties(self.cards_list)
 
         # ace_text = 'No surrender allowed against Ace.' if first_card == 'A' else ''  # If first card is Ace.
         show_dealer_value(first_card, value=self.value, soft=self.soft, first=True)
@@ -34,7 +34,7 @@ class Dealer:
                 show_dealer_value(drawn_card, player_all_blackjack=player_all_blackjack)
                 return
 
-            _, self.value, self.soft, self.bust = show_properties(self.cards_list)
+            _, self.value, self.soft, self.bust = track_properties(self.cards_list)
             if self.bust:  # If dealer is busted.
                 show_dealer_value(drawn_card, bust=self.bust)
                 return

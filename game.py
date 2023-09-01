@@ -27,11 +27,11 @@ class BlackjackGame:
             return 'Placed chips must be in units of 100.'
 
     def set_up(self, head_hands, capital):  # Set up capital amount and shuffle machine before each round.
-        self.capital = capital  # Remaining capital amount.
-        self.machine.load_and_shuffle()  # Load and shuffle cards.
+        self.capital = capital
+        self.machine.load_and_shuffle()
 
-        chips_list = []  # List of chips for each hand.
-        chips_dict = CHIPS_DICT.copy()  # Make a copy from config every time.
+        chips_list = []
+        chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing config's values.
 
         for i in range(head_hands):  # Iterate through all wanted head hands.
             if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.

@@ -32,9 +32,9 @@ class Application:
             hands = get_hands()
             self.game.set_up(hands, self.capital)
 
-            # profit = self.game.capital - self.capital  # Calculate this round's profit
-            # self.profit += profit  # Update this round's profit into cumulated profit.
-            # self.capital += profit  # Update remaining capital amount and cumulated profit.
+            profit = self.game.capital - self.capital  # Calculate this round's profit
+            self.profit += profit  # Update cumulated profit.
+            self.capital += profit  # Update remaining capital.
 
             if self.capital < MIN_BET:  # If remaining capital < minimum bet.
                 time.sleep(GAME_END_SLEEP)  # Pause for a moment.
