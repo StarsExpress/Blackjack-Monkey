@@ -21,7 +21,7 @@ class HandProcessor:
     def print_properties(self, hand_ordinal='1'):
         show_player_value(self.head_hand_ordinal, hand_ordinal, self.cards_dict[hand_ordinal],
                           value=self.value_dict[hand_ordinal], soft=self.soft_dict[hand_ordinal],
-                          blackjack=self.blackjack, need_new=True)
+                          blackjack=self.blackjack, need_new_scope=True)
 
     def surrender(self):
         self.surrendered = True  # Turn surrendered mark to True.
