@@ -2,9 +2,9 @@ from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
 from configs.input_config import DEFAULT_PLAYER_NAME, NAME_DICT, CAPITAL_DICT
 from configs.output_config import CAPITAL_TEXT, INFO_SCOPE, DEALER_SCOPE, PLAYER_SCOPE
 from configs.rules_config import MIN_BET
-from widgets.outputs import configure_name, set_title, set_core_layouts
-from widgets.outputs import write_text, clear_contents, notify_inadequate_capital
-from widgets.inputs import get_info, get_hands, get_choice
+from widgets.layouts import configure_name, set_title, set_core_layouts, write_text, clear_contents
+from widgets.interactions import get_info, get_hands, get_choice
+from widgets.notifications import notify_inadequate_capital
 from game import BlackjackGame
 import time
 
@@ -31,6 +31,7 @@ class Application:
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.
             hands = get_hands()
             self.game.set_up(hands, self.capital)
+            self.game.start()
 
             profit = self.game.capital - self.capital  # Calculate this round's profit
             self.profit += profit  # Update cumulated profit.

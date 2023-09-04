@@ -1,10 +1,10 @@
 from configs.app_config import PAGE_NAME
 from configs.output_config import PREVIOUS_HEADER, PREVIOUS_SCOPE, PREVIOUS_HEIGHT, SCOPE_WIDTH
 from configs.output_config import PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
-from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH, POPUP_TITLE, POPUP_SIZE
-from configs.rules_config import MIN_BET
+from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
-from pywebio.output import put_html, put_collapse, put_scrollable, put_scope, use_scope, put_text, put_row, popup, clear
+from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
+from pywebio.output import use_scope, put_tabs, put_text, put_row, clear
 
 
 def configure_name():  # Configure web name.
@@ -34,6 +34,17 @@ def set_core_layouts():  # Set game page layouts.
     put_row([player_content, None, dealer_content], size=RELATIVE_WIDTH)  # None means middle blank between scopes.
 
 
+def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand and its branches.
+    tabs_list = []
+
+    for i in range(head_hands):
+        head_scope = PLAYER_SCOPE + '_' + str(i + 1)
+        content = put_scope(name=head_scope, content=put_text('All Branches', scope=head_scope))
+        tabs_list.append({'title': 'Hand ' + str(i + 1), 'content': content})
+
+    put_tabs(tabs_list, PLAYER_SCOPE)  # Put all tabs in player scope.
+
+
 def write_text(message, scope, use=False):  # Performs put_text in given scope.
     if use:
         with use_scope(scope):
@@ -41,17 +52,6 @@ def write_text(message, scope, use=False):  # Performs put_text in given scope.
         return
 
     put_text(message, scope=scope)
-
-
-def notify_inadequate_capital(remaining_capital, hands=False, broke=False):  # If remaining capital isn't enough.
-    notification = 'Your remaining capital ' + str(remaining_capital) + ' < minimum bet ' + str(MIN_BET) + '.'
-
-    if hands:  # If not enough capital for another hand.
-        notification += '\nSo no more hands allowed now.'
-    if broke:  # If not enough capital for another round.
-        notification += '\nSo game ends here.'
-
-    popup(POPUP_TITLE, notification, size=POPUP_SIZE)
 
 
 def clear_contents(scopes):  # Clear contents inside given scope(s). Argument type: list or string.

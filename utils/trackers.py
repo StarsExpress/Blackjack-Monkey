@@ -8,7 +8,7 @@ def track_properties(cards_list, value_and_soft_only=False, soft=False):
     if 'A' in cards_list:
         value -= 10 * cards_list.count('A')  # Count all Aces as 1 for each first.
         if value + 10 <= MAX_TOTAL_VALUE:  # If an Ace counts as 11 without bust, the given hand is soft.
-            value += 10  # Take greatest possible total value.
+            value += 10  # Take the greatest possible total value.
             soft = True
 
     ordinary_21 = True if value == MAX_TOTAL_VALUE else False
@@ -20,20 +20,20 @@ def track_properties(cards_list, value_and_soft_only=False, soft=False):
 
 
 # Return the hand value to be displayed on game page.
-def track_display_value(value=0, blackjack=False, dealer=False, player_all_blackjack=False, soft=False, bust=False):
+def track_display_value(value, blackjack=False, dealer=False, player_all_bj=False, stand=False, soft=False, bust=False):
     # Argument dealer is False if this function is called for player's hand. Otherwise, it should be True.
     if blackjack:
         value = 'Blackjack'
 
-    elif dealer & player_all_blackjack:  # If dealer has no Blackjack, and all hands from player are.
+    elif dealer & player_all_bj:  # If dealer has no Blackjack, and all hands from player are.
         value = 'No Blackjack'
 
     elif bust:
         value = 'Busted'
 
     else:
-        # Show both possible values if player's hand is soft, or dealer's hand is soft and under required value.
-        if ((dealer is False) & soft) | (dealer & soft & (value < MIN_DEALER_VALUE)):
+        # Show both possible values if player's soft hand hasn't stood, or dealer's soft hand is under required value.
+        if ((dealer is False) & soft & (stand is False)) | (dealer & soft & (value < MIN_DEALER_VALUE)):
             value = '/'.join([str(value), str(value - 10)])
 
         else:
@@ -44,4 +44,4 @@ def track_display_value(value=0, blackjack=False, dealer=False, player_all_black
 
 if __name__ == '__main__':
     print(track_properties(['A'] * 11))
-    print(track_display_value(18, dealer=False, soft=False))
+    print(track_display_value(18, soft=True, stand=True))

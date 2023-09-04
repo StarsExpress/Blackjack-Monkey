@@ -15,5 +15,5 @@ class Player:
         hands_processors_list = [HandProcessor(num_set[i], cards_list[i]) for i in range(len(chips_list))]
         self.hands_dict = {num_set[i]: hands_processors_list[i] for i in range(len(chips_list))}
 
-        for key in list(self.hands_dict.keys()):  # Print each hand's properties.
-            self.hands_dict[key].print_properties()
+        for key in list(self.hands_dict.keys()):  # Display each hand's properties.
+            self.hands_dict[key].display_properties()

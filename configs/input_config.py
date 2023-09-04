@@ -21,15 +21,29 @@ HANDS_DICT = {'label': 'How many hands do you want', 'min': 1, 'max': 6}
 
 # Chips widget dictionary.
 CHIPS_DICT = {'label': '💰 Put your chips for hand ',
-              'holder': 'Please be integer. Available range: ' + str(MIN_BET) + ' to ',
-              'actions': [{'label': 'Enter', 'value': 'enter', 'type': 'submit', 'color': 'primary'},
-                          {'label': 'Reset', 'value': 'reset', 'type': 'reset', 'color': 'secondary'}
-                          ]
+              'holder': 'Please be integer. Available range: ' + str(MIN_BET) + ' to '
               }
+
+# Early pay widget dictionary.
+EARLY_PAY_DICT = {'label': 'Take early pay?',
+                  'options': [{'label': 'Wait', 'value': 'wait', 'type': 'submit', 'color': 'primary'},
+                              {'label': 'Take', 'value': 'take', 'type': 'submit', 'color': 'danger'}
+                              ]
+                  }
+
+# Hand actions widget dictionary.
+# Available actions are dynamic, so collect them by respective keys.
+ACTIONS_DICT = {'label': 'Your actions:',
+                'surrender': {'label': 'Surrender', 'value': 'surrender', 'type': 'submit', 'color': 'danger'},
+                'stand': {'label': 'Stand', 'value': 'stand', 'type': 'submit', 'color': 'primary'},
+                'hit': {'label': 'Hit', 'value': 'hit', 'type': 'submit', 'color': 'primary'},
+                'double_down': {'label': 'Double Down', 'value': 'double_down', 'type': 'submit', 'color': 'secondary'},
+                'split': {'label': 'Split', 'value': 'split', 'type': 'submit', 'color': 'secondary'}
+                }
 
 # Continue and exit widget dictionary.
 CHOICES_DICT = {'label': 'Want another round?',
-                'actions': [{'label': 'Continue', 'value': 'continue', 'type': 'submit', 'color': 'primary'},
+                'choices': [{'label': 'Continue', 'value': 'continue', 'type': 'submit', 'color': 'primary'},
                             {'label': 'Exit', 'value': 'exit', 'type': 'submit', 'color': 'danger'}
                             ]
                 }

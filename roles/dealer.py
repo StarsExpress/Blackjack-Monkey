@@ -31,7 +31,7 @@ class Dealer:
                 return
 
             if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't.
-                show_dealer_value(drawn_card, player_all_blackjack=player_all_blackjack)
+                show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
                 return
 
             _, self.value, self.soft, self.bust = track_properties(self.cards_list)

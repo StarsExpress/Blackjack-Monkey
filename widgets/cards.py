@@ -1,51 +1,49 @@
 from configs.output_config import PLAYER_SCOPE, PLAYER_SUB_SCOPES, DEALER_SCOPE, DEALER_SUB_SCOPES, SHARED_HEIGHT
+from utils.ordinal import find_text_ordinal
 from utils.trackers import track_display_value
-from widgets.outputs import clear_contents
-from pywebio.output import remove, put_collapse, put_scrollable, put_row, put_markdown, put_scope, put_table
+from widgets.layouts import clear_contents
+from pywebio.output import put_collapse, put_scrollable, put_row, put_markdown, put_scope, put_table
 
 
 # Display new drawn card and current value of player's hand.
-def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, soft=False, bust=False, blackjack=False,
-                      split=False, need_new_scope=False, delete=False):
-    title = 'Hand ' + head_ordinal
-    hand_scope = PLAYER_SCOPE + '_' + head_ordinal  # Hand scope name if input hand isn't from split.
+def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, blackjack=False,
+                      stand=False, soft=False, bust=False, clear=False, new_branch=False):
+    tab_scope = PLAYER_SCOPE + '_' + head_ordinal  # Tab to which input hand belongs.
+    branch_scope = tab_scope + '_' + branch_ordinal  # Branch scope for input hand.
 
-    sub_scopes_dict = PLAYER_SUB_SCOPES.copy()  # Make a copy to prevent changing config's values.
-    sub_scopes_dict.update({'card': '_'.join([sub_scopes_dict['card'], head_ordinal])})  # Card scope of input hand.
-    sub_scopes_dict.update({'value': '_'.join([sub_scopes_dict['value'], head_ordinal])})  # Value scope of input hand.
+    card_scope = branch_scope + '_' + PLAYER_SUB_SCOPES['card']  # Card and value scopes inside branch scope.
+    value_scope = branch_scope + '_' + PLAYER_SUB_SCOPES['value']
 
-    if delete:  # Deletion is only called when player opts to split a head hand.
-        remove(hand_scope)  # Remove the scope of head hand.
+    if clear:  # Only called when a head hand commits 1st split.
+        clear_contents(card_scope)
 
-    if split:  # If the input hand is from split, append branch hand descriptions.
-        title += ''.join(["'s Branch ", branch_ordinal])
-        hand_scope += ''.join(['_', branch_ordinal])
+    value = track_display_value(value=value, blackjack=blackjack, stand=stand, soft=soft, bust=bust)
+    if new_branch:  # Only called when a new branch hand has to be displayed.
+        branch_title = find_text_ordinal(branch_ordinal) + ' Branch'
+        # Add new branch scope in tab scope.
+        put_collapse(branch_title, put_scrollable(
+            put_scope(branch_scope), height=SHARED_HEIGHT // 3, keep_bottom=True), open=True, scope=tab_scope)
 
-        sub_scopes_dict.update({'card': '_'.join([sub_scopes_dict['card'], branch_ordinal])})
-        sub_scopes_dict.update({'value': '_'.join([sub_scopes_dict['value'], branch_ordinal])})
+        # In new branch scope, set markdowns and sub scopes for card as well as value.
+        put_row([put_markdown('Cards'), None, put_markdown('Value')], scope=branch_scope)
+        put_row([
+            put_scope(card_scope, put_table([cards_list], scope=card_scope)),
+            None,  # None means middle blank.
+            put_scope(value_scope, put_table([[value]], scope=value_scope))
+        ], scope=branch_scope)
+        return
 
-    if need_new_scope:  # It is called when a new head or branch hand comes.
-        # Create current hand scope first.
-        put_collapse(title, put_scrollable(
-            put_scope(hand_scope), height=SHARED_HEIGHT, keep_bottom=True), open=True, scope=PLAYER_SCOPE)
+    # For already existing branch hand, make updates.
+    clear_contents(value_scope)  # Erase old value for new value.
+    put_table([[value]], scope=value_scope)
 
-        # In current hand scope, set markdowns and sub scopes. None means middle blank.
-        put_row([put_markdown('Cards'), None, put_markdown('Value')], scope=hand_scope)
-        put_row([put_scope(sub_scopes_dict['card']), None, put_scope(sub_scopes_dict['value'])], scope=hand_scope)
-
-    if len(cards_list) == 2:
-        put_table([cards_list], scope=sub_scopes_dict['card'])
-
-    else:  # If not first two cards, only take the last card from list.
-        put_table([cards_list[-1:]], scope=sub_scopes_dict['card'])
-
-    clear_contents(sub_scopes_dict['value'])  # Clear value table.
-    value = track_display_value(value, blackjack, False, False, soft, bust)
-    put_table([[value]], scope=sub_scopes_dict['value'])  # Update value.
+    # Display new drawn card(s): if not first two cards, only show the last card from list.
+    cards_list = cards_list if len(cards_list) == 2 else cards_list[-1:]
+    put_table([cards_list], scope=card_scope)
 
 
 # Display new drawn card and current value of dealer's hand.
-def show_dealer_value(card, value=0, first=False, blackjack=False, player_all_blackjack=False, soft=False, bust=False):
+def show_dealer_value(card, value=0, first=False, blackjack=False, player_all_bj=False, soft=False, bust=False):
     if first:  # If is first card, do the followings in dealer scope.
         # First: a row of markdowns.
         put_row([put_markdown('Cards'), None, put_markdown('Value')], scope=DEALER_SCOPE)
@@ -55,5 +53,5 @@ def show_dealer_value(card, value=0, first=False, blackjack=False, player_all_bl
     put_table([[card]], scope=DEALER_SUB_SCOPES['card'])
 
     clear_contents(DEALER_SUB_SCOPES['value'])  # Clear value table.
-    value = track_display_value(value, blackjack, True, player_all_blackjack, soft, bust)
+    value = track_display_value(value, blackjack, dealer=True, player_all_bj=player_all_bj, soft=soft, bust=bust)
     put_table([[value]], scope=DEALER_SUB_SCOPES['value'])  # Update value.
