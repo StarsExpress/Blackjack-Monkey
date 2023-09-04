@@ -1,10 +1,9 @@
 from configs.rules_config import MIN_BET, MAX_BET, BLACKJACK_PAYOUT
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
-from configs.output_config import INFO_SCOPE, CAPITAL_TEXT
 from utils.reminders import remind_betting_amount
-from widgets.layouts import set_cards_tabs, write_text
+from widgets.layouts import set_cards_tabs
 from widgets.interactions import get_chips, get_early_pay, get_action
-from widgets.notifications import notify_inadequate_capital
+from widgets.notifications import notify_inadequate_capital, notify_cumulated_capital
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
 from roles.player import Player
@@ -29,11 +28,11 @@ class BlackjackGame:
         if chips % 100 != 0:
             return 'Placed chips must be in units of 100.'
 
-    def set_up(self, head_hands, capital, player_name=None):
+    def set_up(self, head_hands, capital, player_name):
         self.capital = capital
         self.machine.load_and_shuffle()
 
-        if player_name is not None:
+        if player_name is not None:  # If player enters name, use it to replace the default name.
             self.player_name = player_name
 
         chips_list = []
@@ -49,9 +48,9 @@ class BlackjackGame:
             chips_dict.update({'holder': CHIPS_DICT['holder'] + remind_betting_amount(self.capital)})
 
             chips = get_chips(chips_dict, self.check_chips)  # Pass validation function check_chips.
-            write_text('Dear ' + self.player_name + CAPITAL_TEXT + str(self.capital) + ' dollars.', INFO_SCOPE)
             self.capital -= chips  # Deduct chips amount from capital.
             chips_list.append(chips)
+            notify_cumulated_capital(self.player_name, self.capital)
 
         self.dealer.prepare(self.machine.draw())
         set_cards_tabs(head_hands)  # Place tabs for all hands, and deal cards to them.
@@ -72,6 +71,7 @@ class BlackjackGame:
                 option = get_early_pay()
                 if option == 'take':  # For early pay, pay on 1-1 payout rate.
                     self.capital += self.player.chips_dict[bj_head_ordinal] * 2
+                    notify_cumulated_capital(self.player_name, self.capital)
                     # # Display profits here.
                     self.player.hands_dict[bj_head_ordinal].early_pay = True  # Mark such hand as early-paid.
                     continue
@@ -79,8 +79,9 @@ class BlackjackGame:
                 final_bj_hands_list += [bj_head_ordinal]  # For non-early-pay, append to final Blackjack list.
                 continue
 
-            # If dealer has 0 chance of Blackjack, pay "clinching" Blackjack by Blackjack payout rate.
+            # If dealer has 0 Blackjack chance, pay "clinching" Blackjack by preset payout rate.
             self.capital += int(self.player.chips_dict[bj_head_ordinal] * (1 + BLACKJACK_PAYOUT))
+            notify_cumulated_capital(self.player_name, self.capital)
             # # Display profits here.
 
         non_bj_head_hands_list = sorted(filter(lambda x: self.player.hands_dict[x].blackjack is False,
@@ -97,7 +98,7 @@ class BlackjackGame:
                 head_hand_chips = self.player.chips_dict[head_ordinal]  # Head hand initial chips amount.
 
                 branch_hands_list = list(head_hand_object.cards_dict.keys())  # Branch hands of iterated head hand.
-                branch_ordinal, split_mark = '1', False  # Branch hand ordinal starts by 1. Default split mark is False.
+                branch_ordinal, split_mark = '1', False  # Branch ordinal starts by 1. Default split mark is False.
 
                 while True:  # Iterate through all branch hands.
                     if branch_ordinal not in branch_hands_list:  # If all branch hands are played, break while.
@@ -109,6 +110,7 @@ class BlackjackGame:
                     if action == 'surrender':  # If surrender is chosen.
                         returned_chips = int(head_hand_chips * 0.5)  # Return half the initial bet.
                         self.capital += returned_chips
+                        notify_cumulated_capital(self.player_name, self.capital)
                         head_hand_object.surrender()
                         # # Display losses here.
                         break  # Break branch iteration for any surrender.
@@ -120,6 +122,7 @@ class BlackjackGame:
                         if action == 'double_down':  # If double down is chosen.
                             self.capital -= head_hand_chips  # Deduct additional bet from capital.
                             head_hand_object.hit_or_double_down(self.machine.draw(), branch_ordinal, True)
+                            notify_cumulated_capital(self.player_name, self.capital)
 
                             if head_hand_object.bust_dict[branch_ordinal]:  # Display busted loss.
                                 # # Display losses here.
@@ -130,9 +133,9 @@ class BlackjackGame:
                             branch_hands_list = list(head_hand_object.cards_dict.keys())
 
                         if branch_ordinal == branch_hands_list[-1]:
-                            break  # If it is the last branch hand, break branch iteration.
-
-                        branch_ordinal = branch_hands_list[branch_hands_list.index(branch_ordinal) + 1]  # Next branch.
+                            break  # For last branch, break branch iteration.
+                        # Otherwise, go to next branch.
+                        branch_ordinal = branch_hands_list[branch_hands_list.index(branch_ordinal) + 1]
 
                     if action == 'hit':  # If hit is chosen.
                         head_hand_object.hit_or_double_down(self.machine.draw(), branch_ordinal)
@@ -150,14 +153,14 @@ class BlackjackGame:
                                 head_hand_object.reload(self.machine.draw(), branch_ordinal)
                                 branch_hands_list = list(head_hand_object.cards_dict.keys())
 
-                            if branch_ordinal == branch_hands_list[-1]:  # For last branch hand, break branch iteration.
-                                break
-
-                            # Go to next branch hand.
+                            if branch_ordinal == branch_hands_list[-1]:
+                                break  # For last branch, break branch iteration.
+                            # Otherwise, go to next branch.
                             branch_ordinal = branch_hands_list[branch_hands_list.index(branch_ordinal) + 1]
 
                     if action == 'split':  # If split is chosen.
                         self.capital -= head_hand_chips  # Deduct additional bet from capital.
+                        notify_cumulated_capital(self.player_name, self.capital)
 
                         head_hand_object.split(self.machine.draw(), branch_ordinal)
                         if head_hand_object.aces_pair:  # If an Aces pair is being split.

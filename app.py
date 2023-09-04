@@ -1,10 +1,10 @@
 from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
-from configs.input_config import NAME_DICT, CAPITAL_DICT, DEFAULT_PLAYER_NAME
-from configs.output_config import CAPITAL_TEXT, INFO_SCOPE, DEALER_SCOPE, PLAYER_SCOPE
+from configs.input_config import NAME_DICT, CAPITAL_DICT
+from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE
 from configs.rules_config import MIN_BET
-from widgets.layouts import configure_name, set_title, set_core_layouts, write_text, clear_contents
+from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents
 from widgets.interactions import get_info, get_hands, get_choice
-from widgets.notifications import notify_inadequate_capital
+from widgets.notifications import notify_cumulated_capital, notify_inadequate_capital
 from game import BlackjackGame
 import time
 
@@ -25,9 +25,7 @@ class Application:
             player_name = info_dict[NAME_DICT['name']].lstrip().rstrip()  # Keep middle spaces.
         self.capital = info_dict[CAPITAL_DICT['name']]
 
-        if player_name is None:
-            player_name = DEFAULT_PLAYER_NAME
-        write_text('Dear ' + player_name + CAPITAL_TEXT + str(self.capital) + ' dollars.', INFO_SCOPE)
+        notify_cumulated_capital(player_name, self.capital)
         set_core_layouts()
 
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.

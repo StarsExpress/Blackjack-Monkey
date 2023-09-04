@@ -2,7 +2,8 @@ from configs.rules_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE, MIN_DEALER
 
 
 # Return format: ordinary 21 (True/False), total value, soft (True/False), bust (True/False).
-def update_properties(cards_list, value_and_soft_only=False, soft=False):
+def update_properties(cards_list, need_ordinary_21=True):
+    soft = False
     value = sum([CARD_TO_VALUE_DICT[cards] for cards in cards_list])  # Initial value of cards.
 
     if 'A' in cards_list:
@@ -14,32 +15,32 @@ def update_properties(cards_list, value_and_soft_only=False, soft=False):
     ordinary_21 = True if value == MAX_TOTAL_VALUE else False
     bust = True if value > MAX_TOTAL_VALUE else False
 
-    if value_and_soft_only:  # If only value and soft are needed, just return these two.
-        return value, soft
+    if need_ordinary_21 is False:  # If ordinary 21 mark isn't needed.
+        return value, soft, bust
     return ordinary_21, value, soft, bust
 
 
 # Return the hand value to be displayed on game page.
 def track_display_value(value, blackjack=False, dealer=False, player_all_bj=False, stand=False, soft=False, bust=False):
     # Argument dealer is False if this function is called for player's hand. Otherwise, it should be True.
+
     if blackjack:
-        value = 'Blackjack'
+        return 'Blackjack'
+    if dealer & player_all_bj:  # If dealer has no Blackjack, and all hands from player are.
+        return 'No Blackjack'
+    if bust:
+        return 'Busted'
 
-    elif dealer & player_all_bj:  # If dealer has no Blackjack, and all hands from player are.
-        value = 'No Blackjack'
+    # Show both possible values in either case.
+    # 1. Player's soft hand hasn't stood, and is under 21.
+    if (dealer is False) & soft & (stand is False) & (value < MAX_TOTAL_VALUE):
+        return '/'.join([str(value), str(value - 10)])
 
-    elif bust:
-        value = 'Busted'
+    # 2. Dealer's soft hand is under required value.
+    if dealer & soft & (value < MIN_DEALER_VALUE):
+        return '/'.join([str(value), str(value - 10)])
 
-    else:
-        # Show both possible values if player's soft hand hasn't stood, or dealer's soft hand is under required value.
-        if ((dealer is False) & soft & (stand is False)) | (dealer & soft & (value < MIN_DEALER_VALUE)):
-            value = '/'.join([str(value), str(value - 10)])
-
-        else:
-            value = str(value)
-
-    return value
+    return str(value)
 
 
 if __name__ == '__main__':

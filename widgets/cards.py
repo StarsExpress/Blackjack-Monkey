@@ -1,5 +1,5 @@
 from configs.output_config import PLAYER_SCOPE, PLAYER_SUB_SCOPES, DEALER_SCOPE, DEALER_SUB_SCOPES, SHARED_HEIGHT
-from utils.ordinal import find_text_ordinal
+from utils.ordinal import find_ordinal_text
 from utils.trackers import track_display_value
 from widgets.layouts import clear_contents
 from pywebio.output import put_collapse, put_scrollable, put_row, put_markdown, put_scope, put_table
@@ -20,10 +20,10 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, chips=0
 
     value = track_display_value(value=value, blackjack=blackjack, stand=stand, soft=soft, bust=bust)
     if new_branch:  # When a new branch hand has to be displayed.
-        branch_title = find_text_ordinal(branch_ordinal) + ' Branch'
+        branch_title = find_ordinal_text(branch_ordinal) + ' Branch'
         # Add new branch scope in tab scope.
         put_collapse(branch_title, put_scrollable(
-            put_scope(branch_scope), height=SHARED_HEIGHT * 2 // 5, keep_bottom=True), open=True, scope=tab_scope)
+            put_scope(branch_scope), height=SHARED_HEIGHT * 2 // 5), open=True, scope=tab_scope)
 
         # In new branch scope, set markdowns and three sub scopes.
         put_row([put_markdown('Bets Placed'), None, put_markdown('Cards'), None, put_markdown('Value')],

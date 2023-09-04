@@ -1,5 +1,5 @@
 
-def find_text_ordinal(ordinal):
+def find_ordinal_text(ordinal):  # Find corresponding text of ordinal.
     if ordinal == '1':
         return '1st'
     if ordinal == '2':

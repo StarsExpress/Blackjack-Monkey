@@ -18,7 +18,7 @@ class Dealer:
         self.cards_list.append(first_card)
 
         self.blackjack = False  # Reset Blackjack mark back to False.
-        _, self.value, self.soft, self.bust = update_properties(self.cards_list)
+        self.value, self.soft, self.bust = update_properties(self.cards_list, False)
 
         # ace_text = 'No surrender allowed against Ace.' if first_card == 'A' else ''  # If first card is Ace.
         show_dealer_value(first_card, value=self.value, soft=self.soft, first=True)
@@ -37,7 +37,7 @@ class Dealer:
                 show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
                 return
 
-            _, self.value, self.soft, self.bust = update_properties(self.cards_list)
+            self.value, self.soft, self.bust = update_properties(self.cards_list, False)
             if self.bust:  # If dealer is busted.
                 show_dealer_value(drawn_card, bust=self.bust)
                 return

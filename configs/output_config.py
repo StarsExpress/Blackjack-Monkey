@@ -7,7 +7,6 @@ CAPITAL_TEXT = ': your cumulated capital is '
 # Scope of player info.
 INFO_SCOPE = 'Info'
 
-
 # Width of all scopes.
 SCOPE_WIDTH = '120%'
 
@@ -16,7 +15,6 @@ SCOPE_WIDTH = '120%'
 PREVIOUS_HEADER = 'Income Statement: Previous P&L'
 PREVIOUS_SCOPE = 'Previous'
 PREVIOUS_HEIGHT = 200
-
 
 # Scopes of each hand for player and dealer. They are put in a shared row with identical height.
 PLAYER_HEADER = 'Your Hands'
@@ -33,7 +31,7 @@ SHARED_HEIGHT = 300
 RELATIVE_WIDTH = '85% 10px 34%'  # Relative size between player and dealer scopes. Pixels are for middle blank between.
 
 
-# Popup widget when inadequate capital happens.
+# Notifications widget.
 INADQT_POPUP_TITLE = 'Inadequate Capital'
 MAX_SPLITS_POPUP_TITLE = 'No More Splits'
 POPUP_SIZE = 10

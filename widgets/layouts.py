@@ -4,7 +4,7 @@ from configs.output_config import PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DE
 from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
-from pywebio.output import use_scope, put_tabs, put_text, put_row, clear
+from pywebio.output import put_row, put_text, put_tabs, clear, use_scope
 
 
 def configure_name():  # Configure web name.
@@ -45,11 +45,6 @@ def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand a
     put_tabs(tabs_list, PLAYER_SCOPE)  # Put all tabs in player scope.
 
 
-def write_text(message, scope, clear_scope=True):  # Performs put_text in given scope.
-    with use_scope(scope, clear=clear_scope) as s:
-        put_text(message, scope=s)
-
-
 def clear_contents(scopes):  # Clear contents inside given scope(s). Argument type: list or string.
     if type(scopes) == list:  # If input is a list of scopes.
         for scope in scopes:
@@ -57,3 +52,8 @@ def clear_contents(scopes):  # Clear contents inside given scope(s). Argument ty
 
     else:
         clear(scopes)
+
+
+def write_text(message, scope, clear_scope=True):  # Performs put_text in given scope.
+    with use_scope(scope, clear=clear_scope) as s:
+        put_text(message, scope=s)
