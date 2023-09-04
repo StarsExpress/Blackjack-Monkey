@@ -1,7 +1,8 @@
 from configs.rules_config import MIN_BET, MAX_BET, BLACKJACK_PAYOUT
-from configs.input_config import CHIPS_DICT
+from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
+from configs.output_config import INFO_SCOPE, CAPITAL_TEXT
 from utils.reminders import remind_betting_amount
-from widgets.layouts import set_cards_tabs
+from widgets.layouts import set_cards_tabs, write_text
 from widgets.interactions import get_chips, get_early_pay, get_action
 from widgets.notifications import notify_inadequate_capital
 from machines.shuffle_machine import ShuffleMachine
@@ -14,6 +15,7 @@ class BlackjackGame:
 
     def __init__(self):
         self.machine, self.dealer, self.player, self.capital = ShuffleMachine(), Dealer(), Player(), 0
+        self.player_name = DEFAULT_PLAYER_NAME
 
     def check_chips(self, chips):  # Check if placed bets are valid.
         # PyWebIO's input validation function only accepts one argument.
@@ -27,9 +29,12 @@ class BlackjackGame:
         if chips % 100 != 0:
             return 'Placed chips must be in units of 100.'
 
-    def set_up(self, head_hands, capital):  # Set up capital amount and shuffle machine before each round.
+    def set_up(self, head_hands, capital, player_name=None):
         self.capital = capital
         self.machine.load_and_shuffle()
+
+        if player_name is not None:
+            self.player_name = player_name
 
         chips_list = []
         chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing config's values.
@@ -39,12 +44,12 @@ class BlackjackGame:
                 notify_inadequate_capital(self.capital, hands=True)
                 break
 
-            # Update label with respect to iterated hand ordinal for displays.
             chips_dict.update({'label': CHIPS_DICT['label'] + str(i + 1) + ':'})
-            # Update holder text with respect to remaining capital for maximal feasible bet.
+            # Update holder text with respect to remaining capital as maximal feasible bet.
             chips_dict.update({'holder': CHIPS_DICT['holder'] + remind_betting_amount(self.capital)})
 
             chips = get_chips(chips_dict, self.check_chips)  # Pass validation function check_chips.
+            write_text('Dear ' + self.player_name + CAPITAL_TEXT + str(self.capital) + ' dollars.', INFO_SCOPE)
             self.capital -= chips  # Deduct chips amount from capital.
             chips_list.append(chips)
 
@@ -69,10 +74,10 @@ class BlackjackGame:
                     self.capital += self.player.chips_dict[bj_head_ordinal] * 2
                     # # Display profits here.
                     self.player.hands_dict[bj_head_ordinal].early_pay = True  # Mark such hand as early-paid.
-                    continue  # Continue to next Blackjack head hand.
+                    continue
 
                 final_bj_hands_list += [bj_head_ordinal]  # For non-early-pay, append to final Blackjack list.
-                continue  # Continue to next Blackjack head hand.
+                continue
 
             # If dealer has 0 chance of Blackjack, pay "clinching" Blackjack by Blackjack payout rate.
             self.capital += int(self.player.chips_dict[bj_head_ordinal] * (1 + BLACKJACK_PAYOUT))

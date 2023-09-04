@@ -1,7 +1,7 @@
 from configs.rules_config import MIN_DEALER_VALUE
 from configs.app_config import DEALER_SLEEP
 from utils.judges import judge_blackjack
-from utils.trackers import track_properties
+from utils.trackers import update_properties
 from widgets.cards import show_dealer_value
 import time
 
@@ -10,12 +10,15 @@ class Dealer:
     """Blackjack dealer."""
 
     def __init__(self):
-        self.cards_list, self.value = None, 0  # Hand value starts from 0.
+        self.cards_list, self.value = [], 0  # Hand value starts from 0.
         self.blackjack, self.soft, self.bust = False, False, False  # Three default marks are False.
 
-    def prepare(self, first_card):  # Load first card for a new round. Reset default marks back to False.
-        self.cards_list, self.blackjack = [first_card], False
-        _, self.value, self.soft, self.bust = track_properties(self.cards_list)
+    def prepare(self, first_card):  # Load first card for a new round.
+        self.cards_list.clear()  # Clear list before loading first card.
+        self.cards_list.append(first_card)
+
+        self.blackjack = False  # Reset Blackjack mark back to False.
+        _, self.value, self.soft, self.bust = update_properties(self.cards_list)
 
         # ace_text = 'No surrender allowed against Ace.' if first_card == 'A' else ''  # If first card is Ace.
         show_dealer_value(first_card, value=self.value, soft=self.soft, first=True)
@@ -34,10 +37,10 @@ class Dealer:
                 show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
                 return
 
-            _, self.value, self.soft, self.bust = track_properties(self.cards_list)
+            _, self.value, self.soft, self.bust = update_properties(self.cards_list)
             if self.bust:  # If dealer is busted.
                 show_dealer_value(drawn_card, bust=self.bust)
                 return
 
             show_dealer_value(drawn_card, value=self.value, soft=self.soft)
-            time.sleep(DEALER_SLEEP)  # Pause a moment before drawing a new card.
+            time.sleep(DEALER_SLEEP)  # Pause for a moment before drawing a new card.

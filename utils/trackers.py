@@ -2,7 +2,7 @@ from configs.rules_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE, MIN_DEALER
 
 
 # Return format: ordinary 21 (True/False), total value, soft (True/False), bust (True/False).
-def track_properties(cards_list, value_and_soft_only=False, soft=False):
+def update_properties(cards_list, value_and_soft_only=False, soft=False):
     value = sum([CARD_TO_VALUE_DICT[cards] for cards in cards_list])  # Initial value of cards.
 
     if 'A' in cards_list:
@@ -43,5 +43,5 @@ def track_display_value(value, blackjack=False, dealer=False, player_all_bj=Fals
 
 
 if __name__ == '__main__':
-    print(track_properties(['A'] * 11))
+    print(update_properties(['A'] * 11))
     print(track_display_value(18, soft=True, stand=True))

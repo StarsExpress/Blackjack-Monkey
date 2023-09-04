@@ -5,15 +5,13 @@ class Player:
     """Blackjack player."""
 
     def __init__(self):
-        self.hands_dict, self.chips_dict = None, None
+        self.hands_dict, self.chips_dict = {}, {}  # Dictionaries of each hand's cards and placed chips.
 
     def prepare(self, chips_list, cards_list):  # Load chips and cards for a new round.
-        num_set = sorted(set(map(str, set(range(1, len(chips_list) + 1)))))  # Set from 1 to number of initial hands.
-        self.chips_dict = dict(zip(num_set, chips_list))  # Dictionary of each hand's initial chips.
+        self.hands_dict.clear()  # Clear dictionaries every time.
+        self.chips_dict.clear()
 
-        # Dictionary of each hand's cards.
-        hands_processors_list = [HandProcessor(num_set[i], cards_list[i]) for i in range(len(chips_list))]
-        self.hands_dict = {num_set[i]: hands_processors_list[i] for i in range(len(chips_list))}
-
-        for key in list(self.hands_dict.keys()):  # Display each hand's properties.
-            self.hands_dict[key].display_properties()
+        for i in range(len(chips_list)):  # Load chips and hands into dictionaries.
+            self.chips_dict.update({str(i + 1): chips_list[i]})
+            self.hands_dict.update({str(i + 1): HandProcessor(str(i + 1), chips_list[i], cards_list[i])})
+            self.hands_dict[str(i + 1)].display_properties()  # Display properties.
