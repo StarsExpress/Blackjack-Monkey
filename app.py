@@ -4,7 +4,7 @@ from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE
 from configs.rules_config import MIN_BET
 from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents
 from widgets.interactions import get_info, get_hands, get_choice
-from widgets.notifications import notify_cumulated_capital, notify_inadequate_capital
+from widgets.notifications import update_cumulated_capital, notify_inadequate_capital
 from game import BlackjackGame
 import time
 
@@ -25,7 +25,7 @@ class Application:
             player_name = info_dict[NAME_DICT['name']].lstrip().rstrip()  # Keep middle spaces.
         self.capital = info_dict[CAPITAL_DICT['name']]
 
-        notify_cumulated_capital(player_name, self.capital)
+        update_cumulated_capital(player_name, self.capital)
         set_core_layouts()
 
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.

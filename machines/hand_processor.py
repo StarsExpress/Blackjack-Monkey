@@ -2,7 +2,7 @@ from configs.rules_config import MAX_SPLITS
 from utils.judges import judge_blackjack
 from utils.trackers import update_properties
 from widgets.cards import show_player_value
-from widgets.notifications import notify_max_splits
+from widgets.notifications import remind_splits_rules
 
 
 class HandProcessor:
@@ -49,10 +49,7 @@ class HandProcessor:
 
     def split(self, card, branch_ordinal='1'):
         stand = True if self.aces_pair else False  # If the hand is Aces pair, stand right after split.
-
-        # # Write notifications here.
-        # print('\nAces pair can split just once, and no hits or double down allowed after splitting Aces.\n')
-
+        # # Put notifications here.
         self.cards_dict[str(self.splits + 2)] = [self.cards_dict[branch_ordinal][-1]]  # Move split card to new branch.
         self.cards_dict[branch_ordinal] = [self.cards_dict[branch_ordinal][0], card]
 
@@ -64,8 +61,8 @@ class HandProcessor:
                           value=value, stand=stand, soft=soft, first_split=True)
 
         self.splits += 1  # Add 1 to number of splits.
-        if self.splits == MAX_SPLITS:  # If reaches maximal splits.
-            notify_max_splits(self.head_ordinal)
+        if self.splits == MAX_SPLITS:
+            remind_splits_rules(self.head_ordinal)
 
     def reload(self, card, branch_ordinal='1'):  # Argument is the last "complete" branch's ordinal.
         branch_ordinal = str(int(branch_ordinal) + 1)  # The last "complete" branch's next ordinal is new branch.
@@ -79,7 +76,6 @@ class HandProcessor:
         self.soft_dict[branch_ordinal], self.bust_dict[branch_ordinal] = soft, bust
 
         self.double_down_dict[branch_ordinal] = False  # Default double down mark is False.
-
         stand = True if self.aces_pair else False
         show_player_value(self.head_ordinal, branch_ordinal, self.cards_dict[branch_ordinal],
                           value=value, chips=self.chips, stand=stand, soft=soft, new_branch=True)
