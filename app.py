@@ -5,7 +5,7 @@ from configs.rules_config import MIN_BET
 from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents
 from widgets.interactions import get_info, get_hands, get_choice
 from widgets.notifications import update_cumulated_capital, notify_inadequate_capital
-from game import BlackjackGame
+from blackjack import Blackjack
 import time
 
 
@@ -13,7 +13,7 @@ class Application:
     """Blackjack app."""
 
     def __init__(self):
-        self.game, self.capital, self.profit = BlackjackGame(), 0, 0
+        self.game, self.capital, self.profit = Blackjack(), 0, 0
         configure_name()
 
     def execute(self):  # The execute attribute is put into start_server of main.py.

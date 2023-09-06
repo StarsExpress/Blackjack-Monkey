@@ -26,7 +26,7 @@ def get_chips(chips_dict, validate_function):  # Get chips placed by player for 
 
 
 def get_early_pay(head_ordinal):  # Get Blackjack early pay option.
-    return actions(f"Hand {head_ordinal}{EARLY_PAY_DICT['label']}", buttons=EARLY_PAY_DICT['options'])
+    return actions(f"Hand {head_ordinal}: {EARLY_PAY_DICT['label']}", buttons=EARLY_PAY_DICT['options'])
 
 
 def get_action(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital, initial_bet):  # Get player's action.
@@ -44,7 +44,7 @@ def get_action(ordinals_tuple, cards_list, dealer_card, splits, remaining_capita
             actions_list += [ACTIONS_DICT['split']]
 
     return actions(f"Hand {ordinals_tuple[0]}'s {find_ordinal_text(ordinals_tuple[-1])} " +
-                   f"Branch {ACTIONS_DICT['label']}", buttons=actions_list)
+                   f"Branch: {ACTIONS_DICT['label']}", buttons=actions_list)
 
 
 def get_choice():  # Get choice of continue to play or exit.

@@ -27,7 +27,7 @@ CHIPS_DICT = {'label': '💰Put your chips for hand',
 
 
 # Early pay widget.
-EARLY_PAY_DICT = {'label': ': take early pay❓',
+EARLY_PAY_DICT = {'label': 'take early pay❓',
                   'options': [{'label': 'Take', 'value': 'take', 'type': 'submit', 'color': 'danger'},
                               {'label': 'Wait', 'value': 'wait', 'type': 'submit', 'color': 'primary'}
                               ]
@@ -35,7 +35,7 @@ EARLY_PAY_DICT = {'label': ': take early pay❓',
 
 
 # Player actions widget.
-ACTIONS_DICT = {'label': ': available actions👇',
+ACTIONS_DICT = {'label': 'available actions👇',
                 # Available actions are dynamic and collected by keys.
                 'surrender': {'label': 'Surrender', 'value': 'surrender', 'type': 'submit', 'color': 'danger'},
                 'stand': {'label': 'Stand', 'value': 'stand', 'type': 'submit', 'color': 'primary'},

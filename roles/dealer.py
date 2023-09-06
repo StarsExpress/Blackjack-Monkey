@@ -25,6 +25,7 @@ class Dealer:
 
     def add_to_17_plus(self, shuffle_machine_obj, player_all_blackjack=False):  # Dealer needs 17+ except special cases.
         while self.value < MIN_DEALER_VALUE:
+            time.sleep(DEALER_SLEEP)  # Pause before drawing a new card.
             drawn_card = shuffle_machine_obj.draw()
             self.cards_list.append(drawn_card)
 
@@ -38,9 +39,9 @@ class Dealer:
                 return
 
             self.value, self.soft, self.bust = update_properties(self.cards_list, False)
-            if self.bust:  # If dealer is busted.
+            if self.bust:  # If dealer is busted, set value as 0 for chips calculation convenience.
+                self.value = 0
                 show_dealer_value(drawn_card, bust=self.bust)
                 return
 
             show_dealer_value(drawn_card, value=self.value, soft=self.soft)
-            time.sleep(DEALER_SLEEP)  # Pause for a moment before drawing a new card.
