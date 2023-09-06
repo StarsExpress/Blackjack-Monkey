@@ -38,9 +38,9 @@ def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand a
     tabs_list = []
 
     for i in range(1, head_hands + 1):
-        head_scope = PLAYER_SCOPE + '_' + str(i)
-        content = put_scope(name=head_scope, content=put_text("Hand " + str(i) + "'s Branches", scope=head_scope))
-        tabs_list.append({'title': 'Hand ' + str(i), 'content': content})
+        head_scope = f'{PLAYER_SCOPE}_{str(i)}'
+        content = put_scope(name=head_scope, content=put_text(f"Hand {str(i)}'s Branches", scope=head_scope))
+        tabs_list.append({'title': f'Hand {str(i)}', 'content': content})
 
     put_tabs(tabs_list, PLAYER_SCOPE)  # Put all tabs in player scope.
 

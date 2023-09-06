@@ -1,6 +1,6 @@
 from configs.rules_config import MIN_BET, MAX_BET, BLACKJACK_PAYOUT
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
-from utils.reminders import remind_betting_amount
+from utils.swiss_knife import remind_betting_amount
 from widgets.layouts import set_cards_tabs
 from widgets.interactions import get_chips, get_early_pay, get_action
 from widgets.notifications import notify_inadequate_capital, update_cumulated_capital
@@ -20,11 +20,11 @@ class BlackjackGame:
         # PyWebIO's input validation function only accepts one argument.
         # This function is defined here to receive self.capital as a self-updating global variable.
         if chips < MIN_BET:
-            return 'Placed chips must >= minimum bet ' + str(MIN_BET) + '.'
+            return f'Placed chips must >= minimum bet {str(MIN_BET)}.'
         if chips > MAX_BET:
-            return 'Placed chips must <= maximum bet ' + str(MAX_BET) + '.'
+            return f'Placed chips must <= maximum bet {str(MAX_BET)}.'
         if chips > self.capital:
-            return 'Placed chips must <= remaining capital ' + str(self.capital) + '.'
+            return f'Placed chips must <= remaining capital {str(self.capital)}.'
         if chips % 100 != 0:
             return 'Placed chips must be in units of 100.'
 
@@ -43,9 +43,9 @@ class BlackjackGame:
                 notify_inadequate_capital(self.capital, hands=True)
                 break
 
-            chips_dict.update({'label': CHIPS_DICT['label'] + str(i + 1) + ':'})
+            chips_dict.update({'label': f"{CHIPS_DICT['label']} {str(i + 1)}:"})
             # Update holder text with respect to remaining capital as maximal feasible bet.
-            chips_dict.update({'holder': CHIPS_DICT['holder'] + remind_betting_amount(self.capital)})
+            chips_dict.update({'holder': f"{CHIPS_DICT['holder']} {remind_betting_amount(self.capital)}"})
 
             chips = get_chips(chips_dict, self.check_chips)  # Pass validation function check_chips.
             self.capital -= chips  # Deduct chips amount from capital.

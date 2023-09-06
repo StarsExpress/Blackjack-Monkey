@@ -1,7 +1,7 @@
 from configs.input_config import NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT, ACTIONS_DICT, CHOICES_DICT
 from utils.input_validity import check_name, check_capital
 from utils.judges import judge_surrender, judge_split
-from utils.ordinal import find_ordinal_text
+from utils.swiss_knife import find_ordinal_text
 from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions
 
 
@@ -26,7 +26,7 @@ def get_chips(chips_dict, validate_function):  # Get chips placed by player for 
 
 
 def get_early_pay(head_ordinal):  # Get Blackjack early pay option.
-    return actions('Hand ' + head_ordinal + EARLY_PAY_DICT['label'], buttons=EARLY_PAY_DICT['options'])
+    return actions(f"Hand {head_ordinal}{EARLY_PAY_DICT['label']}", buttons=EARLY_PAY_DICT['options'])
 
 
 def get_action(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital, initial_bet):  # Get player's action.
@@ -43,8 +43,8 @@ def get_action(ordinals_tuple, cards_list, dealer_card, splits, remaining_capita
         if judge_split(cards_list, splits):
             actions_list += [ACTIONS_DICT['split']]
 
-    return actions('Hand ' + ordinals_tuple[0] + "'s " + find_ordinal_text(ordinals_tuple[-1]) +
-                   ' Branch' + ACTIONS_DICT['label'], buttons=actions_list)
+    return actions(f"Hand {ordinals_tuple[0]}'s {find_ordinal_text(ordinals_tuple[-1])} " +
+                   f"Branch {ACTIONS_DICT['label']}", buttons=actions_list)
 
 
 def get_choice():  # Get choice of continue to play or exit.
