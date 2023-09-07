@@ -29,7 +29,7 @@ CHIPS_DICT = {'label': '💰Put your chips for hand',
 # Early pay widget.
 EARLY_PAY_DICT = {'label': 'take early pay❓',
                   'options': [{'label': 'Take', 'value': 'take', 'type': 'submit', 'color': 'danger'},
-                              {'label': 'Wait', 'value': 'wait', 'type': 'submit', 'color': 'primary'}
+                              {'label': 'Wait', 'value': 'wait', 'type': 'submit', 'color': 'success'}
                               ]
                   }
 
@@ -39,15 +39,15 @@ ACTIONS_DICT = {'label': 'available actions👇',
                 # Available actions are dynamic and collected by keys.
                 'surrender': {'label': 'Surrender', 'value': 'surrender', 'type': 'submit', 'color': 'danger'},
                 'stand': {'label': 'Stand', 'value': 'stand', 'type': 'submit', 'color': 'primary'},
-                'hit': {'label': 'Hit', 'value': 'hit', 'type': 'submit', 'color': 'primary'},
-                'double_down': {'label': 'Double Down', 'value': 'double_down', 'type': 'submit', 'color': 'secondary'},
-                'split': {'label': 'Split', 'value': 'split', 'type': 'submit', 'color': 'secondary'}
+                'hit': {'label': 'Hit', 'value': 'hit', 'type': 'submit', 'color': 'success'},
+                'double_down': {'label': 'Double Down', 'value': 'double_down', 'type': 'submit', 'color': 'warning'},
+                'split': {'label': 'Split', 'value': 'split', 'type': 'submit', 'color': 'info'}
                 }
 
 
 # Continue or exit widget.
 CHOICES_DICT = {'label': 'Want another round?',
-                'choices': [{'label': 'Continue', 'value': 'continue', 'type': 'submit', 'color': 'primary'},
+                'choices': [{'label': 'Continue', 'value': 'continue', 'type': 'submit', 'color': 'success'},
                             {'label': 'Exit', 'value': 'exit', 'type': 'submit', 'color': 'danger'}
                             ]
                 }

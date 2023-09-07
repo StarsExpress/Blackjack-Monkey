@@ -1,4 +1,4 @@
-from configs.app_config import PAGE_NAME
+from configs.app_config import PAGE_NAME, PAGE_THEME
 from configs.output_config import PREVIOUS_HEADER, PREVIOUS_SCOPE, PREVIOUS_HEIGHT, SCOPE_WIDTH
 from configs.output_config import PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
 from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH
@@ -7,8 +7,8 @@ from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
 from pywebio.output import put_row, put_text, put_tabs, clear, remove, use_scope
 
 
-def configure_name():  # Configure web name.
-    config(title=PAGE_NAME)
+def configure_name():  # Configure web name and theme.
+    config(title=PAGE_NAME, theme=PAGE_THEME)
 
 
 def set_title(title):  # Set page title.

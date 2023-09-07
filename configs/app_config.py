@@ -9,6 +9,7 @@ PORT = 1998  # Server port.
 
 
 PAGE_NAME = "🎰Job's Here"
+PAGE_THEME = 'sketchy'
 PAGE_TITLE = "♠️♥️Jack's Online Blackjack♦️♣️"
 
 
