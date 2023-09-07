@@ -29,12 +29,12 @@ class Dealer:
             drawn_card = shuffle_machine_obj.draw()
             self.cards_list.append(drawn_card)
 
-            if judge_blackjack(self.cards_list):  # If dealer has Blackjack.
+            if judge_blackjack(self.cards_list):  # If dealer has Blackjack, end loop here.
                 self.blackjack = True  # Change Blackjack mark to True.
                 show_dealer_value(drawn_card, blackjack=self.blackjack)
                 return
 
-            if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't.
+            if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't, end loop here.
                 show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
                 return
 
@@ -42,6 +42,6 @@ class Dealer:
             if self.bust:  # If dealer is busted, set value as 0 for chips calculation convenience.
                 self.value = 0
                 show_dealer_value(drawn_card, bust=self.bust)
-                return
+                return  # End loop here.
 
             show_dealer_value(drawn_card, value=self.value, soft=self.soft)

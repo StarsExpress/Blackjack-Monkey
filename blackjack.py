@@ -1,9 +1,10 @@
-from configs.rules_config import MIN_BET, MAX_BET, BLACKJACK_PAYOUT
+from configs.rules_config import MIN_BET, MAX_BET
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
 from utils.swiss_knife import remind_betting_amount
 from widgets.layouts import set_cards_tabs
 from widgets.interactions import get_chips, get_early_pay, get_action
-from widgets.notifications import notify_inadequate_capital, update_cumulated_capital
+from widgets.notifications import notify_inadequate_capital, update_cumulated_capital, notify_early_exit
+from widgets.chips import return_chips
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
 from roles.player import Player
@@ -69,20 +70,21 @@ class Blackjack:
         for bj_hand_ordinal in bj_hands_list:  # Iterate through all Blackjack head hands.
             if early_pay_mode:  # If dealer is checking early pay.
                 option = get_early_pay(bj_hand_ordinal)
-                if option == 'take':  # For early pay, pay on 1-1 payout rate.
-                    self.capital += self.player.hands_dict[bj_hand_ordinal].initial_chips * 2
+                if option == 'take':  # For early pay, pay profit now.
+                    self.capital += return_chips(bj_hand_ordinal, player_bj=True, early_pay=True,
+                                                 chips=self.player.hands_dict[bj_hand_ordinal].initial_chips)
                     update_cumulated_capital(self.player_name, self.capital)
-                    # # Display profits here.
+
                     self.player.hands_dict[bj_hand_ordinal].early_pay = True  # Mark such hand as early-paid.
-                    continue
+                    continue  # Go to next Blackjack head hand.
 
                 vague_bj_hands_list += [bj_hand_ordinal]  # For non-early-pay, append to vague list.
-                continue
+                continue  # Go to next Blackjack head hand.
 
-            # If dealer has 0 Blackjack chance, pay Blackjack by preset payout rate.
-            self.capital += int(self.player.hands_dict[bj_hand_ordinal].initial_chips * (1 + BLACKJACK_PAYOUT))
+            # If dealer has 0 Blackjack chance, pay profit now.
+            self.capital += return_chips(bj_hand_ordinal, player_bj=True,
+                                         chips=self.player.hands_dict[bj_hand_ordinal].initial_chips)
             update_cumulated_capital(self.player_name, self.capital)
-            # # Display profits here.
 
         non_bj_head_hands_list = sorted(filter(lambda x: self.player.hands_dict[x].blackjack is False,
                                                self.player.hands_dict.keys()))  # List of non-Blackjack head hands.
@@ -110,10 +112,9 @@ class Blackjack:
                                         head_hand_object.splits, self.capital, initial_chips)
 
                     if action == 'surrender':
-                        self.capital += int(initial_chips * 0.5)  # Return half the initial bet.
+                        self.capital += return_chips(head_ordinal, chips=initial_chips, surrender=True)
                         update_cumulated_capital(self.player_name, self.capital)
                         head_hand_object.surrender()
-                        # # Display losses here.
                         break  # End branch iteration to go to next head.
 
                     if action in ['stand', 'double_down']:
@@ -126,8 +127,8 @@ class Blackjack:
                             head_hand_object.hit_or_double_down(self.machine.draw(), branch_ordinal, True)
 
                             if head_hand_object.bust_dict[branch_ordinal]:  # Display busted loss.
-                                # # Display losses here.
-                                pass
+                                return_chips(head_ordinal, branch_ordinal=branch_ordinal, player_bust=True,
+                                             chips=head_hand_object.chips_dict[branch_ordinal])
 
                         if split_mark:  # For split branch, reload closest isolated branch and update list.
                             head_hand_object.reload(self.machine.draw(), branch_ordinal)
@@ -147,8 +148,8 @@ class Blackjack:
 
                         if bust_mark | ordinary_21_mark:  # If busted or reaches 21 after hit.
                             if bust_mark:  # Display busted loss.
-                                # # Display losses here.
-                                pass
+                                return_chips(head_ordinal, branch_ordinal=branch_ordinal, player_bust=True,
+                                             chips=head_hand_object.chips_dict[branch_ordinal])
 
                             if split_mark:  # For split branch, reload closest isolated branch and update list.
                                 head_hand_object.reload(self.machine.draw(), branch_ordinal)
@@ -184,7 +185,7 @@ class Blackjack:
         # Add non-early-paid Blackjack hands into final head hands list. Sort by reversed keys.
         final_head_hands_list = sorted(final_head_hands_list + vague_bj_hands_list, reverse=True)
         if len(final_head_hands_list) == 0:  # If no remaining hands to be judged.
-            print('You have no hands left to be judged in this round.\n')
+            notify_early_exit()
             return
 
         # Check if player's hands are all Blackjack.
@@ -201,5 +202,10 @@ class Blackjack:
                                           head_hand_object.cards_dict.keys()), reverse=True)
 
             for branch_ordinal in branches_list:  # Iterate through all branches.
+                branch_chips = head_hand_object.chips_dict[branch_ordinal]
                 branch_value = head_hand_object.value_dict[branch_ordinal]
                 branch_bj = head_hand_object.blackjack
+
+                self.capital += return_chips(head_ordinal, branch_ordinal, branch_chips, False, False,
+                                             branch_bj, self.dealer.blackjack, False, branch_value, self.dealer.value)
+                update_cumulated_capital(self.player_name, self.capital)

@@ -11,9 +11,10 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, chips=0
     tab_scope = f'{PLAYER_SCOPE}_{head_ordinal}'  # Tab to which input hand belongs.
     branch_scope = f'{tab_scope}_{branch_ordinal}'  # Branch scope for input hand.
 
-    chips_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['chips']}"  # Chips, card and value scopes inside branch scope.
+    chips_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['chips']}"  # Sub scopes inside branch scope.
     cards_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['cards']}"
     value_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['value']}"
+    profit_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['profit']}"
 
     if first_split:  # When a branch hand commits 1st split.
         clear_contents(cards_scope)
@@ -24,19 +25,22 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, chips=0
     if new_branch:  # When a new branch hand has to be displayed.
         # Add new branch scope in tab scope.
         put_collapse(f'{find_ordinal_text(branch_ordinal)} Branch', put_scrollable(
-            put_scope(branch_scope), height=SHARED_HEIGHT * 2 // 5), open=True, scope=tab_scope)
+            put_scope(branch_scope), height=SHARED_HEIGHT // 2), open=True, scope=tab_scope)
 
         # In new branch scope, set markdowns and three sub scopes.
-        put_row([put_markdown('Bets Placed'), None, put_markdown('Cards'), None, put_markdown('Value')],
-                scope=branch_scope)
+        put_row([None, put_markdown('Bets Placed'), None, put_markdown('Cards'),
+                 None, put_markdown('Value'), None, put_markdown('Profit'), None], scope=branch_scope)
 
-        put_row([
-            put_scope(chips_scope, put_table([[chips]], scope=chips_scope)),
-            None,  # Middle blank.
-            put_scope(cards_scope, put_table([cards_list], scope=cards_scope)),
-            None,  # Middle blank.
-            put_scope(value_scope, put_table([[value]], scope=value_scope).style(f'color:{value_color}'))
-        ], scope=branch_scope)
+        put_row([None,  # Edge blank.
+                 put_scope(chips_scope, put_table([[chips]], scope=chips_scope)),
+                 None,  # Middle blank.
+                 put_scope(cards_scope, put_table([cards_list], scope=cards_scope)),
+                 None,  # Middle blank.
+                 put_scope(value_scope, put_table([[value]], scope=value_scope).style(f'color:{value_color}')),
+                 None,  # Middle blank.
+                 put_scope(profit_scope, put_table([[0]], scope=profit_scope)),
+                 None  # Edge blank.
+                 ], scope=branch_scope)
         return
 
     clear_contents(value_scope)  # Erase old value for new value.
