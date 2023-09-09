@@ -1,6 +1,6 @@
 from configs.rules_config import MIN_BET, MAX_BET, MAX_TOTAL_VALUE
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
-from utils.swiss_knife import remind_betting_amount
+from utils.swiss_knife import remind_betting_amount, find_total_bets
 from widgets.layouts import set_cards_tabs
 from widgets.interactions import get_chips, get_early_pay, get_action
 from widgets.notifications import notify_inadequate_capital, update_cumulated_capital, notify_early_exit
@@ -176,7 +176,7 @@ class Blackjack:
         final_head_hands_list += vague_bj_hands_list  # Add non-early-paid Blackjack hands into final head hands list.
         if len(final_head_hands_list) == 0:  # If no remaining hands to be judged.
             notify_early_exit()
-            return
+            return find_total_bets(self.player.hands_dict)
 
         # Check if player's remaining hands are all Blackjack awaiting dealer's results.
         player_all_blackjack = True if (len(vague_bj_hands_list) == len(final_head_hands_list)) else False
@@ -195,3 +195,4 @@ class Blackjack:
                                              head_hand_object.blackjack, self.dealer.blackjack,
                                              False, branch_value, self.dealer.value)
                 update_cumulated_capital(self.player_name, self.capital)
+        return find_total_bets(self.player.hands_dict)

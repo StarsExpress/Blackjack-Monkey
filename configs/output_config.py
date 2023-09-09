@@ -4,12 +4,10 @@ INFO_SCOPE = 'Info'  # Scope of player info.
 CAPITAL_TEXT = ': your cumulated capital is '  # Capital tracking.
 SCOPE_WIDTH = '120%'  # Width of all scopes.
 
-
 # Scope of previous rounds and player interactions.
 PREVIOUS_HEADER = 'Income Statement: Previous P&L'
 PREVIOUS_SCOPE = 'Previous'
 PREVIOUS_HEIGHT = 150
-
 
 # Scopes of each hand for player and dealer. They are put in a shared row with identical height.
 PLAYER_HEADER = 'Your Hands'
@@ -25,16 +23,23 @@ DEALER_SUB_SCOPES = {'cards': f'{DEALER_SCOPE}_Card', 'value': f'{DEALER_SCOPE}_
 SHARED_HEIGHT = 350
 RELATIVE_WIDTH = '85% 10px 34%'  # Relative size between player and dealer scopes. Pixels are for middle blank between.
 
-
 # Hands values style.
 VALUES_COLORS = {'safe': 'black', 'danger': 'orange', 'busted': 'red'}
 DANGER_ZONE = {'lower': 12, 'upper': 16}
 
-
 # Profits style.
 PROFITS_COLORS = {'tie': 'black', 'loss': 'red', 'profit': 'green'}
 
-
 # Notifications widget.
-POPUP_TITLES = {'inadequate_capital': 'Inadequate Capital', 'max_splits': 'No More Splits', 'early_exit': 'Early Exit'}
-POPUP_SIZE = 10
+POPUP_DICT = {'inadequate_capital': {'title': '‼️Inadequate Capital‼️'},
+              'max_splits': {'title': '⛔No More Splits⛔'},
+              'early_exit': {'title': '🛬Early Exit🛬',
+                             'content': 'You have no hands left to be judged in this round.'
+                             },
+              'huge_profits': {'title': '🎉Winner Winner Chicken Dinner🦃',
+                               'emojis': ('💵', '🍾'),
+                               'threshold': 0.75
+                               }
+              }
+POPUP_IMPLICIT_CLOSE = '\n(Click anywhere to close~)'  # Reminder of how to close popup.
+POPUP_SIZE = 5

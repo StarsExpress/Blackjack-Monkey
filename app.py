@@ -4,7 +4,7 @@ from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE
 from configs.rules_config import MIN_BET
 from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents, remove_scopes
 from widgets.interactions import get_info, get_hands, get_choice
-from widgets.notifications import update_cumulated_capital, notify_inadequate_capital
+from widgets.notifications import update_cumulated_capital, notify_inadequate_capital, send_congrats
 from blackjack import Blackjack
 import time
 
@@ -31,9 +31,10 @@ class Application:
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.
             hands = get_hands()
             self.blackjack.set_up(hands, self.capital, player_name)
-            self.blackjack.start()
+            bets_placed = self.blackjack.start()
 
             profit = self.blackjack.capital - self.capital  # This round's profit.
+            send_congrats(profit, bets_placed)
             self.profit += profit  # Update cumulated profit.
             self.capital += profit  # Update remaining capital.
 
