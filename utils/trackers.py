@@ -1,8 +1,8 @@
 from configs.rules_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE, MIN_DEALER_VALUE
 
 
-# Return format: ordinary 21 (True/False), total value, soft (True/False), bust (True/False).
-def update_properties(cards_list, need_ordinary_21=True):
+# Return format: value (integer), soft (True/False), bust (True/False).
+def update_properties(cards_list):
     soft = False
     value = sum([CARD_TO_VALUE_DICT[cards] for cards in cards_list])  # Initial value of cards.
 
@@ -12,12 +12,8 @@ def update_properties(cards_list, need_ordinary_21=True):
             value += 10  # Take the greatest possible total value.
             soft = True
 
-    ordinary_21 = True if value == MAX_TOTAL_VALUE else False
     bust = True if value > MAX_TOTAL_VALUE else False
-
-    if need_ordinary_21 is False:  # If ordinary 21 mark isn't needed.
-        return value, soft, bust
-    return ordinary_21, value, soft, bust
+    return value, soft, bust
 
 
 # Return the hand value to be displayed on game page.

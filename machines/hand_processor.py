@@ -11,14 +11,13 @@ class HandProcessor:
     def __init__(self, head_ordinal, chips, cards_list):
         # Initial chips: amount placed at start. It helps track chips of "split" branches.
         self.head_ordinal, self.initial_chips, self.splits = head_ordinal, chips, 0
-        self.blackjack, self.early_pay, self.surrendered = judge_blackjack(cards_list), False, False
+        self.blackjack, self.surrendered = judge_blackjack(cards_list), False
         self.aces_pair = True if cards_list == ['A', 'A'] else False  # Aces pair mark.
 
         self.chips_dict, self.cards_dict, self.double_down_dict = {'1': chips}, {'1': cards_list}, {'1': False}
 
-        ordinary_21, value, soft, bust = update_properties(cards_list)
-        self.ordinary_21_dict, self.value_dict = {'1': ordinary_21}, {'1': value}
-        self.soft_dict, self.bust_dict = {'1': soft}, {'1': bust}
+        value, soft, bust = update_properties(cards_list)
+        self.value_dict, self.soft_dict, self.bust_dict = {'1': value}, {'1': soft}, {'1': bust}
 
     def display_properties(self, branch_ordinal='1'):
         show_player_value(self.head_ordinal, branch_ordinal, self.cards_dict[branch_ordinal],
@@ -36,8 +35,8 @@ class HandProcessor:
     def hit_or_double_down(self, card, branch_ordinal='1', double_down=False):
         self.cards_dict[branch_ordinal].append(card)  # Append a new card into the hand's list.
 
-        ordinary_21, value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
-        self.ordinary_21_dict[branch_ordinal], self.value_dict[branch_ordinal] = ordinary_21, value
+        value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
+        self.value_dict[branch_ordinal] = value
         self.soft_dict[branch_ordinal], self.bust_dict[branch_ordinal] = soft, bust
 
         if double_down:  # If double down is selected, double chips and switch double down mark to True.
@@ -54,8 +53,8 @@ class HandProcessor:
         self.cards_dict[str(self.splits + 2)] = [self.cards_dict[branch_ordinal][-1]]  # Move split card to new branch.
         self.cards_dict[branch_ordinal] = [self.cards_dict[branch_ordinal][0], card]
 
-        ordinary_21, value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
-        self.ordinary_21_dict[branch_ordinal], self.value_dict[branch_ordinal] = ordinary_21, value
+        value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
+        self.value_dict[branch_ordinal] = value
         self.soft_dict[branch_ordinal], self.bust_dict[branch_ordinal] = soft, bust
 
         show_player_value(self.head_ordinal, branch_ordinal, self.cards_dict[branch_ordinal],
@@ -73,8 +72,8 @@ class HandProcessor:
         self.chips_dict[branch_ordinal], self.double_down_dict[branch_ordinal] = self.initial_chips, False
         self.cards_dict[branch_ordinal].append(card)
 
-        ordinary_21, value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
-        self.ordinary_21_dict[branch_ordinal], self.value_dict[branch_ordinal] = ordinary_21, value
+        value, soft, bust = update_properties(self.cards_dict[branch_ordinal])
+        self.value_dict[branch_ordinal] = value
         self.soft_dict[branch_ordinal], self.bust_dict[branch_ordinal] = soft, bust
 
         stand = True if self.aces_pair else False  # If the hand is Aces pair, stand right after reloading.

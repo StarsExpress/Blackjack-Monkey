@@ -11,16 +11,17 @@ class Dealer:
 
     def __init__(self):
         self.cards_list, self.value = [], 0  # Hand value starts from 0.
-        self.blackjack, self.soft, self.bust = False, False, False  # Three default marks are False.
+        self.early_pay, self.blackjack, self.soft, self.bust = False, False, False, False  # Default marks are False.
 
     def prepare(self, first_card):  # Load first card for a new round.
         self.cards_list.clear()  # Clear list before loading first card.
         self.cards_list.append(first_card)
 
+        # If dealer may have Blackjack, early pay mode is on.
+        self.early_pay = True if first_card in ['A', 'K', 'Q', 'J', '10'] else False
         self.blackjack = False  # Reset Blackjack mark back to False.
-        self.value, self.soft, self.bust = update_properties(self.cards_list, False)
+        self.value, self.soft, self.bust = update_properties(self.cards_list)
 
-        # ace_text = 'No surrender allowed against Ace.' if first_card == 'A' else ''  # If first card is Ace.
         show_dealer_value(first_card, value=self.value, soft=self.soft, first=True)
 
     def add_to_17_plus(self, shuffle_machine_obj, player_all_blackjack=False):  # Dealer needs 17+ except special cases.
@@ -29,19 +30,19 @@ class Dealer:
             drawn_card = shuffle_machine_obj.draw()
             self.cards_list.append(drawn_card)
 
-            if judge_blackjack(self.cards_list):  # If dealer has Blackjack, end loop here.
+            if judge_blackjack(self.cards_list):  # If dealer has Blackjack, stop drawing.
                 self.blackjack = True  # Change Blackjack mark to True.
                 show_dealer_value(drawn_card, blackjack=self.blackjack)
                 return
 
-            if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't, end loop here.
+            if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't, stop drawing.
                 show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
                 return
 
-            self.value, self.soft, self.bust = update_properties(self.cards_list, False)
+            self.value, self.soft, self.bust = update_properties(self.cards_list)
             if self.bust:  # If dealer is busted, set value as 0 for chips calculation convenience.
                 self.value = 0
                 show_dealer_value(drawn_card, bust=self.bust)
-                return  # End loop here.
+                return  # Stop drawing here.
 
             show_dealer_value(drawn_card, value=self.value, soft=self.soft)
