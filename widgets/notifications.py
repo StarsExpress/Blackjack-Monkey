@@ -32,8 +32,9 @@ def remind_splits_rules(head_ordinal):
     popup(POPUP_DICT['max_splits']['title'], notification + POPUP_IMPLICIT_CLOSE, POPUP_SIZE, True)
 
 
-def notify_early_exit():  # If all hands have been judged and no need for dealer to draw to 17+.
-    popup(POPUP_DICT['early_exit']['title'], POPUP_DICT['early_exit']['content'] + POPUP_IMPLICIT_CLOSE,
+def notify_early_exit(paid_insurance=False):  # If a round can exit early.
+    notification = '\nInsurance have been paid to you.\n' if paid_insurance else ''  # Notify paid insurance.
+    popup(POPUP_DICT['early_exit']['title'], POPUP_DICT['early_exit']['content'] + notification + POPUP_IMPLICIT_CLOSE,
           POPUP_SIZE, True)
 
 

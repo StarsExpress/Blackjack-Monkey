@@ -58,7 +58,7 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list, value=0, chips=0
 
 
 # Display new drawn card and current value of dealer's hand.
-def show_dealer_value(card, value=0, first=False, blackjack=False, player_all_bj=False, soft=False, bust=False):
+def show_dealer_value(card, value=0, first=False, blackjack=False, check_bj_only=False, soft=False, bust=False):
     if first:  # If is first card, create sub scopes in dealer scope.
         put_row([put_markdown('Cards'), None, put_markdown('Value')], scope=DEALER_SCOPE)
 
@@ -66,7 +66,7 @@ def show_dealer_value(card, value=0, first=False, blackjack=False, player_all_bj
                 scope=DEALER_SCOPE)
 
     value_color = find_value_color(value, soft, bust)  # Display value is string, so find color first.
-    value = track_display_value(value, blackjack, dealer=True, player_all_bj=player_all_bj, soft=soft, bust=bust)
+    value = track_display_value(value, blackjack, dealer=True, check_bj_only=check_bj_only, soft=soft, bust=bust)
 
     clear_contents(DEALER_SUB_SCOPES['value'])  # Erase old value for new value.
     put_table([[value]], scope=DEALER_SUB_SCOPES['value']).style(f'color:{value_color}')

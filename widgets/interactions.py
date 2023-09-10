@@ -1,8 +1,9 @@
-from configs.input_config import NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT, ACTIONS_DICT, CHOICES_DICT
+from configs.input_config import NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT
+from configs.input_config import INSURANCE_DICT, MOVES_DICT, CHOICES_DICT
 from utils.input_validity import check_name, check_capital
 from utils.judges import judge_surrender, judge_split
-from utils.swiss_knife import find_ordinal_text
-from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions
+from utils.swiss_knife import assist_insurance_checkbox, find_ordinal_text
+from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions, checkbox
 
 
 def get_info():  # Get player's info: name and initial capital.
@@ -29,22 +30,32 @@ def get_early_pay(head_ordinal):  # Get Blackjack early pay option.
     return actions(f"Hand {head_ordinal}: {EARLY_PAY_DICT['label']}", buttons=EARLY_PAY_DICT['options'])
 
 
-def get_action(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital, initial_bet):  # Get player's action.
+def get_insurance(dealer_first_card, non_bj_hands_list, hands_dict, validate_function):
+    # If no insurance to be asked, return empty list to match the return type from checkbox.
+    if dealer_first_card != 'A':
+        return []
+
+    options_list = assist_insurance_checkbox(non_bj_hands_list, hands_dict)
+    return checkbox(label=INSURANCE_DICT['label'], options=options_list, inline=True,
+                    value=non_bj_hands_list, validate=validate_function)
+
+
+def get_move(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital, initial_bet):  # Get player's move.
     # Ordinals tuple format: (head ordinal, branch ordinal).
     actions_list = []
     if judge_surrender(cards_list, dealer_card, splits):  # First check surrender availability.
-        actions_list += [ACTIONS_DICT['surrender']]
+        actions_list += [MOVES_DICT['surrender']]
 
-    actions_list += [ACTIONS_DICT['stand'], ACTIONS_DICT['hit']]
+    actions_list += [MOVES_DICT['stand'], MOVES_DICT['hit']]
 
     if remaining_capital >= initial_bet:  # When remaining capital is enough, check double down and split availability.
         if len(cards_list) == 2:
-            actions_list += [ACTIONS_DICT['double_down']]
+            actions_list += [MOVES_DICT['double_down']]
         if judge_split(cards_list, splits):
-            actions_list += [ACTIONS_DICT['split']]
+            actions_list += [MOVES_DICT['split']]
 
     return actions(f"Hand {ordinals_tuple[0]}'s {find_ordinal_text(ordinals_tuple[-1])} " +
-                   f"Branch: {ACTIONS_DICT['label']}", buttons=actions_list)
+                   f"Branch: {MOVES_DICT['label']}", buttons=actions_list)
 
 
 def get_choice():  # Get choice of continue to play or exit.

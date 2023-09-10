@@ -24,7 +24,7 @@ class Dealer:
 
         show_dealer_value(first_card, value=self.value, soft=self.soft, first=True)
 
-    def add_to_17_plus(self, shuffle_machine_obj, player_all_blackjack=False):  # Dealer needs 17+ except special cases.
+    def add_to_17_plus(self, shuffle_machine_obj, check_blackjack_only=False):  # Dealer needs 17+ except special cases.
         while self.value < MIN_DEALER_VALUE:
             time.sleep(DEALER_SLEEP)  # Pause before drawing a new card.
             drawn_card = shuffle_machine_obj.draw()
@@ -35,8 +35,10 @@ class Dealer:
                 show_dealer_value(drawn_card, blackjack=self.blackjack)
                 return
 
-            if player_all_blackjack:  # If player's hands are all Blackjack and dealer's isn't, stop drawing.
-                show_dealer_value(drawn_card, player_all_bj=player_all_blackjack)
+            # If dealer has no Blackjack, stop drawing in either of two cases.
+            # 1. Player's hands are all Blackjack. 2. Player's hands are all busted but have insurance.
+            if check_blackjack_only:
+                show_dealer_value(drawn_card, check_bj_only=check_blackjack_only)
                 return
 
             self.value, self.soft, self.bust = update_properties(self.cards_list)

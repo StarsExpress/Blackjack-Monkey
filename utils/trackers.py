@@ -17,12 +17,11 @@ def update_properties(cards_list):
 
 
 # Return the hand value to be displayed on game page.
-def track_display_value(value, blackjack=False, dealer=False, player_all_bj=False, stand=False, soft=False, bust=False):
+def track_display_value(value, blackjack=False, dealer=False, check_bj_only=False, stand=False, soft=False, bust=False):
     # Argument dealer is False if this function is called for player's hand. Otherwise, it should be True.
-
     if blackjack:
         return 'Blackjack'
-    if dealer & player_all_bj:  # If dealer has no Blackjack, and all hands from player are.
+    if dealer & check_bj_only:  # If all of player's hands just need to verify that dealer has no Blackjack.
         return 'No Blackjack'
     if bust:
         return 'Busted'

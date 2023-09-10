@@ -1,5 +1,5 @@
 from configs.output_config import PLAYER_SCOPE, PLAYER_SUB_SCOPES, PROFITS_COLORS
-from configs.rules_config import BLACKJACK_PAYOUT
+from configs.rules_config import BLACKJACK_PAY
 from widgets.layouts import clear_contents, write_text
 from pywebio.output import put_table
 
@@ -24,7 +24,7 @@ def return_chips(head_ordinal, branch_ordinal='1', chips=0, surrender=False, ear
 
     if player_bust:  # Player loses all chips if busted.
         put_table([[-chips]], scope=profit_scope).style(f"color:{PROFITS_COLORS['loss']}")
-        write_text('Your are busted.', branch_scope, False)
+        write_text('Your hand is busted.', branch_scope, False)
         return  # Don't have to return 0, as busted hands are 100% lost even if dealer goes busted.
 
     if dealer_bj:  # If dealer has Blackjack.
@@ -38,9 +38,9 @@ def return_chips(head_ordinal, branch_ordinal='1', chips=0, surrender=False, ear
         return 0  # Otherwise, player loses all chips.
 
     if player_bj:  # Profit = chips * preset payout rate.
-        put_table([[int(chips * BLACKJACK_PAYOUT)]], scope=profit_scope).style(f"color:{PROFITS_COLORS['profit']}")
+        put_table([[int(chips * BLACKJACK_PAY)]], scope=profit_scope).style(f"color:{PROFITS_COLORS['profit']}")
         write_text("You have Blackjack and dealer doesn't.", branch_scope, False)
-        return int(chips * (1 + BLACKJACK_PAYOUT))
+        return int(chips * (1 + BLACKJACK_PAY))
 
     if player_value < dealer_value:  # If dealer wins, player loses all chips.
         put_table([[-chips]], scope=profit_scope).style(f"color:{PROFITS_COLORS['loss']}")

@@ -34,11 +34,11 @@ PROFITS_COLORS = {'tie': 'black', 'loss': 'red', 'profit': 'green'}
 POPUP_DICT = {'inadequate_capital': {'title': '‼️Inadequate Capital‼️'},
               'max_splits': {'title': '⛔No More Splits⛔'},
               'early_exit': {'title': '🛬Early Exit🛬',
-                             'content': 'You have no hands left to be judged in this round.'
+                             'content': 'Your hands are all judged.'
                              },
               'huge_profits': {'title': '🎉Winner Winner Chicken Dinner🦃',
                                'emojis': ('💵', '🍾'),
-                               'threshold': 0.75
+                               'threshold': 0.7
                                }
               }
 POPUP_IMPLICIT_CLOSE = '\n(Click anywhere to close~)'  # Reminder of how to close popup.
