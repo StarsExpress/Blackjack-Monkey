@@ -1,5 +1,5 @@
 from configs.app_config import EARLY_EXIT_SLEEP
-from configs.rules_config import MIN_BET, MAX_BET, MAX_TOTAL_VALUE, INSURANCE_PAY
+from configs.rules_config import MIN_BET, MAX_BET, MAX_TOTAL_VALUE
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
 from utils.swiss_knife import extract_ordinal, find_placed_insurance, remind_betting_amount, find_total_bets
 from widgets.layouts import set_cards_tabs
@@ -17,7 +17,9 @@ class Blackjack:
 
     def __init__(self):
         self.machine, self.dealer, self.player, self.capital = ShuffleMachine(), Dealer(), Player(), 0
-        self.player_name = DEFAULT_PLAYER_NAME
+        self.player_name, self.chips_list, self.insurance_hands_list = DEFAULT_PLAYER_NAME, [], []
+        self.non_early_bj_hands_list = []  # Blackjack hands that decline early pay.
+        self.final_head_hands_list = []
 
     # Some functions are defined here to receive updating global variable for PyWebIO's input validation function.
     def check_chips(self, chips):  # Check if placed bets are valid.
@@ -42,7 +44,7 @@ class Blackjack:
         if player_name is not None:  # If player enters name, use it to replace the default name.
             self.player_name = player_name
 
-        chips_list = []
+        self.chips_list.clear()
         chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing configuration.
         for i in range(head_hands):  # Iterate through all desired head hands.
             if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.
@@ -55,15 +57,15 @@ class Blackjack:
 
             chips = get_chips(chips_dict, self.check_chips)  # Pass function to validate chips.
             self.capital -= chips  # Deduct chips amount from capital.
-            chips_list.append(chips)
+            self.chips_list.append(chips)
             update_cumulated_capital(self.player_name, self.capital)
 
         self.dealer.prepare(self.machine.draw())
         set_cards_tabs(head_hands)  # Place tabs for all hands, and deal cards to them.
-        self.player.prepare(chips_list, [list(self.machine.draw(True)) for _ in range(len(chips_list))])
+        self.player.prepare(self.chips_list, [list(self.machine.draw(True)) for _ in range(len(self.chips_list))])
 
     def start(self):  # Start a new round.
-        vague_bj_hands_list = []  # Blackjack hands that decline early pay and have to wait until the end.
+        self.non_early_bj_hands_list.clear()
         bj_hands_list = sorted(filter(lambda x: self.player.hands_dict[x].blackjack,
                                       self.player.hands_dict.keys()), reverse=True)  # Sort by higher to lower ordinal.
 
@@ -75,7 +77,7 @@ class Blackjack:
                     update_cumulated_capital(self.player_name, self.capital)
                     continue  # Go to next Blackjack head hand.
 
-                vague_bj_hands_list += [bj_hand_ordinal]  # For non-early-pay, append to vague list.
+                self.non_early_bj_hands_list.append(bj_hand_ordinal)  # For non-early-pay, append to non-early list.
                 continue  # Go to next Blackjack head hand.
 
             # If dealer has 0 Blackjack chance.
@@ -83,15 +85,17 @@ class Blackjack:
                                          chips=self.player.hands_dict[bj_hand_ordinal].initial_chips)
             update_cumulated_capital(self.player_name, self.capital)
 
-        insurance_hands_list = []
+        self.insurance_hands_list.clear()
         non_bj_head_hands_list = sorted(filter(lambda x: self.player.hands_dict[x].blackjack is False,
                                                self.player.hands_dict.keys()))
 
         if len(non_bj_head_hands_list) > 0:  # Pass function to validate insurance.
             insurance_hands_list = extract_ordinal(get_insurance(self.dealer.cards_list[0], non_bj_head_hands_list,
                                                                  self.player.hands_dict, self.check_insurance))
-            if len(insurance_hands_list) > 0:  # If insurance is placed, deduct from capital.
-                self.capital -= find_placed_insurance(insurance_hands_list, self.player.hands_dict)
+            self.insurance_hands_list += insurance_hands_list
+
+            if len(self.insurance_hands_list) > 0:  # If insurance is placed, deduct from capital.
+                self.capital -= find_placed_insurance(self.insurance_hands_list, self.player.hands_dict)
                 update_cumulated_capital(self.player_name, self.capital)
 
             head_ordinal = non_bj_head_hands_list[0]  # Start from the lowest ordinal.
@@ -175,47 +179,49 @@ class Blackjack:
                 # Otherwise, go to next head hand.
                 head_ordinal = non_bj_head_hands_list[non_bj_head_hands_list.index(head_ordinal) + 1]
 
+        self.final_head_hands_list.clear()
         # List of head hands with 1+ branch that isn't Blackjack, surrendered or busted.
-        final_head_hands_list = [head_ordinal for head_ordinal in self.player.hands_dict.keys() if
-                                 (self.player.hands_dict[head_ordinal].blackjack is False) &
-                                 (self.player.hands_dict[head_ordinal].surrendered is False) &
-                                 (list(self.player.hands_dict[head_ordinal].bust_dict.values()).count(False) > 0)]
+        self.final_head_hands_list += [head_ordinal for head_ordinal in self.player.hands_dict.keys() if
+                                       (self.player.hands_dict[head_ordinal].blackjack is False) &
+                                       (self.player.hands_dict[head_ordinal].surrendered is False) &
+                                       (list(self.player.hands_dict[head_ordinal].bust_dict.values()).count(False) > 0)]
 
-        final_head_hands_list += vague_bj_hands_list  # Add non-early-paid Blackjack hands into final head hands list.
+        check_blackjack_only = False  # Check if player's remaining hands only need to see if dealer has Blackjack.
+        if (len(self.final_head_hands_list) == 0) & (len(self.non_early_bj_hands_list + self.insurance_hands_list) > 0):
+            check_blackjack_only = True
 
-        if len(final_head_hands_list) == 0:  # If no remaining hands to be judged.
-            paid_insurance = False
-            if (self.dealer.cards_list[0] == 'A') & (len(insurance_hands_list) > 0):  # Check insurance if needed.
-                self.dealer.add_to_17_plus(self.machine, check_blackjack_only=True)
-                if self.dealer.blackjack:  # Pay insurance if dealer has Blackjack.
-                    self.capital += find_placed_insurance(insurance_hands_list,
-                                                          self.player.hands_dict) * (1 + INSURANCE_PAY)
-                    update_cumulated_capital(self.player_name, self.capital)
-                    paid_insurance = True
+        # Add non-early-paid Blackjack hands into final head hands list.
+        self.final_head_hands_list += self.non_early_bj_hands_list
+        for insurance_head_ordinal in self.insurance_hands_list:  # Add hands with insurance into final head hands list.
+            if insurance_head_ordinal not in self.final_head_hands_list:  # Make sure list items are distinct.
+                self.final_head_hands_list.append(insurance_head_ordinal)
 
-            notify_early_exit(paid_insurance)
+        if len(self.final_head_hands_list) == 0:  # If no remaining hands to be judged.
+            notify_early_exit()
             time.sleep(EARLY_EXIT_SLEEP)
-            return find_total_bets(self.player.hands_dict)
+            return find_total_bets(self.player.hands_dict, self.insurance_hands_list)
 
-        # Check if player's remaining hands are all Blackjack.
-        check_blackjack_only = True if (len(vague_bj_hands_list) == len(final_head_hands_list)) else False
         self.dealer.add_to_17_plus(self.machine, check_blackjack_only=check_blackjack_only)
 
-        if (self.dealer.cards_list[0] == 'A') & self.dealer.blackjack:
-            # Pay insurance if dealer's Ace becomes Blackjack.
-            self.capital += find_placed_insurance(insurance_hands_list, self.player.hands_dict) * (1 + INSURANCE_PAY)
-
-        for head_ordinal in final_head_hands_list:  # Iterate through all final head hands.
+        for head_ordinal in self.final_head_hands_list:  # Iterate through all final head hands.
             head_hand_object = self.player.hands_dict[head_ordinal]  # Head hand object.
             branches_list = list(filter(lambda x: head_hand_object.bust_dict[x] is False,
                                         head_hand_object.cards_dict.keys()))  # List of branches that are not busted.
 
+            if len(branches_list) == 0:  # If list is empty, iterated head hand must be awaiting insurance result.
+                branches_list.append('1')  # Add 1st ordinal into list.
+
             for branch_ordinal in branches_list:  # Iterate through all branches.
+                branch_insurance = 0  # Pay insurance to the 1st branch if dealer's Ace becomes Blackjack.
+                if (head_ordinal in self.insurance_hands_list) & (branch_ordinal == '1'):
+                    branch_insurance = 1 if self.dealer.blackjack else -1
+
                 branch_chips = head_hand_object.chips_dict[branch_ordinal]
+                branch_bust = head_hand_object.bust_dict[branch_ordinal]
                 branch_value = head_hand_object.value_dict[branch_ordinal]
 
                 self.capital += return_chips(head_ordinal, branch_ordinal, branch_chips, False, False,
-                                             head_hand_object.blackjack, self.dealer.blackjack,
-                                             False, branch_value, self.dealer.value)
-                update_cumulated_capital(self.player_name, self.capital)
-        return find_total_bets(self.player.hands_dict)
+                                             branch_insurance, head_hand_object.blackjack, self.dealer.blackjack,
+                                             branch_bust, branch_value, self.dealer.value)
+        update_cumulated_capital(self.player_name, self.capital)
+        return find_total_bets(self.player.hands_dict, self.insurance_hands_list)

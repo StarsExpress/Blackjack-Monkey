@@ -31,7 +31,7 @@ EARLY_PAY_DICT = {'label': 'take early pay❓',
 
 
 # Insurance widget.
-INSURANCE_DICT = {'label': "Ace Insurance & Each Hand's Value (Leave Blank If You Don't Want)"}
+INSURANCE_DICT = {'label': "(Leave Blank If You Don't Want) Ace Insurance & Each Hand's Value"}
 
 
 # Player moves widget.

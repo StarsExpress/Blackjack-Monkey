@@ -26,7 +26,7 @@ def assist_insurance_checkbox(non_bj_hands_list, hands_dict):  # Return options 
     return options_list
 
 
-def extract_ordinal(insurance_hands_list):  # Get ordinal from checkbox option: 'Hand head_ordinal: displayed_value'.
+def extract_ordinal(insurance_hands_list):  # Get ordinal from checkbox option: "Hand head_ordinal: displayed_value".
     # [1]: 1st item right next to 1st space. [:-1]: exclude colon.
     return [head_ordinal.split(' ')[1][:-1] for head_ordinal in insurance_hands_list]
 
@@ -45,6 +45,8 @@ def find_value_color(value, soft, bust):  # Find corresponding color of hand val
     return VALUES_COLORS['safe']
 
 
-def find_total_bets(hands_dict):  # Find total bets placed in each round.
-    # Sum bets from each head hand's branches, then sum again along all head hands.
-    return sum(sum(hands_dict[key].chips_dict.values()) for key in hands_dict.keys())
+def find_total_bets(hands_dict, insurance_hands_list):  # Find total bets placed in each round.
+    # 1st term: sum bets from each head hand's branches, then sum again along all head hands.
+    # 2nd term: sum all placed insurance (50% initial chips) for each hand of insurance hands list.
+    return (sum(sum(hands_dict[key].chips_dict.values()) for key in hands_dict.keys()) +
+            sum(hands_dict[hand].initial_chips for hand in insurance_hands_list) // 2)
