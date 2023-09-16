@@ -1,5 +1,7 @@
 """All output configurations."""
 
+TITLE_SCOPE = 'Title'
+
 INFO_SCOPE = 'Info'  # Scope of player info.
 CAPITAL_TEXT = ': your cumulated capital is '  # Capital tracking.
 SCOPE_WIDTH = '120%'  # Width of all scopes.

@@ -1,9 +1,23 @@
-from configs.input_config import NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT
+from configs.app_config import RULES_PATHS_DICT
+from configs.output_config import TITLE_SCOPE
+from configs.input_config import RULES_DICT, NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT
 from configs.input_config import INSURANCE_DICT, MOVES_DICT, CHOICES_DICT
 from utils.input_validity import check_name, check_capital
 from utils.judges import judge_surrender, judge_split
 from utils.swiss_knife import assist_insurance_checkbox, find_ordinal_text
 from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions, checkbox
+from pywebio.output import put_scope, put_button, popup
+
+
+file = open(RULES_PATHS_DICT['english'], 'r')
+rules_txt = file.read()
+file.close()
+
+
+def read_rules():  # Display a button that pops up rules when clicked.
+    put_scope(name=TITLE_SCOPE, content=put_button(label=RULES_DICT['label'], color=RULES_DICT['color'],
+                                                   onclick=lambda: popup(RULES_DICT['title'], rules_txt,
+                                                                         RULES_DICT['size'], True), scope=TITLE_SCOPE))
 
 
 def get_info():  # Get player's info: name and initial capital.

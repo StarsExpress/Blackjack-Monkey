@@ -9,6 +9,10 @@ NAME_DICT = {'label': '😃How may we call you, Sir/Madame:', 'name': 'name',
              'holder': f"Would like to know your name, or we'll call you {DEFAULT_PLAYER_NAME}",
              }
 
+# Rules widget.
+RULES_DICT = {'label': '👀Read Rules📖', 'title': 'Blackjack Rules (Click anywhere to close~)',
+              'color': 'success', 'size': 5}
+
 # Capital widget.
 CAPITAL_DICT = {'label': '💰Cash in your capital, please:', 'name': 'capital',
                 'holder': f'Please be integer. Available range: {str(MIN_BET)} to {str(MAX_CAPITAL)}.',

@@ -1,5 +1,5 @@
 from configs.app_config import PAGE_NAME, PAGE_THEME
-from configs.output_config import PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
+from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
 from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
@@ -11,7 +11,7 @@ def configure_name():  # Configure web name and theme.
 
 
 def set_title(title):  # Set page title.
-    put_html(title)
+    put_html(title, scope=TITLE_SCOPE)
 
 
 def set_core_layouts():  # Set game page layouts: two parallel contents.
