@@ -2,8 +2,9 @@ from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
 from configs.input_config import NAME_DICT, CAPITAL_DICT
 from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE
 from configs.rules_config import MIN_BET
+from widgets.rules import show_rules
 from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents, remove_scopes
-from widgets.interactions import read_rules, get_info, get_hands, get_choice
+from widgets.interactions import get_info, get_hands, get_choice
 from widgets.notifications import update_cumulated_capital, notify_inadequate_capital, send_congrats
 from blackjack import Blackjack
 import time
@@ -17,7 +18,7 @@ class Application:
         configure_name()
 
     def execute(self):  # The execute attribute is put into start_server of main.py.
-        read_rules()
+        show_rules()
         set_title(r"""<h1 align='center'><strong>""" + PAGE_TITLE + """</strong></h1>""")
 
         player_name = None

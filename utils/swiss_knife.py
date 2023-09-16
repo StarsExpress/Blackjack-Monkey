@@ -1,6 +1,16 @@
+from configs.app_config import RULES_PATHS_DICT
 from configs.rules_config import MAX_BET
 from configs.output_config import VALUES_COLORS, DANGER_ZONE
 from utils.trackers import track_display_value
+
+
+def read_rules():  # Read rules of available languages from rules folder.
+    rules_dict = {}
+    for key in RULES_PATHS_DICT.keys():  # Key is language name.
+        file = open(RULES_PATHS_DICT[key], 'r')
+        rules_dict.update({key: file.read()})
+        file.close()
+    return rules_dict
 
 
 def remind_betting_amount(remaining_capital):  # Remind maximal feasible amount to bet for iterated hand.

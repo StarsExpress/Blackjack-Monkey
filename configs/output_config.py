@@ -2,6 +2,9 @@
 
 TITLE_SCOPE = 'Title'
 
+# Sub scopes within rules scope: buttons and text.
+RULES_SUB_SCOPES = {'buttons': 'rules_buttons', 'text': 'rules_txt'}
+
 INFO_SCOPE = 'Info'  # Scope of player info.
 CAPITAL_TEXT = ': your cumulated capital is '  # Capital tracking.
 SCOPE_WIDTH = '120%'  # Width of all scopes.

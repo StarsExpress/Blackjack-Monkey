@@ -1,3 +1,4 @@
+
 1. 6 decks of cards. No hole card for dealer.
 
 2. Minimum bet is 300, maximum bet is 10,000.
