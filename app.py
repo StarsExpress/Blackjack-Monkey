@@ -1,9 +1,10 @@
 from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
 from configs.input_config import NAME_DICT, CAPITAL_DICT
-from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE
+from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE, INCOME_SUB_SCOPES
 from configs.rules_config import MIN_BET
+from widgets.layouts import configure_name, set_top_layouts, set_core_layouts, clear_contents, remove_scopes
 from widgets.rules import show_rules
-from widgets.layouts import configure_name, set_title, set_core_layouts, clear_contents, remove_scopes
+from widgets.income import show_income
 from widgets.interactions import get_info, get_hands, get_choice
 from widgets.notifications import update_cumulated_capital, notify_inadequate_capital, send_congrats
 from blackjack import Blackjack
@@ -14,12 +15,13 @@ class Application:
     """Blackjack app."""
 
     def __init__(self):
-        self.blackjack, self.capital, self.profit = Blackjack(), 0, 0
+        self.blackjack, self.capital, self.income_list = Blackjack(), 0, []
         configure_name()
 
     def execute(self):  # The execute attribute is put into start_server of main.py.
+        set_top_layouts(r"""<h1 align='center'><strong>""" + PAGE_TITLE + """</strong></h1>""")
         show_rules()
-        set_title(r"""<h1 align='center'><strong>""" + PAGE_TITLE + """</strong></h1>""")
+        show_income(self.income_list)
 
         player_name = None
         info_dict = get_info()
@@ -30,6 +32,7 @@ class Application:
         update_cumulated_capital(player_name, self.capital)
         set_core_layouts()
 
+        round_number = 1
         while self.capital >= MIN_BET:  # While remaining capital is enough for another round.
             hands = get_hands()
             self.blackjack.set_up(hands, self.capital, player_name)
@@ -37,8 +40,8 @@ class Application:
 
             profit = self.blackjack.capital - self.capital  # This round's profit.
             send_congrats(profit, bets_placed)
-            self.profit += profit  # Update cumulated profit.
             self.capital += profit  # Update remaining capital.
+            self.income_list += [dict(zip(INCOME_SUB_SCOPES['columns'], [round_number, profit, self.capital]))]
 
             if self.capital < MIN_BET:
                 time.sleep(GAME_END_SLEEP)
@@ -50,3 +53,6 @@ class Application:
             if choice == 'exit':  # If player selects exit.
                 remove_scopes([PLAYER_SCOPE, DEALER_SCOPE])
                 break
+
+            round_number += 1
+        self.income_list.clear()

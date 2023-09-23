@@ -1,6 +1,6 @@
 from configs.app_config import PAGE_NAME, PAGE_THEME
 from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
-from configs.output_config import SHARED_HEIGHT, RELATIVE_WIDTH
+from configs.output_config import RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
 from pywebio.output import put_row, put_text, put_tabs, clear, remove, use_scope
@@ -10,8 +10,9 @@ def configure_name():  # Configure web name and theme.
     config(title=PAGE_NAME, theme=PAGE_THEME)
 
 
-def set_title(title):  # Set page title.
-    put_html(title, scope=TITLE_SCOPE)
+def set_top_layouts(title):  # Set page title and a row of scopes for rules and income statement.
+    put_scope(name=TITLE_SCOPE, content=put_html(title, scope=TITLE_SCOPE))
+    put_row(content=[put_scope(RULES_SUB_SCOPES['rules']), put_scope(INCOME_SUB_SCOPES['income'])], scope=TITLE_SCOPE)
 
 
 def set_core_layouts():  # Set game page layouts: two parallel contents.

@@ -3,7 +3,11 @@
 TITLE_SCOPE = 'Title'
 
 # Sub scopes within rules scope: buttons and text.
-RULES_SUB_SCOPES = {'buttons': 'rules_buttons', 'text': 'rules_txt'}
+RULES_SUB_SCOPES = {'rules': 'rules', 'buttons': 'rules_buttons', 'content': 'rules_content'}
+
+# Sub scopes within income scope: buttons and text.
+INCOME_SUB_SCOPES = {'income': 'income', 'content': 'income_content',
+                     'columns': ['Round', 'Profit', 'Cumulated Capital']}
 
 INFO_SCOPE = 'Info'  # Scope of player info.
 CAPITAL_TEXT = ': your cumulated capital is '  # Capital tracking.
