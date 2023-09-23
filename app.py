@@ -18,7 +18,8 @@ class Application:
         self.blackjack, self.capital, self.income_list = Blackjack(), 0, []
         configure_name()
 
-    def execute(self):  # The execute attribute is put into start_server of main.py.
+    def execute(self):  # This attribute is put into start_server of main.py.
+        self.income_list.clear()  # Ensure that after refreshing, income list is set to emptiness.
         set_top_layouts(r"""<h1 align='center'><strong>""" + PAGE_TITLE + """</strong></h1>""")
         show_rules()
         show_income(self.income_list)
@@ -55,4 +56,3 @@ class Application:
                 break
 
             round_number += 1
-        self.income_list.clear()

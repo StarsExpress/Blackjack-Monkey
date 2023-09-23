@@ -41,7 +41,7 @@ class Blackjack:
         self.capital = capital
         self.machine.load_and_shuffle()
 
-        if player_name is not None:  # If player enters name, use it to replace the default name.
+        if player_name is not None:  # If player does enter name, make updates.
             self.player_name = player_name
 
         self.chips_list.clear()
