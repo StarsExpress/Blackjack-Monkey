@@ -30,7 +30,8 @@ DEALER_SCOPE = 'Dealer'
 DEALER_SUB_SCOPES = {'cards': f'{DEALER_SCOPE}_Card', 'value': f'{DEALER_SCOPE}_Value'}
 
 SHARED_HEIGHT = 350
-RELATIVE_WIDTH = '85% 10px 34%'  # Relative size between player and dealer scopes. Pixels are for middle blank between.
+# Relative size of scopes of player and dealer, along with middle blank.
+RELATIVE_WIDTH = '65% 35px 35%'
 
 # Hands values style.
 VALUES_COLORS = {'safe': 'black', 'danger': 'orange', 'busted': 'red'}

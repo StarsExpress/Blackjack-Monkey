@@ -1,18 +1,24 @@
-from configs.app_config import PAGE_NAME, PAGE_THEME
+from configs.app_config import PAGE_NAME, PAGE_THEME, PAGE_TITLE
 from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
 from configs.output_config import RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
+from pywebio.session import set_env
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
 from pywebio.output import put_row, put_text, put_tabs, clear, remove, use_scope
 
 
-def configure_name():  # Configure web name and theme.
+def set_name_and_theme():
     config(title=PAGE_NAME, theme=PAGE_THEME)
 
 
-def set_top_layouts(title):  # Set page title and a row of scopes for rules and income statement.
-    put_scope(name=TITLE_SCOPE, content=put_html(title, scope=TITLE_SCOPE))
+def set_top_layouts():  # Set page title and scopes for rules and income statement.
+    put_scope(name=TITLE_SCOPE,
+              content=put_html(f"""<h1 align='center'><strong>{PAGE_TITLE}</strong></h1>""", scope=TITLE_SCOPE))
     put_row(content=[put_scope(RULES_SUB_SCOPES['rules']), put_scope(INCOME_SUB_SCOPES['income'])], scope=TITLE_SCOPE)
+
+
+def set_core_layouts_width():  # Set core layouts' width as 90% of page width.
+    set_env(output_max_width='90%')
 
 
 def set_core_layouts():  # Set game page layouts: two parallel contents.
@@ -24,7 +30,7 @@ def set_core_layouts():  # Set game page layouts: two parallel contents.
     dealer_content = put_collapse(DEALER_HEADER, put_scrollable(
         put_scope(DEALER_SCOPE), height=SHARED_HEIGHT, keep_bottom=True), open=True)
 
-    put_row([player_content, None, dealer_content], size=RELATIVE_WIDTH)  # None means middle blank between scopes.
+    put_row([player_content, None, dealer_content], size=RELATIVE_WIDTH)  # None: middle blank between scopes.
 
 
 def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand and its branches.

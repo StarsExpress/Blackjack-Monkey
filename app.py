@@ -1,8 +1,9 @@
-from configs.app_config import PAGE_TITLE, GAME_END_SLEEP
+from configs.app_config import GAME_END_SLEEP
 from configs.input_config import NAME_DICT, CAPITAL_DICT
 from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE, INCOME_SUB_SCOPES
 from configs.rules_config import MIN_BET
-from widgets.layouts import configure_name, set_top_layouts, set_core_layouts, clear_contents, remove_scopes
+from widgets.layouts import set_name_and_theme, set_core_layouts_width, set_top_layouts
+from widgets.layouts import set_core_layouts, clear_contents, remove_scopes
 from widgets.rules import show_rules
 from widgets.income import show_income
 from widgets.interactions import get_info, get_hands, get_choice
@@ -16,21 +17,23 @@ class Application:
 
     def __init__(self):
         self.blackjack, self.capital, self.income_list = Blackjack(), 0, []
-        configure_name()
+        set_name_and_theme()
 
     def execute(self):  # This attribute is put into start_server of main.py.
-        self.income_list.clear()  # Ensure that after refreshing, income list is set to emptiness.
-        set_top_layouts(r"""<h1 align='center'><strong>""" + PAGE_TITLE + """</strong></h1>""")
+        set_top_layouts()
         show_rules()
+        self.income_list.clear()  # After page refreshing, income list reverts to emptiness.
         show_income(self.income_list)
 
         player_name = None
         info_dict = get_info()
         if len(info_dict[NAME_DICT['name']].strip()) > 0:  # If player enters non-empty name.
             player_name = info_dict[NAME_DICT['name']].lstrip().rstrip()  # Keep middle spaces.
-        self.capital = info_dict[CAPITAL_DICT['name']]
 
+        self.capital = info_dict[CAPITAL_DICT['name']]
         update_cumulated_capital(player_name, self.capital)
+
+        set_core_layouts_width()  # Must set layouts' width before content.
         set_core_layouts()
 
         round_number = 1

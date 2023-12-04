@@ -2,14 +2,6 @@
 
 from configs.rules_config import MIN_BET, MAX_CAPITAL
 
-# Player name widget.
-MAX_NAME_LEN = 20  # Maximal player name length.
-DEFAULT_PLAYER_NAME = '💸Benji Bucket🪣'  # If player doesn't enter name.
-
-NAME_DICT = {'label': '😃How may we call you, Sir/Madame:', 'name': 'name',
-             'holder': f"Would like to know your name, or we'll call you {DEFAULT_PLAYER_NAME}",
-             }
-
 # Rules widget.
 RULES_DICT = {'label': '👀Read Rules📖', 'title': 'Blackjack Rules (Click anywhere to close~)',
               'color': 'primary', 'size': 5,
@@ -19,14 +11,22 @@ RULES_DICT = {'label': '👀Read Rules📖', 'title': 'Blackjack Rules (Click an
                            {'label': '🇨🇳简体中文', 'value': 'simplified', 'type': 'submit', 'color': 'primary'}]
               }
 
-# Income widget.
-INCOME_DICT = {'label': '💰Income Statement📃', 'title': 'Income Statement (Click anywhere to close~)',
-               'color': 'success', 'size': 5}
+# Player name widget.
+MAX_NAME_LEN = 50  # Maximal player name length.
+DEFAULT_PLAYER_NAME = '💸Benji Bucket🪣'  # If player doesn't enter name.
+
+NAME_DICT = {'label': '😃How may we call you, Sir/Madame:', 'name': 'name',
+             'holder': f"Would like to know your name, or we'll call you {DEFAULT_PLAYER_NAME}",
+             }
 
 # Capital widget.
 CAPITAL_DICT = {'label': '💰Cash in your capital, please:', 'name': 'capital',
                 'holder': f'Please be integer. Available range: {str(MIN_BET)} to {str(MAX_CAPITAL)}.',
                 }
+
+# Income widget.
+INCOME_DICT = {'label': '💰Income Statement📃', 'title': 'Income Statement (Click anywhere to close~)',
+               'color': 'success', 'size': 5}
 
 # Hands widget.
 HANDS_DICT = {'label': 'How many hands do you want', 'min': 1, 'max': 6}
