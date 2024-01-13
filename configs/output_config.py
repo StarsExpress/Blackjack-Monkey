@@ -2,6 +2,8 @@
 
 TITLE_SCOPE = 'Title'
 
+IMAGES_WIDTH = '70px'
+
 # Sub scopes within rules scope: buttons and text.
 RULES_SUB_SCOPES = {'rules': 'rules', 'buttons': 'rules_buttons', 'content': 'rules_content'}
 

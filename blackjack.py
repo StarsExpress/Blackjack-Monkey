@@ -60,7 +60,8 @@ class Blackjack:
             self.chips_list.append(chips)
             update_cumulated_capital(self.player_name, self.capital)
 
-        self.dealer.prepare(self.machine.draw())
+        first_card, first_suit = self.machine.draw()
+        self.dealer.prepare(first_card, first_suit)
         set_cards_tabs(head_hands)  # Place tabs for all hands, and deal cards to them.
         self.player.prepare(self.chips_list, [list(self.machine.draw(True)) for _ in range(len(self.chips_list))])
 
@@ -129,7 +130,8 @@ class Blackjack:
                         if move == 'double_down':
                             self.capital -= initial_chips  # Deduct additional bet from capital.
                             update_cumulated_capital(self.player_name, self.capital)
-                            head_hand_object.hit_or_double_down(self.machine.draw(), branch_ordinal, True)
+                            drawn_card, drawn_suit = self.machine.draw()
+                            head_hand_object.hit_or_double_down(drawn_card, drawn_suit, branch_ordinal, True)
 
                             if head_hand_object.bust_dict[branch_ordinal]:  # Display busted loss.
                                 return_chips(head_ordinal, branch_ordinal=branch_ordinal, player_bust=True,
@@ -137,7 +139,8 @@ class Blackjack:
 
                         # For split branch, reload closest isolated branch and update list.
                         if head_hand_object.splits > 0:
-                            head_hand_object.reload(self.machine.draw(), branch_ordinal)
+                            drawn_card, drawn_suit = self.machine.draw()
+                            head_hand_object.reload(drawn_card, drawn_suit, branch_ordinal)
                             branches_list = list(head_hand_object.cards_dict.keys())
 
                         if branch_ordinal == branches_list[-1]:
@@ -146,7 +149,8 @@ class Blackjack:
                         branch_ordinal = branches_list[branches_list.index(branch_ordinal) + 1]
 
                     if move == 'hit':  # If hit is chosen.
-                        head_hand_object.hit_or_double_down(self.machine.draw(), branch_ordinal)
+                        drawn_card, drawn_suit = self.machine.draw()
+                        head_hand_object.hit_or_double_down(drawn_card, drawn_suit, branch_ordinal)
                         bust_mark = head_hand_object.bust_dict[branch_ordinal]  # Busted mark of iterated branch.
 
                         # If busted or reaches 21 after hit.
@@ -157,7 +161,8 @@ class Blackjack:
 
                             # For split branch, reload closest isolated branch and update list.
                             if head_hand_object.splits > 0:
-                                head_hand_object.reload(self.machine.draw(), branch_ordinal)
+                                drawn_card, drawn_suit = self.machine.draw()
+                                head_hand_object.reload(drawn_card, drawn_suit, branch_ordinal)
                                 branches_list = list(head_hand_object.cards_dict.keys())
 
                             if branch_ordinal == branches_list[-1]:
@@ -169,9 +174,11 @@ class Blackjack:
                         self.capital -= initial_chips  # Deduct additional bet from capital.
                         update_cumulated_capital(self.player_name, self.capital)
 
-                        head_hand_object.split(self.machine.draw(), branch_ordinal)
+                        drawn_card, drawn_suit = self.machine.draw()
+                        head_hand_object.split(drawn_card, drawn_suit, branch_ordinal)
                         if head_hand_object.aces_pair:  # If an Aces pair is being split.
-                            head_hand_object.reload(self.machine.draw(), branch_ordinal)
+                            drawn_card, drawn_suit = self.machine.draw()
+                            head_hand_object.reload(drawn_card, drawn_suit, branch_ordinal)
                             break  # Reload 2nd branch and break branch iteration to go to next head.
 
                 if head_ordinal == non_bj_head_hands_list[-1]:

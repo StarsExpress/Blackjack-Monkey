@@ -1,7 +1,21 @@
-from configs.app_config import RULES_PATHS_DICT
+from configs.app_config import IMAGES_FOLDER_PATH, RULES_PATHS_DICT
 from configs.rules_config import MAX_BET
 from configs.output_config import VALUES_COLORS, DANGER_ZONE
 from utils.trackers import track_display_value
+import os
+from PIL import Image
+
+
+def read_cards_images():
+    images_dict = dict()
+    images_names_list = os.listdir(IMAGES_FOLDER_PATH)
+
+    for image_name in images_names_list:
+        if image_name.endswith('.jpg'):  # Only read jpg files.
+            image_path = os.path.join(IMAGES_FOLDER_PATH, image_name)
+            images_dict.update({image_name.split('.')[0]: Image.open(image_path)})
+
+    return images_dict
 
 
 def read_rules():  # Read rules of available languages from rules folder.

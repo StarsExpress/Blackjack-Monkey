@@ -7,9 +7,11 @@ class Player:
     def __init__(self):
         self.hands_dict = {}  # Dictionary of each hand's cards.
 
-    def prepare(self, chips_list, cards_list):  # Load cards for a new round.
+    def prepare(self, chips_list, cards_and_suits_list):  # Load cards for a new round.
         self.hands_dict.clear()  # Clear dictionaries before loading values.
 
         for i in range(len(chips_list)):
-            self.hands_dict.update({str(i + 1): HandProcessor(str(i + 1), chips_list[i], cards_list[i])})
+            # In cards_and_suits_list, first 2 items are cards, and the last 2 are their respective suits.
+            self.hands_dict.update({str(i + 1): HandProcessor(str(i + 1), chips_list[i], cards_and_suits_list[i][:2],
+                                                              cards_and_suits_list[i][-2:])})
             self.hands_dict[str(i + 1)].display_properties()

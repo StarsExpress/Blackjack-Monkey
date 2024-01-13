@@ -1,9 +1,11 @@
 """All rules configurations."""
 
-NUMBER_OF_DECKS = 6
 CARDS_LIST = ([str(i) for i in range(2, 11)] + ['J', 'Q', 'K', 'A']) * 4
 # Dictionary to map card name and value.
 CARD_TO_VALUE_DICT = dict(zip(CARDS_LIST, [i for i in range(2, 11)] + [10, 10, 10, 11]))
+NUMBER_OF_DECKS = 6
+SUITS_DICT = {key: ['S', 'H', 'D', 'C'] * NUMBER_OF_DECKS
+              for key in [str(i) for i in range(2, 11)] + ['J', 'Q', 'K', 'A']}
 
 
 MAX_TOTAL_VALUE = 21  # Each hand is busted if over this value.
