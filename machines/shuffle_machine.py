@@ -1,4 +1,5 @@
 from configs.rules_config import NUMBER_OF_DECKS, CARDS_LIST, SUITS_DICT
+from copy import deepcopy
 import random
 from random import shuffle
 from collections import Counter
@@ -17,8 +18,7 @@ class ShuffleMachine:
         self.cards_list.extend(CARDS_LIST * NUMBER_OF_DECKS)
         shuffle(self.cards_list)  # Only cards list needs shuffling.
 
-        self.suits_dict.clear()
-        self.suits_dict.update(SUITS_DICT)
+        self.suits_dict = deepcopy(SUITS_DICT)
 
     def draw(self, two_cards=False):  # Draw from front at index 0.
         if two_cards:  # If two cards are needed.
