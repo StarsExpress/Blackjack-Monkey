@@ -21,7 +21,7 @@ def read_cards_images():
 def read_rules():  # Read rules of available languages from rules folder.
     rules_dict = {}
     for key in RULES_PATHS_DICT.keys():  # Key is language name.
-        file = open(RULES_PATHS_DICT[key], 'r')
+        file = open(RULES_PATHS_DICT[key], 'r', encoding='UTF-8')
         rules_dict.update({key: file.read()})
         file.close()
     return rules_dict
