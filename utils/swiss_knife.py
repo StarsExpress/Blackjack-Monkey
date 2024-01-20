@@ -50,7 +50,7 @@ def assist_insurance_checkbox(non_bj_hands_list, hands_dict):  # Return options 
     return options_list
 
 
-def extract_ordinal(insurance_hands_list):  # Get ordinal from checkbox option: "Hand head_ordinal: displayed_value".
+def find_ordinal(insurance_hands_list):  # Get ordinal from checkbox option: "Hand head_ordinal: displayed_value".
     # [1]: 1st item right next to 1st space. [:-1]: exclude colon.
     return [head_ordinal.split(' ')[1][:-1] for head_ordinal in insurance_hands_list]
 

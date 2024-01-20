@@ -1,7 +1,7 @@
 from configs.app_config import EARLY_EXIT_SLEEP
 from configs.rules_config import MIN_BET, MAX_BET, MAX_TOTAL_VALUE
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
-from utils.swiss_knife import extract_ordinal, find_placed_insurance, remind_betting_amount, find_total_bets
+from utils.swiss_knife import find_ordinal, find_placed_insurance, remind_betting_amount, find_total_bets
 from widgets.layouts import set_cards_tabs
 from widgets.interactions import get_chips, get_early_pay, get_insurance, get_move
 from widgets.notifications import notify_inadequate_capital, update_cumulated_capital, notify_early_exit
@@ -18,6 +18,8 @@ class Blackjack:
     def __init__(self):
         self.machine, self.dealer, self.player, self.capital = ShuffleMachine(), Dealer(), Player(), 0
         self.player_name, self.chips_list, self.insurance_hands_list = DEFAULT_PLAYER_NAME, [], []
+
+        self.first_two_cards_list = []  # List to store the list of first two cards and suits for each hand.
         self.non_early_bj_hands_list = []  # Blackjack hands that decline early pay.
         self.final_head_hands_list = []
 
@@ -33,7 +35,7 @@ class Blackjack:
             return 'Placed chips must be in units of 100.'
 
     def check_insurance(self, insurance_hands_list):  # Check if wanted insurance amount is valid.
-        insurance = find_placed_insurance(extract_ordinal(insurance_hands_list), self.player.hands_dict)
+        insurance = find_placed_insurance(find_ordinal(insurance_hands_list), self.player.hands_dict)
         if insurance > self.capital:
             return f'Your wanted insurance {insurance} > remaining capital {str(self.capital)}. Please reselect.'
 
@@ -63,7 +65,11 @@ class Blackjack:
         first_card, first_suit = self.machine.draw()
         self.dealer.prepare(first_card, first_suit)
         set_cards_tabs(head_hands)  # Place tabs for all hands, and deal cards to them.
-        self.player.prepare(self.chips_list, [list(self.machine.draw(True)) for _ in range(len(self.chips_list))])
+
+        self.first_two_cards_list.clear()
+        for _ in range(len(self.chips_list)):
+            self.first_two_cards_list.append(list(self.machine.draw(True)))
+        self.player.prepare(self.chips_list, self.first_two_cards_list)
 
     def start(self):  # Start a new round.
         self.non_early_bj_hands_list.clear()
@@ -91,9 +97,9 @@ class Blackjack:
                                                self.player.hands_dict.keys()))
 
         if len(non_bj_head_hands_list) > 0:  # Pass function to validate insurance.
-            insurance_hands_list = extract_ordinal(get_insurance(self.dealer.cards_list[0], non_bj_head_hands_list,
-                                                                 self.player.hands_dict, self.check_insurance))
-            self.insurance_hands_list += insurance_hands_list
+            self.insurance_hands_list += find_ordinal(get_insurance(self.dealer.cards_list[0], non_bj_head_hands_list,
+                                                                    self.player.hands_dict, self.check_insurance))
+            self.player.update_insurance(self.insurance_hands_list)
 
             if len(self.insurance_hands_list) > 0:  # If insurance is placed, deduct from capital.
                 self.capital -= find_placed_insurance(self.insurance_hands_list, self.player.hands_dict)

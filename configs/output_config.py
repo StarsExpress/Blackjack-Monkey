@@ -25,6 +25,8 @@ PLAYER_HEADER = 'Your Hands'
 PLAYER_SCOPE = 'Player'
 # Sub scopes within player scope: chips, cards, value and profit.
 PLAYER_SUB_SCOPES = {'chips': 'Chips', 'cards': 'Cards', 'value': 'Value', 'profit': 'Profit'}
+# Headers for tables of chips, value and profit, respectively.
+TABLE_HEADERS = {'chips': ['Bet', 'Insurance'], 'value': ['Value'], 'profit': ['Profit']}
 
 DEALER_HEADER = "Dealer's Hand"
 DEALER_SCOPE = 'Dealer'
