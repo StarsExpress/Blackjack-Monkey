@@ -9,8 +9,6 @@ RULES_PATHS_DICT = {'english': os.path.join(APP_BASE_PATH, 'rules', 'english.txt
                     'simplified': os.path.join(APP_BASE_PATH, 'rules', 'simplified.txt')
                     }
 
-PORT = 1998  # Server port.
-
 PAGE_NAME = "🎰Job's Here"
 PAGE_THEME = 'sketchy'
 PAGE_TITLE = "♠️♥️Jack's Online Blackjack♦️♣️"
