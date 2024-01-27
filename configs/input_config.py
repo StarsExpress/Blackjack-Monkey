@@ -16,12 +16,12 @@ MAX_NAME_LEN = 50  # Maximal player name length.
 DEFAULT_PLAYER_NAME = '💸Benji Bucket🪣'  # If player doesn't enter name.
 
 NAME_DICT = {'label': '😃How may we call you, Sir/Madame:', 'name': 'name',
-             'holder': f"Would like to know your name, or we'll call you {DEFAULT_PLAYER_NAME}",
+             'holder': f"Would like to know your name, or we'll call you {DEFAULT_PLAYER_NAME}"
              }
 
 # Capital widget.
 CAPITAL_DICT = {'label': '💰Cash in your capital, please:', 'name': 'capital',
-                'holder': f'Please be integer. Available range: {str(MIN_BET)} to {str(MAX_CAPITAL)}.',
+                'holder': f'Please be integer. Available range: {str(MIN_BET)} to {str(MAX_CAPITAL)}.'
                 }
 
 # Income widget.

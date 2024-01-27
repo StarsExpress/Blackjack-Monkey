@@ -13,8 +13,7 @@ def read_cards_images():
     for image_name in images_names_list:
         if image_name.endswith('.jpg'):  # Only read jpg files.
             image_path = os.path.join(IMAGES_FOLDER_PATH, image_name)
-            images_dict.update({image_name.split('.')[0]: Image.open(image_path)})
-
+            images_dict.update({image_name.split('.')[0]: Image.open(image_path)})  # Use the string before dot as key.
     return images_dict
 
 

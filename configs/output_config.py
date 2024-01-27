@@ -13,12 +13,7 @@ INCOME_SUB_SCOPES = {'income': 'income', 'content': 'income_content',
 
 INFO_SCOPE = 'Info'  # Scope of player info.
 CAPITAL_TEXT = ': your cumulated capital is '  # Capital tracking.
-SCOPE_WIDTH = '120%'  # Width of all scopes.
 
-# Scope of previous rounds and player interactions.
-PREVIOUS_HEADER = 'Income Statement: Previous P&L'
-PREVIOUS_SCOPE = 'Previous'
-PREVIOUS_HEIGHT = 150
 
 # Scopes of each hand for player and dealer. They are put in a shared row with identical height.
 PLAYER_HEADER = 'Your Hands'
@@ -42,7 +37,7 @@ VALUES_COLORS = {'safe': 'black', 'danger': 'orange', 'busted': 'red'}
 DANGER_ZONE = {'lower': 12, 'upper': 16}
 
 # Profits style.
-PROFITS_COLORS = {'tie': 'black', 'loss': 'red', 'profit': 'green'}
+PROFITS_COLORS = {'loss': 'red', 'tie': 'black', 'profit': 'green'}
 
 # Notifications widget.
 POPUP_DICT = {'inadequate_capital': {'title': '‼️Inadequate Capital‼️'},

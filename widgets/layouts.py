@@ -45,7 +45,7 @@ def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand a
 
 
 def clear_contents(scopes):  # Clear contents inside given scope(s). Argument type: list or string.
-    if type(scopes) == list:  # If input is a list of scopes.
+    if isinstance(scopes, list):  # If input is a list of scopes.
         for scope in scopes:
             clear(scope)
 
@@ -54,7 +54,7 @@ def clear_contents(scopes):  # Clear contents inside given scope(s). Argument ty
 
 
 def remove_scopes(scopes):  # Remove given scope(s). Argument type: list or string.
-    if type(scopes) == list:  # If input is a list of scopes.
+    if isinstance(scopes, list):  # If input is a list of scopes.
         for scope in scopes:
             remove(scope)
 
