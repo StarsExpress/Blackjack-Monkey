@@ -4,6 +4,12 @@ TITLE_SCOPE = 'Title'
 
 IMAGES_WIDTH = '70px'
 
+
+# Sub scopes within intro scope: button and URL.
+INTRO_SUB_SCOPES = {'intro': 'intro', 'button': 'intro_button',
+                    'label': '🎠Intro Page🎙️', 'color': 'info',
+                    'url': 'https://github.com/StarsExpress/Blackjack-Monkey-Intro'}
+
 # Sub scopes within rules scope: buttons and text.
 RULES_SUB_SCOPES = {'rules': 'rules', 'buttons': 'rules_buttons', 'content': 'rules_content'}
 

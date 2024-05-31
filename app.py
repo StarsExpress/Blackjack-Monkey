@@ -4,6 +4,7 @@ from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE, INCOME_SUB_SCOPES
 from configs.rules_config import MIN_BET
 from widgets.layouts import set_name_and_theme, set_core_layouts_width, set_top_layouts
 from widgets.layouts import set_core_layouts, clear_contents, remove_scopes
+from widgets.intro import show_intro
 from widgets.rules import show_rules
 from widgets.income import show_income
 from widgets.interactions import get_info, get_hands, get_choice
@@ -21,6 +22,7 @@ class Application:
 
     def execute(self):  # This attribute is put into start_server of main.py.
         set_top_layouts()
+        show_intro()
         show_rules()
         self.incomes.clear()  # After page refreshing, incomes revert to emptiness.
         show_income(self.incomes)

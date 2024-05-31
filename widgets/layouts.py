@@ -1,6 +1,6 @@
 from configs.app_config import PAGE_NAME, PAGE_THEME, PAGE_TITLE
 from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
-from configs.output_config import RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
+from configs.output_config import INTRO_SUB_SCOPES, RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.session import set_env
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
@@ -14,7 +14,9 @@ def set_name_and_theme():
 def set_top_layouts():  # Set page title and scopes for rules and income statement.
     put_scope(name=TITLE_SCOPE,
               content=put_html(f"""<h1 align='center'><strong>{PAGE_TITLE}</strong></h1>""", scope=TITLE_SCOPE))
-    put_row(content=[put_scope(RULES_SUB_SCOPES['rules']), put_scope(INCOME_SUB_SCOPES['income'])], scope=TITLE_SCOPE)
+    put_row(content=[put_scope(INTRO_SUB_SCOPES['intro']),
+                     put_scope(RULES_SUB_SCOPES['rules']),
+                     put_scope(INCOME_SUB_SCOPES['income'])], scope=TITLE_SCOPE)
 
 
 def set_core_layouts_width():  # Set core layouts' width as 90% of page width.
