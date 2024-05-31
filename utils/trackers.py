@@ -36,8 +36,3 @@ def track_display_value(value, blackjack=False, dealer=False, check_bj_only=Fals
         return '/'.join([str(value), str(value - 10)])
 
     return str(value)
-
-
-if __name__ == '__main__':
-    print(update_properties(['A'] * 11))
-    print(track_display_value(18, soft=True, stand=True))

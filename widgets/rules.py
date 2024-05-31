@@ -28,8 +28,7 @@ def show_rules():  # Display a button that pops up rules when clicked.
                                # Pass functions in list to allow language switch. Don't call functions.
                                content=put_buttons(RULES_DICT['language'], onclick=[english, trad_chn, simp_chn])),
 
-                     # Default is to display rules in English.
-                     put_scope(name=RULES_SUB_SCOPES['content'],
+                     put_scope(name=RULES_SUB_SCOPES['content'],  # Default is English version.
                                content=put_text(rules_dict['english'], scope=RULES_SUB_SCOPES['content']))]
 
     put_button(label=RULES_DICT['label'], color=RULES_DICT['color'],

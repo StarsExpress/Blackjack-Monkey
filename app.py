@@ -16,14 +16,14 @@ class Application:
     """Blackjack app."""
 
     def __init__(self):
-        self.blackjack, self.capital, self.income_list = Blackjack(), 0, []
+        self.blackjack, self.capital, self.incomes = Blackjack(), 0, []
         set_name_and_theme()
 
     def execute(self):  # This attribute is put into start_server of main.py.
         set_top_layouts()
         show_rules()
-        self.income_list.clear()  # After page refreshing, income list reverts to emptiness.
-        show_income(self.income_list)
+        self.incomes.clear()  # After page refreshing, incomes revert to emptiness.
+        show_income(self.incomes)
 
         player_name = None
         info_dict = get_info()
@@ -45,7 +45,7 @@ class Application:
             profit = self.blackjack.capital - self.capital  # This round's profit.
             send_congrats(profit, bets_placed)
             self.capital += profit  # Update remaining capital.
-            self.income_list += [dict(zip(INCOME_SUB_SCOPES['columns'], [round_number, profit, self.capital]))]
+            self.incomes += [dict(zip(INCOME_SUB_SCOPES['columns'], [round_number, profit, self.capital]))]
 
             if self.capital < MIN_BET:
                 time.sleep(GAME_END_SLEEP)

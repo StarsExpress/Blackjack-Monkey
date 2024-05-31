@@ -24,7 +24,3 @@ def judge_split(cards_list, splits):  # Split eligibility judgement format: (Tru
         if (len(cards_list) == 2) & (CARD_TO_VALUE_DICT[cards_list[0]] == CARD_TO_VALUE_DICT[cards_list[-1]]):
             return True
     return False
-
-
-if __name__ == '__main__':
-    print(judge_blackjack(['10', 'A'], False))

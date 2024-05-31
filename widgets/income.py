@@ -8,7 +8,7 @@ def show_income(income_list):
                onclick=lambda: popup(INCOME_DICT['title'],
                                      put_scope(INCOME_SUB_SCOPES['content'],
                                                put_datatable(records=income_list,
-                                                             instance_id=INCOME_SUB_SCOPES['content'] + '_table',
+                                                             instance_id=f"{INCOME_SUB_SCOPES['content']}_table",
                                                              column_order=INCOME_SUB_SCOPES['columns'],
                                                              theme='balham', scope=INCOME_SUB_SCOPES['content'])
                                                ),
