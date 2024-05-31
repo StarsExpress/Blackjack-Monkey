@@ -1,6 +1,6 @@
 from configs.app_config import HOST, PORT, DEBUG, REMOTE_ACCESS
 from app import Application
-from pywebio import start_server
+from pywebio.platform.tornado_http import start_server
 
 
 def main():
