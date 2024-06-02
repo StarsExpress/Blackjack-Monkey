@@ -1,2 +1,10 @@
-# Job: Jack's Online Blackjack
-Real job is for sure critical, but sometimes you should come and enjoy a "pure fun" job 😀
+# 🐒 Monkey Code
+Here, we've only got one mode:
+
+Commit & track monkey code!
+
+Keep it safe in this repo 🗃
+
+Job's got-
+
+Monkey code 💽
