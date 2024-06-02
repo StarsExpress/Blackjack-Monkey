@@ -47,13 +47,13 @@ class Blackjack:
             self.player_name = player_name
 
         self.chips_list.clear()
-        chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing configuration.
-        for i in range(head_hands):  # Iterate through all desired head hands.
+        chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing config.
+        for i in range(1, head_hands + 1):  # Iterate through all desired head hands.
             if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.
                 notify_inadequate_capital(self.capital, hands=True)
                 break
 
-            chips_dict.update({'label': f"{CHIPS_DICT['label']} {str(i + 1)}:"})
+            chips_dict.update({'label': f"{CHIPS_DICT['label']} {i}:"})
             # Update holder text with respect to remaining capital as maximal feasible bet.
             chips_dict.update({'holder': f"{CHIPS_DICT['holder']} {remind_betting_amount(self.capital)}"})
 
@@ -64,10 +64,10 @@ class Blackjack:
 
         first_card, first_suit = self.machine.draw()
         self.dealer.prepare(first_card, first_suit)
-        set_cards_tabs(head_hands)  # Place tabs for all hands, and deal cards to them.
+        set_cards_tabs(len(self.chips_list))  # Open tabs for all existing head hands.
 
         self.first_two_cards_list.clear()
-        for _ in range(len(self.chips_list)):
+        for _ in range(len(self.chips_list)):  # Deal cards to these head hands.
             self.first_two_cards_list.append(list(self.machine.draw(True)))
         self.player.prepare(self.chips_list, self.first_two_cards_list)
 
