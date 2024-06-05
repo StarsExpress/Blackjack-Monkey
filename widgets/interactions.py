@@ -58,5 +58,5 @@ def get_move(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital,
                    f"Branch: {MOVES_DICT['label']}", buttons=actions_list)
 
 
-def get_choice():  # Choice of continue to play or exit.
+def get_choice():  # Choice of continue to play or start over.
     return actions(CHOICES_DICT['label'], buttons=CHOICES_DICT['choices'])

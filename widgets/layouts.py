@@ -4,7 +4,7 @@ from configs.output_config import INTRO_SUB_SCOPES, RULES_SUB_SCOPES, INCOME_SUB
 from pywebio.platform import config
 from pywebio.session import set_env
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
-from pywebio.output import put_row, put_text, put_tabs, clear, remove, use_scope
+from pywebio.output import put_row, put_text, put_tabs, clear, use_scope
 
 
 def set_name_and_theme():
@@ -53,15 +53,6 @@ def clear_contents(scopes):  # Clear contents inside given scope(s). Argument ty
 
     else:
         clear(scopes)
-
-
-def remove_scopes(scopes):  # Remove given scope(s). Argument type: list or string.
-    if isinstance(scopes, list):  # If input is a list of scopes.
-        for scope in scopes:
-            remove(scope)
-
-    else:
-        remove(scopes)
 
 
 def write_text(message, scope, clear_scope=True):  # Performs put_text in given scope.

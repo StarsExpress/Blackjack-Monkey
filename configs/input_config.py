@@ -55,8 +55,8 @@ MOVES_DICT = {'label': 'available moves👇',
               'split': {'label': 'Split', 'value': 'split', 'type': 'submit', 'color': 'info'}
               }
 
-# Continue or exit widget.
+# Continue or start over widget.
 CHOICES_DICT = {'label': 'Want another round?',
                 'choices': [{'label': 'Continue', 'value': 'continue', 'type': 'submit', 'color': 'success'},
-                            {'label': 'Exit', 'value': 'exit', 'type': 'submit', 'color': 'danger'}]
+                            {'label': 'Start Over', 'value': 'start_over', 'type': 'submit', 'color': 'danger'}]
                 }

@@ -3,7 +3,7 @@ from configs.input_config import NAME_DICT, CAPITAL_DICT
 from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE, INCOME_SUB_SCOPES
 from configs.rules_config import MIN_BET
 from widgets.layouts import set_name_and_theme, set_core_layouts_width, set_top_layouts
-from widgets.layouts import set_core_layouts, clear_contents, remove_scopes
+from widgets.layouts import set_core_layouts, clear_contents
 from widgets.intro import show_intro
 from widgets.rules import show_rules
 from widgets.income import show_income
@@ -11,6 +11,7 @@ from widgets.interactions import get_info, get_hands, get_choice
 from widgets.notifications import update_cumulated_capital, notify_inadequate_capital, send_congrats
 from blackjack import Blackjack
 import time
+from pywebio import session
 
 
 class Application:
@@ -56,8 +57,7 @@ class Application:
 
             choice = get_choice()  # Right after choice is made, clear player and dealer scope.
             clear_contents([PLAYER_SCOPE, DEALER_SCOPE])
-            if choice == 'exit':  # If player selects exit.
-                remove_scopes([PLAYER_SCOPE, DEALER_SCOPE])
-                break
+            if choice == 'start_over':  # If player wants to start over.
+                session.go_app('main', new_window=False)
 
             round_number += 1
