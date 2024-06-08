@@ -1,8 +1,7 @@
 from configs.rules_config import CARD_TO_VALUE_DICT, MAX_TOTAL_VALUE, MIN_DEALER_VALUE
 
 
-# Return format: value (integer), soft (True/False), bust (True/False).
-def update_properties(cards_list):
+def update_properties(cards_list: list[str]):  # Return: value (int), soft (bool), bust (bool).
     soft = False
     value = sum([CARD_TO_VALUE_DICT[cards] for cards in cards_list])  # Initial value of cards.
 
@@ -17,7 +16,8 @@ def update_properties(cards_list):
 
 
 # Return the hand value to be displayed on game page.
-def track_display_value(value, blackjack=False, dealer=False, check_bj_only=False, stand=False, soft=False, bust=False):
+def track_display_value(value: int, blackjack: bool = False, dealer: bool = False, check_bj_only: bool = False,
+                        stand: bool = False, soft: bool = False, bust: bool = False):
     # Argument dealer is False if this function is called for player's hand. Otherwise, it should be True.
     if blackjack:
         return 'Blackjack'

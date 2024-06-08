@@ -3,6 +3,7 @@ from configs.app_config import DEALER_SLEEP
 from utils.judges import judge_blackjack
 from utils.trackers import update_properties
 from widgets.cards import show_dealer_value
+from machines.shuffle_machine import ShuffleMachine
 import time
 
 
@@ -13,7 +14,7 @@ class Dealer:
         self.cards_list, self.suits_list, self.value = [], [], 0  # Hand value starts from 0.
         self.early_pay, self.blackjack, self.soft, self.bust = False, False, False, False  # Default marks are False.
 
-    def prepare(self, first_card, first_suit):  # Load first card for a new round.
+    def prepare(self, first_card: str, first_suit: str):  # Load first card for a new round.
         self.cards_list.clear()  # Clear list before loading first card.
         self.cards_list.append(first_card)
         self.suits_list.clear()
@@ -26,10 +27,11 @@ class Dealer:
 
         show_dealer_value(first_card, first_suit, value=self.value, soft=self.soft, first=True)
 
-    def add_to_17_plus(self, shuffle_machine_obj, check_blackjack_only=False):  # Dealer needs 17+ except special cases.
+    def add_to_17_plus(self, shuffle_machine: ShuffleMachine, check_blackjack_only: bool = False):
+        # Dealer needs 17+ except special cases.
         while self.value < MIN_DEALER_VALUE:
             time.sleep(DEALER_SLEEP)  # Pause before drawing a new card.
-            drawn_card, drawn_suit = shuffle_machine_obj.draw()
+            drawn_card, drawn_suit = shuffle_machine.draw()
             self.cards_list.append(drawn_card)
             self.suits_list.append(drawn_suit)
 

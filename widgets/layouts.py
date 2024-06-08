@@ -35,7 +35,7 @@ def set_core_layouts():  # Set game page layouts: two parallel contents.
     put_row([player_content, None, dealer_content], size=RELATIVE_WIDTH)  # None: middle blank between scopes.
 
 
-def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand and its branches.
+def set_cards_tabs(head_hands: int):  # Set tabs to store scopes for each head hand and its branches.
     tabs_list = []
 
     for i in range(1, head_hands + 1):
@@ -46,7 +46,7 @@ def set_cards_tabs(head_hands):  # Set tabs to store scopes for each head hand a
     put_tabs(tabs_list, PLAYER_SCOPE)  # Put all tabs in player scope.
 
 
-def clear_contents(scopes):  # Clear contents inside given scope(s). Argument type: list or string.
+def clear_contents(scopes: list[str] | str):  # Clear contents inside given scope(s).
     if isinstance(scopes, list):  # If input is a list of scopes.
         for scope in scopes:
             clear(scope)
@@ -55,6 +55,6 @@ def clear_contents(scopes):  # Clear contents inside given scope(s). Argument ty
         clear(scopes)
 
 
-def write_text(message, scope, clear_scope=True):  # Performs put_text in given scope.
+def write_text(message: str, scope: str, clear_scope: bool = True):  # Performs put_text in given scope.
     with use_scope(scope, clear=clear_scope) as s:
         put_text(message, scope=s)

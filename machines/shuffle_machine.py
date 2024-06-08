@@ -20,7 +20,7 @@ class ShuffleMachine:
 
         self.suits_dict = deepcopy(SUITS_DICT)
 
-    def draw(self, two_cards=False):  # Draw from front at index 0.
+    def draw(self, two_cards: bool = False):  # Draw from front at index 0.
         if two_cards:  # If two cards are needed.
             card_1 = self.cards_list.pop(0)
             card_2 = self.cards_list.pop(0)
