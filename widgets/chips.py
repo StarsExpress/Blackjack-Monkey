@@ -5,10 +5,12 @@ from pywebio.output import put_table
 
 
 # Display profit of input hand, and return chips.
-# Arguments: chips = final bets placed at input hand; 0 dealer value = dealer is busted.
-# Argument: insurance = 0 if player doesn't buy or win/loss result is unknown; 1 means win; -1 means loss.
-def return_chips(head_ordinal, branch_ordinal='1', chips=0, surrender=False, early_pay=False, insurance=0,
-                 player_bj=False, dealer_bj=False, player_bust=False, player_value=0, dealer_value=0):
+def return_chips(head_ordinal: str, branch_ordinal: str = '1', chips: int = 0, surrender: bool = False,
+                 early_pay: bool = False, insurance: int = 0, player_bj: bool = False, dealer_bj: bool = False,
+                 player_bust: bool = False, player_value: int = 0, dealer_value: int = 0):
+    # Chips = final bets placed at input hand. 0 dealer value = dealer is busted.
+    # Insurance = 0 if player doesn't buy or win/loss result is unknown; 1 means win; -1 means loss.
+
     branch_scope = f'{PLAYER_SCOPE}_{head_ordinal}_{branch_ordinal}'  # Branch and profit scopes for input hand.
     profit_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['profit']}"
     clear_contents(profit_scope)  # Erase old value for new value.

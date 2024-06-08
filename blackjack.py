@@ -24,7 +24,7 @@ class Blackjack:
         self.final_head_hands_list = []
 
     # Some functions are defined here to receive updating global variable for PyWebIO's input validation function.
-    def check_chips(self, chips):  # Check if placed bets are valid.
+    def check_chips(self, chips: int):  # Check if placed bets are valid.
         if chips < MIN_BET:
             return f'Placed chips must >= minimum bet {str(MIN_BET)}.'
         if chips > MAX_BET:
@@ -34,12 +34,12 @@ class Blackjack:
         if chips % 100 != 0:
             return 'Placed chips must be in units of 100.'
 
-    def check_insurance(self, insurance_hands_list):  # Check if wanted insurance amount is valid.
+    def check_insurance(self, insurance_hands_list: list[str]):  # Check if wanted insurance amount is valid.
         insurance = find_placed_insurance(find_ordinal(insurance_hands_list), self.player.hands_dict)
         if insurance > self.capital:
             return f'Your wanted insurance {insurance} > remaining capital {str(self.capital)}. Please reselect.'
 
-    def set_up(self, head_hands, capital, player_name):
+    def set_up(self, head_hands: int, capital: int, player_name: str = None):
         self.capital = capital
         self.machine.load_and_shuffle()
 

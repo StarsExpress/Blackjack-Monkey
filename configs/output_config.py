@@ -6,9 +6,11 @@ IMAGES_WIDTH = '70px'
 
 
 # Sub scopes within intro scope: button and URL.
-INTRO_SUB_SCOPES = {'intro': 'intro', 'button': 'intro_button',
+INTRO_SUB_SCOPES = {
+                    'intro': 'intro', 'button': 'intro_button',
                     'label': '🎠Intro Page🎙️', 'color': 'info',
-                    'url': 'https://github.com/StarsExpress/Blackjack-Monkey-Intro'}
+                    'url': 'https://github.com/StarsExpress/Blackjack-Monkey-Intro'
+                    }
 
 # Sub scopes within rules scope: buttons and text.
 RULES_SUB_SCOPES = {'rules': 'rules', 'buttons': 'rules_buttons', 'content': 'rules_content'}
@@ -46,12 +48,15 @@ DANGER_ZONE = {'lower': 12, 'upper': 16}
 PROFITS_COLORS = {'loss': 'red', 'tie': 'black', 'profit': 'green'}
 
 # Notifications widget.
-POPUP_DICT = {'inadequate_capital': {'title': '‼️Inadequate Capital‼️'},
+POPUP_DICT = {
+              'inadequate_capital': {'title': '‼️Inadequate Capital‼️'},
               'max_splits': {'title': '⛔No More Splits⛔'},
-              'early_exit': {'title': '🛬Early Exit🛬',
+              'early_exit': {
+                             'title': '🛬Early Exit🛬',
                              'content': 'Your hands are all judged.'
                              },
-              'huge_profits': {'title': '🎉Winner Winner Chicken Dinner🦃',
+              'huge_profits': {
+                               'title': '🎉Winner Winner Chicken Dinner🦃',
                                'emojis': ('💵', '🍾'),
                                'threshold': 0.7
                                }

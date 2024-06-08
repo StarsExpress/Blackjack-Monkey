@@ -10,9 +10,12 @@ cards_images_dict = read_cards_images()
 
 
 # Display new drawn card and current value of player's hand.
-def show_player_value(head_ordinal, branch_ordinal, cards_list=None, suits_list=None, value=0, chips=0, insurance=0,
-                      blackjack=False, stand=False, soft=False, bust=False, first_split=False,
-                      new_branch=False, value_only=False, update_chips=False, insurance_only=False):
+def show_player_value(head_ordinal: str, branch_ordinal: str, cards_list: list[str] = None,
+                      suits_list: list[str] = None, value: int = 0, chips: int = 0, insurance: int = 0,
+                      blackjack: bool = False, stand: bool = False, soft: bool = False, bust: bool = False,
+                      first_split: bool = False, new_branch: bool = False, value_only: bool = False,
+                      update_chips: bool = False, insurance_only: bool = False):
+
     tab_scope = f'{PLAYER_SCOPE}_{head_ordinal}'  # Tab to which input hand belongs.
     branch_scope = f'{tab_scope}_{branch_ordinal}'  # Branch scope for input hand.
     chips_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['chips']}"
@@ -44,10 +47,10 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list=None, suits_list=
                  None,  # Middle blank.
                  None,  # Middle blank.
                  put_scope(cards_scope, [
-                                     put_image(cards_images_dict[f'{cards_list[0]}{suits_list[0]}'],
-                                               width=IMAGES_WIDTH, scope=cards_scope),
-                                     put_image(cards_images_dict[f'{cards_list[1]}{suits_list[1]}'],
-                                               width=IMAGES_WIDTH, scope=cards_scope)], scope=cards_scope),
+                     put_image(cards_images_dict[f'{cards_list[0]}{suits_list[0]}'],
+                               width=IMAGES_WIDTH, scope=cards_scope),
+                     put_image(cards_images_dict[f'{cards_list[1]}{suits_list[1]}'],
+                               width=IMAGES_WIDTH, scope=cards_scope)], scope=cards_scope),
                  None,  # Middle blank.
                  put_scope(value_scope, put_table([[value]], header=TABLE_HEADERS['value'],
                                                   scope=value_scope).style(f'color:{value_color}')),
@@ -60,7 +63,7 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list=None, suits_list=
     if value_only:  # If chips and cards don't need updates.
         return
 
-    # Display new drawn card(s): if not first two cards, only show the last card and its suit from list.
+    # Display new drawn card(s): if not first two cards, only show the last card and its suit.
     if len(cards_list) != 2:
         put_image(cards_images_dict[f'{cards_list[-1]}{suits_list[-1]}'], width=IMAGES_WIDTH, scope=cards_scope)
         return
@@ -70,8 +73,9 @@ def show_player_value(head_ordinal, branch_ordinal, cards_list=None, suits_list=
 
 
 # Display new drawn card and current value of dealer's hand.
-def show_dealer_value(card, suit, value=0, first=False, blackjack=False, check_bj_only=False, soft=False, bust=False):
-    if first:  # If is first card, create sub scopes in dealer scope.
+def show_dealer_value(card: str, suit: str, value: int = 0, first: bool = False, blackjack: bool = False,
+                      check_bj_only: bool = False, soft: bool = False, bust: bool = False):
+    if first:  # First card: create sub scopes in dealer scope.
         put_row([put_scope(DEALER_SUB_SCOPES['cards']), None, put_scope(DEALER_SUB_SCOPES['value'])],
                 scope=DEALER_SCOPE)
 
