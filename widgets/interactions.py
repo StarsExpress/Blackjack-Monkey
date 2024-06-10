@@ -21,16 +21,17 @@ def get_hands():  # Number of hands to bet before each round.
     return slider(label=HANDS_DICT['label'], min_value=HANDS_DICT['min'], max_value=HANDS_DICT['max'])
 
 
-def get_chips(chips_dict, validate_function):  # Chips placed by player for each hand.
+def get_chips(chips_dict: dict[str, str], validate_function: callable):  # Chips placed by player for each hand.
     return input(label=chips_dict['label'], type=NUMBER, required=True,
                  validate=validate_function, placeholder=chips_dict['holder'])
 
 
-def get_early_pay(head_ordinal):  # Blackjack early pay option.
+def get_early_pay(head_ordinal: str):  # Blackjack early pay option.
     return actions(f"Hand {head_ordinal}: {EARLY_PAY_DICT['label']}", buttons=EARLY_PAY_DICT['options'])
 
 
-def get_insurance(dealer_first_card, non_bj_hands_list, hands_dict, validate_function):
+def get_insurance(dealer_first_card: str, non_bj_hands_list: list[str],
+                  hands_dict: dict[str], validate_function: callable):
     # If no insurance to be asked, return empty list to match the return type from checkbox.
     if dealer_first_card != 'A':
         return []
@@ -40,7 +41,8 @@ def get_insurance(dealer_first_card, non_bj_hands_list, hands_dict, validate_fun
                     value=non_bj_hands_list, validate=validate_function)
 
 
-def get_move(ordinals_tuple, cards_list, dealer_card, splits, remaining_capital, initial_bet):  # Player's move.
+def get_move(ordinals_tuple: tuple, cards_list: list[str], dealer_card: str,
+             splits: int, remaining_capital: int, initial_bet: int):  # Player's move.
     # Ordinals tuple format: (head ordinal, branch ordinal).
     actions_list = []
     if judge_surrender(cards_list, dealer_card, splits):  # First check surrender availability.

@@ -26,11 +26,11 @@ def read_rules():  # Read rules of available languages from rules folder.
     return rules_dict
 
 
-def remind_betting_amount(remaining_capital):  # Remind maximal feasible amount to bet for iterated hand.
+def remind_betting_amount(remaining_capital: int):  # Remind maximal feasible amount to bet for iterated hand.
     return f"{str(min(remaining_capital, MAX_BET))}. Only accept 100's multiples."
 
 
-def find_ordinal_text(ordinal):  # Find corresponding text of ordinal.
+def find_ordinal_text(ordinal: str):  # Find corresponding text of ordinal.
     if ordinal == '1':
         return '1st'
     if ordinal == '2':
@@ -40,8 +40,8 @@ def find_ordinal_text(ordinal):  # Find corresponding text of ordinal.
     return '4th'  # Possible maximum branch is 4.
 
 
-def assist_insurance_checkbox(non_bj_hands_list, hands_dict):  # Return options list for insurance checkbox.
-    options_list = []
+def assist_insurance_checkbox(non_bj_hands_list: list[str], hands_dict: dict[str]):
+    options_list = []  # Return options list for insurance checkbox.
     for head_ordinal in non_bj_hands_list:  # For each non-Blackjack hand, provide ordinal and displayed value.
         displayed_value = track_display_value(hands_dict[head_ordinal].value_dict['1'],
                                               soft=hands_dict[head_ordinal].soft_dict['1'])
@@ -49,18 +49,20 @@ def assist_insurance_checkbox(non_bj_hands_list, hands_dict):  # Return options 
     return options_list
 
 
-def find_ordinal(insurance_hands_list):  # Get ordinal from checkbox option: "Hand head_ordinal: displayed_value".
+def find_ordinal(insurance_hands_list: list[str]):
+    # Get ordinal from checkbox option: "Hand head_ordinal: displayed_value".
     # [1]: 1st item right next to 1st space. [:-1]: exclude colon.
     return [head_ordinal.split(' ')[1][:-1] for head_ordinal in insurance_hands_list]
 
 
-def find_placed_insurance(insurance_hands_list, hands_dict):  # For each hand, placed insurance is half initial chips.
+def find_placed_insurance(insurance_hands_list: list[str], hands_dict: dict[str]):
+    # For each hand, placed insurance is half initial chips.
     if len(insurance_hands_list) == 0:  # If list is empty, return 0 as insurance amount.
         return 0
     return sum(hands_dict[head_ordinal].initial_chips for head_ordinal in insurance_hands_list) // 2
 
 
-def find_value_color(value, soft, bust):  # Find corresponding color of hand value.
+def find_value_color(value: int, soft: bool, bust: bool):  # Find corresponding color of hand value.
     if bust:
         return VALUES_COLORS['busted']
     if (soft is False) & (DANGER_ZONE['lower'] <= value <= DANGER_ZONE['upper']):
@@ -68,8 +70,9 @@ def find_value_color(value, soft, bust):  # Find corresponding color of hand val
     return VALUES_COLORS['safe']
 
 
-def find_total_bets(hands_dict, insurance_hands_list):  # Find total bets placed in each round.
+def find_total_bets(hands_dict: dict[str], insurance_hands_list: list[str]):  # Find total bets placed in each round.
     # 1st term: sum bets from each head hand's branches, then sum again along all head hands.
+    total_bets = sum(sum(hands_dict[hand].chips_dict.values()) for hand in hands_dict.keys())
     # 2nd term: sum all placed insurance (50% initial chips) for each hand of insurance hands list.
-    return (sum(sum(hands_dict[key].chips_dict.values()) for key in hands_dict.keys()) +
-            sum(hands_dict[hand].initial_chips for hand in insurance_hands_list) // 2)
+    total_insurances = sum(hands_dict[hand].initial_chips for hand in insurance_hands_list) // 2
+    return total_bets + total_insurances
