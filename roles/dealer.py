@@ -8,13 +8,30 @@ import time
 
 
 class Dealer:
-    """Blackjack dealer."""
+    """
+    A class to serve as Blackjack dealer.
+
+    Attributes:
+    cards_list (list): list of cards in dealer's hand.
+    suits_list (list): list of suits corresponding to cards of dealer.
+    value (int): total value of dealer's hand.
+    early_pay (bool): if dealer should offer early pay option to player.
+    blackjack (bool): if dealer has Blackjack.
+    soft (bool): if dealer has a soft hand.
+    bust (bool): if dealer's hand is busted.
+
+    Methods:
+    prepare(first_card: str, first_suit: str): prepare dealer's hand for a new round.
+
+    add_to_17_plus(shuffle_machine: ShuffleMachine, check_blackjack_only: bool = False):
+    add cards to dealer's hand until total value is 17 or more (dealer needs 17+ except special cases).
+    """
 
     def __init__(self):
         self.cards_list, self.suits_list, self.value = [], [], 0  # Hand value starts from 0.
         self.early_pay, self.blackjack, self.soft, self.bust = False, False, False, False  # Default marks are False.
 
-    def prepare(self, first_card: str, first_suit: str):  # Load first card for a new round.
+    def prepare(self, first_card: str, first_suit: str):
         self.cards_list.clear()  # Clear list before loading first card.
         self.cards_list.append(first_card)
         self.suits_list.clear()
@@ -28,7 +45,6 @@ class Dealer:
         show_dealer_value(first_card, first_suit, value=self.value, soft=self.soft, first=True)
 
     def add_to_17_plus(self, shuffle_machine: ShuffleMachine, check_blackjack_only: bool = False):
-        # Dealer needs 17+ except special cases.
         while self.value < MIN_DEALER_VALUE:
             time.sleep(DEALER_SLEEP)  # Pause before drawing a new card.
             drawn_card, drawn_suit = shuffle_machine.draw()

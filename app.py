@@ -15,7 +15,18 @@ from pywebio import session
 
 
 class Application:
-    """Blackjack app."""
+    """
+    A class to serve as Blackjack application.
+
+    Attributes:
+    blackjack (Blackjack): instance of Blackjack class.
+    capital (int): player's current capital.
+    incomes (list): list of dictionaries, each representing a round's income.
+
+    Methods:
+    __init__(): initialize Blackjack application.
+    execute(): execute Blackjack application.
+    """
 
     def __init__(self):
         self.blackjack, self.capital, self.incomes = Blackjack(), 0, []
