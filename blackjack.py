@@ -50,7 +50,7 @@ class Blackjack:
         chips_dict = CHIPS_DICT.copy()  # Make a copy to prevent changing config.
         for i in range(1, head_hands + 1):  # Iterate through all desired head hands.
             if self.capital < MIN_BET:  # If remaining capital isn't enough for another head hand.
-                notify_inadequate_capital(self.capital, hands=True)
+                notify_inadequate_capital(self.capital, no_more_hand=True)
                 break
 
             chips_dict.update({'label': f"{CHIPS_DICT['label']} {i}:"})

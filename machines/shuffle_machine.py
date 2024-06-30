@@ -11,13 +11,13 @@ class ShuffleMachine:
     A class to shuffle and draw cards.
 
     Attributes:
-    cards_list: list of cards in shuffle machine.
-    suits_dict: dictionary of suits for each card type.
+        cards_list: list of cards in shuffle machine.
+        suits_dict: dictionary of suits for each card type.
 
     Methods:
-    load_and_shuffle(): refill cards and shuffle them.
-    draw(two_cards: bool = False): draw 1 or 2 cards from deck's front.
-    show_cards_count(): print each card's count if cards list isn't empty.
+        load_and_shuffle(): refill cards and shuffle them.
+        draw(two_cards: bool = False): draw 1 or 2 cards from deck's front.
+        show_cards_count(): print each card's count if cards list isn't empty.
     """
 
     def __init__(self):

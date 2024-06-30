@@ -1,6 +1,7 @@
 from configs.output_config import IMAGES_WIDTH, PLAYER_SCOPE, PLAYER_SUB_SCOPES, TABLE_HEADERS
 from configs.output_config import DEALER_SCOPE, DEALER_SUB_SCOPES, SHARED_HEIGHT
-from utils.swiss_knife import read_cards_images, find_ordinal_text, find_value_color
+from utils.readers import read_cards_images
+from utils.swiss_knife import find_ordinal_text, find_value_color
 from utils.trackers import track_display_value
 from widgets.layouts import clear_contents
 from pywebio.output import put_collapse, put_scrollable, put_row, put_scope, put_table, put_image
