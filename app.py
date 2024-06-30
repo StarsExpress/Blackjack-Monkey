@@ -24,15 +24,25 @@ class Application:
         incomes (list): list of dictionaries, each representing a round's income.
 
     Methods:
-        __init__(): initialize Blackjack application.
+        __init__(): initialize Application instance.
         execute(): execute Blackjack application.
     """
 
     def __init__(self):
+        """Initialize Application instance. Set name, theme and attributes of instance."""
         self.blackjack, self.capital, self.incomes = Blackjack(), 0, []
         set_name_and_theme()
 
-    def execute(self):  # This attribute is put into start_server of main.py.
+    def execute(self):
+        """
+        Execute Blackjack application. This method is put into start_server of main.py.
+
+        After each round, it calculates profit, updates capital, and traces income.
+
+        If capital is not enough for another round, it notifies player and breaks loop.
+
+        If player chooses to start over, it clears contents and starts a new session.
+        """
         set_top_layouts()
         show_intro()
         show_rules()
@@ -41,17 +51,17 @@ class Application:
 
         player_name = None
         info_dict = get_info()
-        if len(info_dict[NAME_DICT['name']].strip()) > 0:  # If player enters non-empty name.
+        if len(info_dict[NAME_DICT["name"]].strip()) > 0:
             player_name = info_dict[NAME_DICT['name']].lstrip().rstrip()  # Keep middle spaces.
 
-        self.capital = info_dict[CAPITAL_DICT['name']]
+        self.capital = info_dict[CAPITAL_DICT["name"]]
         update_cumulated_capital(player_name, self.capital)
 
         set_core_layouts_width()  # Must set layouts' width before content.
         set_core_layouts()
 
-        round_number = 1
-        while self.capital >= MIN_BET:  # While remaining capital is enough for another round.
+        round_num = 1
+        while self.capital >= MIN_BET:  # Remaining capital is enough for another round.
             hands = get_hands()
             self.blackjack.set_up(hands, self.capital, player_name)
             bets_placed = self.blackjack.start()
@@ -59,16 +69,20 @@ class Application:
             profit = self.blackjack.capital - self.capital  # This round's profit.
             send_congrats(profit, bets_placed)
             self.capital += profit  # Update remaining capital.
-            self.incomes += [dict(zip(INCOME_SUB_SCOPES['columns'], [round_number, profit, self.capital]))]
+            self.incomes += [
+                dict(
+                    zip(INCOME_SUB_SCOPES["columns"], [round_num, profit, self.capital])
+                )
+            ]
 
             if self.capital < MIN_BET:
                 time.sleep(GAME_END_SLEEP)
                 notify_inadequate_capital(self.capital, broke=True)
                 break
 
-            choice = get_choice()  # Right after choice is made, clear player and dealer scope.
+            choice = get_choice()
             clear_contents([PLAYER_SCOPE, DEALER_SCOPE])
-            if choice == 'start_over':  # If player wants to start over.
-                session.go_app('main', new_window=False)
+            if choice == "start_over":
+                session.go_app("main", new_window=False)
 
-            round_number += 1
+            round_num += 1

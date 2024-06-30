@@ -21,23 +21,32 @@ class ShuffleMachine:
     """
 
     def __init__(self):
-        self.cards_list = []  # List of cards.
-        self.suits_dict = {}  # Dictionary of suits for each card type.
+        """Initialize ShuffleMachine with empty list of cards and empty dictionary of suits."""
+        self.cards_list = []
+        self.suits_dict = {}
 
     def load_and_shuffle(self):
+        """Refill cards list and shuffle them. Refill suits dictionary."""
         self.cards_list.clear()
         self.cards_list.extend(CARDS_LIST * NUMBER_OF_DECKS)
-        shuffle(self.cards_list)  # Only cards list needs shuffling.
-
+        shuffle(self.cards_list)
         self.suits_dict = deepcopy(SUITS_DICT)
 
     def draw(self, two_cards: bool = False):
-        if two_cards:  # If two cards are needed.
+        """
+        Draw 1 or 2 cards from front of deck. Randomly select and remove a suit for each drawn card.
+
+        Args:
+            two_cards (bool, optional): if two cards are needed. Defaults to False.
+
+        Returns:
+            tuple: drawn card(s) and suit(s).
+        """
+        if two_cards:
             card_1 = self.cards_list.pop(0)
             card_2 = self.cards_list.pop(0)
             suit_1 = self.suits_dict[card_1].pop(random.randrange(len(self.suits_dict[card_1])))
             suit_2 = self.suits_dict[card_2].pop(random.randrange(len(self.suits_dict[card_2])))
-
             return card_1, card_2, suit_1, suit_2
 
         card = self.cards_list.pop(0)
@@ -45,6 +54,7 @@ class ShuffleMachine:
         return card, suit
 
     def show_cards_count(self):
+        """Print each card's count if the cards list isn't empty."""
         if len(self.cards_list) <= 0:
             print('No loaded cards yet.')
             return

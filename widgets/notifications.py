@@ -21,9 +21,7 @@ def update_cumulated_capital(player_name: str | None, remaining_capital: int):
     write_text(f"Dear {player_name}{CAPITAL_TEXT}{str(remaining_capital)} dollars.", INFO_SCOPE)
 
 
-def notify_inadequate_capital(
-        remaining_capital: int, no_more_hand: bool = False, broke: bool = False
-):
+def notify_inadequate_capital(remaining_capital: int, no_more_hand: bool = False, broke: bool = False):
     """
     Notify player if remaining capital is less than min bet.
 
@@ -47,7 +45,7 @@ def notify_inadequate_capital(
     )
 
 
-def remind_splits_rules(head_ordinal: str):  # Remind special Aces pair split rule.
+def remind_splits_rules(head_ordinal: str):
     """
     Remind player of special Aces pair split rule.
 
