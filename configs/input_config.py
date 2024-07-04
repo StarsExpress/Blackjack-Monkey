@@ -69,8 +69,18 @@ CHIPS_DICT = {
 EARLY_PAY_DICT = {
     "label": "take early pay❓",
     "options": [
-        {"label": "Take", "value": "take", "type": "submit", "color": "danger"},
-        {"label": "Wait", "value": "wait", "type": "submit", "color": "success"},
+        {
+            "label": "Take",
+            "value": "take",
+            "type": "submit",
+            "color": "danger",
+        },
+        {
+            "label": "Wait",
+            "value": "wait",
+            "type": "submit",
+            "color": "success",
+        },
     ],
 }
 
@@ -89,15 +99,30 @@ MOVES_DICT = {
         "type": "submit",
         "color": "danger",
     },
-    "stand": {"label": "Stand", "value": "stand", "type": "submit", "color": "primary"},
-    "hit": {"label": "Hit", "value": "hit", "type": "submit", "color": "success"},
+    "stand": {
+        "label": "Stand",
+        "value": "stand",
+        "type": "submit",
+        "color": "primary",
+    },
+    "hit": {
+        "label": "Hit",
+        "value": "hit",
+        "type": "submit",
+        "color": "success",
+    },
     "double_down": {
         "label": "Double Down",
         "value": "double_down",
         "type": "submit",
         "color": "warning",
     },
-    "split": {"label": "Split", "value": "split", "type": "submit", "color": "info"},
+    "split": {
+        "label": "Split",
+        "value": "split",
+        "type": "submit",
+        "color": "info",
+    },
 }
 
 # Continue or start over widget.

@@ -41,7 +41,11 @@ def get_hands():
     Returns:
         int: number of hands to bet.
     """
-    return slider(label=HANDS_DICT["label"], min_value=HANDS_DICT["min"], max_value=HANDS_DICT["max"])
+    return slider(
+        label=HANDS_DICT["label"],
+        min_value=HANDS_DICT["min"],
+        max_value=HANDS_DICT["max"],
+    )
 
 
 def get_chips(chips_dict: dict[str, str], validate_function: callable):

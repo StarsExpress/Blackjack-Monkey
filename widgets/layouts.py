@@ -1,5 +1,5 @@
 from configs.app_config import PAGE_NAME, PAGE_THEME, PAGE_TITLE
-from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE
+from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE, PAGE_WIDTH
 from configs.output_config import INTRO_SUB_SCOPES, RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.session import set_env
@@ -13,7 +13,7 @@ def set_name_and_theme():
 
 
 def set_top_layouts():
-    """Set page title and scopes for rules and income statement."""
+    """Set page title and sub scopes for intro, rules and income."""
     put_scope(
         name=TITLE_SCOPE,
         content=put_html(
@@ -32,8 +32,8 @@ def set_top_layouts():
 
 
 def set_core_layouts_width():
-    """Set core layouts' width as 90% of page width."""
-    set_env(output_max_width="90%")
+    """Set core layouts' width w.r.t. page width in config."""
+    set_env(output_max_width=PAGE_WIDTH)
 
 
 def set_core_layouts():
@@ -67,7 +67,7 @@ def set_cards_tabs(head_hands: int):
 
 def clear_contents(scopes: list[str] | str):
     """Clear contents inside given scope(s)."""
-    if isinstance(scopes, list):  # If input is a list of scopes.
+    if isinstance(scopes, list):
         for scope in scopes:
             clear(scope)
 

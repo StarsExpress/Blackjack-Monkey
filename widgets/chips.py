@@ -1,7 +1,7 @@
-from configs.output_config import PLAYER_SCOPE, PLAYER_SUB_SCOPES, PROFITS_COLORS, TABLE_HEADERS
+from configs.output_config import PROFIT_TABLE_CSS, PLAYER_SCOPE, PLAYER_SUB_SCOPES, PROFITS_COLORS, TABLE_HEADERS
 from configs.rules_config import BLACKJACK_PAY, INSURANCE_PAY
 from widgets.layouts import clear_contents, write_text
-from pywebio.output import put_table
+from pywebio.output import put_table, put_html
 
 
 def return_chips(
@@ -36,6 +36,8 @@ def return_chips(
     Returns:
         int: number of chips returned to player.
     """
+    put_html(PROFIT_TABLE_CSS)  # Control profit table width.
+
     branch_scope = f"{PLAYER_SCOPE}_{head_ordinal}_{branch_ordinal}"  # Branch and profit scopes for input hand.
     profit_scope = f"{branch_scope}_{PLAYER_SUB_SCOPES['profit']}"
     clear_contents(profit_scope)  # Erase old value for new value.

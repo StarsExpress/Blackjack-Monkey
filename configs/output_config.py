@@ -1,11 +1,11 @@
 """All output configurations."""
 
 TITLE_SCOPE = "Title"
+PAGE_WIDTH = "100%"
+IMAGES_WIDTH = "60px"
 
-IMAGES_WIDTH = "70px"
 
-
-# Sub scopes within intro scope: button and URL.
+# Sub scopes within intro scope.
 INTRO_SUB_SCOPES = {
     "intro": "intro",
     "button": "intro_button",
@@ -14,48 +14,67 @@ INTRO_SUB_SCOPES = {
     "url": "https://github.com/StarsExpress/Blackjack-Monkey-Intro",
 }
 
-# Sub scopes within rules scope: buttons and text.
+# Sub scopes within rules scope.
 RULES_SUB_SCOPES = {
     "rules": "rules",
     "buttons": "rules_buttons",
     "content": "rules_content",
 }
 
-# Sub scopes within income scope: buttons and text.
+# Sub scopes within income scope.
 INCOME_SUB_SCOPES = {
     "income": "income",
     "content": "income_content",
     "columns": ["Round", "Profit", "Cumulated Capital"],
 }
 
+
 INFO_SCOPE = "Info"  # Scope of player info.
 CAPITAL_TEXT = ": your cumulated capital is "  # Capital tracking.
 
 
-# Scopes of each hand for player and dealer. They are put in a shared row with identical height.
+# Scope of player's each hand.
 PLAYER_HEADER = "Your Hands"
 PLAYER_SCOPE = "Player"
-# Sub scopes within player scope: chips, cards, value and profit.
+
+# Sub scopes within player scope.
 PLAYER_SUB_SCOPES = {
     "chips": "Chips",
     "cards": "Cards",
     "value": "Value",
     "profit": "Profit",
 }
-# Headers for tables of chips, value and profit, respectively.
+
+# Headers for tables of chips, value and profit.
 TABLE_HEADERS = {
     "chips": ["Bet", "Insurance"],
     "value": ["Value"],
     "profit": ["Profit"],
 }
 
+# Control profit table width.
+PROFIT_TABLE_CSS = """
+    <style>
+    .custom-table {
+        width: 400px;
+    }
+    </style>
+    """
+
+
+# Scope of dealer's hand.
 DEALER_HEADER = "Dealer's Hand"
 DEALER_SCOPE = "Dealer"
-# Sub scopes within dealer scope: cards and value.
-DEALER_SUB_SCOPES = {"cards": f"{DEALER_SCOPE}_Card", "value": f"{DEALER_SCOPE}_Value"}
 
-SHARED_HEIGHT = 350
+# Sub scopes within dealer scope.
+DEALER_SUB_SCOPES = {
+    "cards": f"{DEALER_SCOPE}_Card",
+    "value": f"{DEALER_SCOPE}_Value",
+}
+
+SHARED_HEIGHT = 350  # Shared by player & dealer scopes.
 RELATIVE_WIDTH = "65% 35px 35%"  # Player scope, middle blank and dealer scope.
+
 
 # Hands values style.
 VALUES_COLORS = {"safe": "black", "danger": "orange", "busted": "red"}

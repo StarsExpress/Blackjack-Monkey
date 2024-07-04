@@ -1,4 +1,4 @@
-from configs.app_config import IMAGES_FOLDER_PATH, RULES_PATHS_DICT
+from configs.paths_config import IMAGES_FOLDER_PATH, RULES_PATHS_DICT
 import os
 from PIL import Image
 

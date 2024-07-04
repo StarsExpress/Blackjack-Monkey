@@ -61,7 +61,7 @@ class Application:
         set_core_layouts()
 
         round_num = 1
-        while self.capital >= MIN_BET:  # Remaining capital is enough for another round.
+        while self.capital >= MIN_BET:  # Enough remaining capital for another round.
             hands = get_hands()
             self.blackjack.set_up(hands, self.capital, player_name)
             bets_placed = self.blackjack.start()
