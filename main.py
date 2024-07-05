@@ -4,12 +4,6 @@ from app import Application
 
 
 def main():
-    """
-    Initializes and starts web game server.
-
-    Main method creates an Application instance for each visited player,
-    and starts a web server to host visits.
-    """
     app = Application()
     app.execute()
 
