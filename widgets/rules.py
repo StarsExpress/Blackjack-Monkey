@@ -1,8 +1,8 @@
+from pywebio.output import put_text, put_scope, put_button, put_buttons, popup
 from configs.output_config import RULES_SUB_SCOPES
 from configs.input_config import RULES_DICT
 from utils.readers import read_rules
 from widgets.layouts import clear_contents
-from pywebio.output import put_text, put_scope, put_button, put_buttons, popup
 
 
 rules_dict = read_rules()

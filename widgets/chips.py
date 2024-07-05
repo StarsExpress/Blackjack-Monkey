@@ -1,7 +1,7 @@
+from pywebio.output import put_table, put_html
 from configs.output_config import PROFIT_TABLE_CSS, PLAYER_SCOPE, PLAYER_SUB_SCOPES, PROFITS_COLORS, TABLE_HEADERS
 from configs.rules_config import BLACKJACK_PAY, INSURANCE_PAY
 from widgets.layouts import clear_contents, write_text
-from pywebio.output import put_table, put_html
 
 
 def return_chips(

@@ -1,3 +1,5 @@
+import time
+from pywebio import session
 from configs.app_config import GAME_END_SLEEP
 from configs.input_config import NAME_DICT, CAPITAL_DICT
 from configs.output_config import DEALER_SCOPE, PLAYER_SCOPE, INCOME_SUB_SCOPES
@@ -10,8 +12,6 @@ from widgets.income import show_income
 from widgets.interactions import get_info, get_hands, get_choice
 from widgets.notifications import update_cumulated_capital, notify_inadequate_capital, send_congrats
 from blackjack import Blackjack
-import time
-from pywebio import session
 
 
 class Application:

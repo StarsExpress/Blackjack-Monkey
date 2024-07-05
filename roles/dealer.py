@@ -1,10 +1,10 @@
+import time
 from configs.rules_config import MIN_DEALER_VALUE
 from configs.app_config import DEALER_SLEEP
 from utils.judges import judge_blackjack
 from utils.trackers import update_properties
 from widgets.cards import show_dealer_value
 from machines.shuffle_machine import ShuffleMachine
-import time
 
 
 class Dealer:
@@ -39,9 +39,6 @@ class Dealer:
         Args:
             first_card (str): first card of dealer's hand.
             first_suit (str): suit of first card.
-
-        Returns:
-            None
         """
         self.cards_list.clear()  # Clear list before loading first card.
         self.cards_list.append(first_card)
@@ -62,9 +59,6 @@ class Dealer:
         Args:
             shuffle_machine (ShuffleMachine): shuffle machine to draw cards from.
             check_blackjack_only (bool, optional): if True, only check if dealer has a blackjack. Defaults to False.
-
-        Returns:
-            None
         """
         while self.value < MIN_DEALER_VALUE:
             time.sleep(DEALER_SLEEP)  # Pause before drawing a new card.

@@ -1,10 +1,10 @@
-from configs.app_config import PAGE_NAME, PAGE_THEME, PAGE_TITLE
-from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE, PAGE_WIDTH
-from configs.output_config import INTRO_SUB_SCOPES, RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 from pywebio.platform import config
 from pywebio.session import set_env
 from pywebio.output import put_html, put_collapse, put_scrollable, put_scope
 from pywebio.output import put_row, put_text, put_tabs, clear, use_scope
+from configs.app_config import PAGE_NAME, PAGE_THEME, PAGE_TITLE
+from configs.output_config import TITLE_SCOPE, PLAYER_HEADER, PLAYER_SCOPE, DEALER_HEADER, DEALER_SCOPE, PAGE_WIDTH
+from configs.output_config import INTRO_SUB_SCOPES, RULES_SUB_SCOPES, INCOME_SUB_SCOPES, SHARED_HEIGHT, RELATIVE_WIDTH
 
 
 def set_name_and_theme():

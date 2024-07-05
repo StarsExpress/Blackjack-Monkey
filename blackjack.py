@@ -1,3 +1,4 @@
+import time
 from configs.app_config import EARLY_EXIT_SLEEP
 from configs.rules_config import MIN_BET, MAX_BET, MAX_TOTAL_VALUE
 from configs.input_config import DEFAULT_PLAYER_NAME, CHIPS_DICT
@@ -9,7 +10,6 @@ from widgets.chips import return_chips
 from machines.shuffle_machine import ShuffleMachine
 from roles.dealer import Dealer
 from roles.player import Player
-import time
 
 
 class Blackjack:

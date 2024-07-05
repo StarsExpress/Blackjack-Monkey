@@ -1,9 +1,9 @@
-from configs.rules_config import NUMBER_OF_DECKS, CARDS_LIST, SUITS_DICT
 from copy import deepcopy
 import random
 from random import shuffle
 from collections import Counter
 import json
+from configs.rules_config import NUMBER_OF_DECKS, CARDS_LIST, SUITS_DICT
 
 
 class ShuffleMachine:
@@ -40,7 +40,7 @@ class ShuffleMachine:
             two_cards (bool, optional): if two cards are needed. Defaults to False.
 
         Returns:
-            tuple: drawn card(s) and suit(s).
+            tuple: tuple of drawn card(s) and suit(s).
         """
         if two_cards:
             card_1 = self.cards_list.pop(0)

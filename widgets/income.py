@@ -1,6 +1,6 @@
+from pywebio.output import put_scope, put_button, popup, put_datatable
 from configs.output_config import INCOME_SUB_SCOPES
 from configs.input_config import INCOME_DICT
-from pywebio.output import put_scope, put_button, popup, put_datatable
 
 
 def show_income(income_list: list[dict[str, str]]):

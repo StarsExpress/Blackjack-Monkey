@@ -1,9 +1,9 @@
+from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions, checkbox
 from configs.input_config import NAME_DICT, CAPITAL_DICT, HANDS_DICT, EARLY_PAY_DICT
 from configs.input_config import INSURANCE_DICT, MOVES_DICT, CHOICES_DICT
 from utils.input_validity import check_name, check_capital
 from utils.judges import judge_surrender, judge_split
 from utils.swiss_knife import assist_insurance_checkbox, find_ordinal_text
-from pywebio.input import input_group, input, TEXT, NUMBER, slider, actions, checkbox
 
 
 def get_info():
@@ -11,7 +11,7 @@ def get_info():
     Get player's info: name and initial capital.
 
     Returns:
-        dict: contains player's name and initial capital.
+        dict: dict of player's name and initial capital.
     """
     return input_group(
         inputs=[

@@ -9,7 +9,7 @@ def update_properties(cards_list: list[str]):
         cards_list (list[str]): list of cards in given hand.
 
     Returns:
-        tuple: value of hand, a boolean telling if hand is soft, and a boolean telling if hand is busted.
+        tuple: tuple of hand value, a boolean telling if hand is soft, and a boolean telling if hand is busted.
     """
     soft = False
     value = sum([CARD_TO_VALUE_DICT[cards] for cards in cards_list])

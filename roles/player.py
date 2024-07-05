@@ -25,9 +25,6 @@ class Player:
         Args:
             chips_list (list[int]): list of chips for each hand.
             cards_and_suits_list (list[list[str]]): list of cards and suits for each hand.
-
-        Returns:
-            None
         """
         self.hands_dict.clear()  # Clear dictionaries before loading values.
 
@@ -50,9 +47,6 @@ class Player:
 
         Args:
             insurance_hands_list (list[str]): list of hands that have insurance.
-
-        Returns:
-            None
         """
         if len(insurance_hands_list) > 0:
             for insurance_head_ordinal in insurance_hands_list:

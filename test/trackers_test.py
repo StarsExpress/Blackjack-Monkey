@@ -2,6 +2,7 @@ from utils.trackers import update_properties, track_display_value
 
 
 def test_trackers():
+    """Test trackers functionality."""
     assert update_properties(['A'] * 11) == (21, True, False)
     assert update_properties(['A'] * 12) == (12, False, False)
     assert track_display_value(18, soft=True, stand=True) == '18'

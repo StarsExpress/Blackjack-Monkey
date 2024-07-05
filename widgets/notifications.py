@@ -1,8 +1,8 @@
+from pywebio.output import popup
 from configs.input_config import DEFAULT_PLAYER_NAME
 from configs.output_config import CAPITAL_TEXT, INFO_SCOPE, POPUP_DICT, POPUP_IMPLICIT_CLOSE, POPUP_SIZE
 from configs.rules_config import MIN_BET, MAX_SPLITS
 from widgets.layouts import write_text
-from pywebio.output import popup
 
 
 emoji_1, emoji_2 = POPUP_DICT["huge_profits"]["emojis"]  # Emojis for huge profits.
