@@ -1,8 +1,6 @@
 from copy import deepcopy
 import random
 from random import shuffle
-from collections import Counter
-import json
 from configs.rules_config import NUMBER_OF_DECKS, CARDS_LIST, SUITS_DICT
 
 
@@ -20,19 +18,19 @@ class ShuffleMachine:
         show_cards_count(): print each card's count if cards list isn't empty.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize ShuffleMachine with empty list of cards and empty dictionary of suits."""
         self.cards_list = []
         self.suits_dict = {}
 
-    def load_and_shuffle(self):
+    def load_and_shuffle(self) -> None:
         """Refill cards list and shuffle them. Refill suits dictionary."""
         self.cards_list.clear()
         self.cards_list.extend(CARDS_LIST * NUMBER_OF_DECKS)
         shuffle(self.cards_list)
         self.suits_dict = deepcopy(SUITS_DICT)
 
-    def draw(self, two_cards: bool = False):
+    def draw(self, two_cards: bool = False) -> tuple:
         """
         Draw 1 or 2 cards from front of deck. Randomly select and remove a suit for each drawn card.
 
@@ -52,11 +50,3 @@ class ShuffleMachine:
         card = self.cards_list.pop(0)
         suit = self.suits_dict[card].pop(random.randrange(len(self.suits_dict[card])))
         return card, suit
-
-    def show_cards_count(self):
-        """Print each card's count if the cards list isn't empty."""
-        if len(self.cards_list) <= 0:
-            print('No loaded cards yet.')
-            return
-        cards_dict = dict(sorted(dict(Counter(self.cards_list)).items()))
-        print(json.dumps(cards_dict, indent=2))

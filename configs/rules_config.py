@@ -5,8 +5,10 @@ CARDS_LIST = ([str(i) for i in range(2, 11)] + ["J", "Q", "K", "A"]) * 4
 CARD_TO_VALUE_DICT = dict(zip(CARDS_LIST, [i for i in range(2, 11)] + [10, 10, 10, 11]))
 
 NUMBER_OF_DECKS = 6
-SUITS_DICT = {  # S: spade; H: heart; D: diamond; C: club.
-    key: ["S", "H", "D", "C"] * NUMBER_OF_DECKS
+
+SUITS = ["S", "H", "D", "C"]  # S: spade; H: heart; D: diamond; C: club.
+SUITS_DICT = {
+    key: SUITS * NUMBER_OF_DECKS
     for key in [str(i) for i in range(2, 11)] + ["J", "Q", "K", "A"]
 }
 
