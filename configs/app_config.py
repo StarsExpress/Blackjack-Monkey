@@ -1,6 +1,6 @@
 """All app configurations."""
 
-PAGE_NAME = "🎰Job's Here"
+PAGE_NAME = "🎰JOB's Here"
 PAGE_THEME = "sketchy"
 PAGE_TITLE = "♠️♥️Jack's Online Blackjack♦️♣️"
 
