@@ -47,7 +47,9 @@ class Blackjack:
 
     def new_session(self, player_name: str, capital: int) -> dict:
         if player_name and len(player_name.strip()) > MAX_NAME_LEN:
-            return {"error": f"Name length after stripping left & right spaces must <= {MAX_NAME_LEN}."}
+            return {
+                "error": f"Name length after stripping left & right spaces must <= {MAX_NAME_LEN}."
+            }
 
         if capital > MAX_CAPITAL:
             return {"error": f"Capital can't exceed ${MAX_CAPITAL:,}."}
@@ -74,16 +76,16 @@ class Blackjack:
         for bet in bets:
             if bet < MIN_BET:
                 return {"error": f"Each bet must be ≥ ${MIN_BET}."}
-            
+
             if bet > MAX_BET:
                 return {"error": f"Each bet must be ≤ ${MAX_BET}."}
-            
+
             if bet % 100 != 0:
                 return {"error": "Bets must be multiples of $100."}
-            
+
             if bet > temp:
                 return {"error": "Insufficient capital for that bet."}
-            
+
             temp -= bet
 
         if len(bets) > HANDS_RANGE["max"]:
@@ -91,13 +93,13 @@ class Blackjack:
 
         self._initial_capital = self.capital
         self.capital = temp
-        
+
         self._profits.clear()  # Reset for new round.
         self._outcomes.clear()
-        
+
         self._bj_early_pay_queue.clear()  # Reset for new round.
         self._early_paid_hands.clear()
-        
+
         self.machine.load_and_shuffle()
 
         self._dealer_cards.clear()  # Reset for new round.
@@ -162,7 +164,7 @@ class Blackjack:
         if choice == "take":
             # Early pay: 1.0 rate profit. Player gets chips back + equal profit.
             self.capital += hand.initial_chips * 2
-            
+
             self._profits[f"{hand_id}_1"] = hand.initial_chips
             self._outcomes[f"{hand_id}_1"] = "early_pay"
             self._early_paid_hands.add(hand_id)
@@ -324,9 +326,9 @@ class Blackjack:
             hand = self.player.hands_dict[self._active_hand]
             branch_id = self._active_branch
 
-            if hand.value_dict.get(branch_id, 0) != MAX_TOTAL_VALUE or hand.bust_dict.get(
-                branch_id, False
-            ):
+            if hand.value_dict.get(
+                branch_id, 0
+            ) != MAX_TOTAL_VALUE or hand.bust_dict.get(branch_id, False):
                 break
 
             if hand.splits > 0:
@@ -518,7 +520,9 @@ class Blackjack:
 
                 cards = [
                     {"rank": card, "suit": suit}
-                    for card, suit in zip(hand.cards_dict[branch_id], hand.suits_dict[branch_id])
+                    for card, suit in zip(
+                        hand.cards_dict[branch_id], hand.suits_dict[branch_id]
+                    )
                 ]
 
                 branch_value = hand.value_dict.get(branch_id, 0)
@@ -625,7 +629,8 @@ class Blackjack:
             result["insurance_hands"] = [
                 {
                     "hand_id": hands_id,
-                    "insurance_amount": self.player.hands_dict[hands_id].initial_chips // 2,
+                    "insurance_amount": self.player.hands_dict[hands_id].initial_chips
+                    // 2,
                 }
                 for hands_id in self._non_bj_hands
             ]
@@ -637,7 +642,9 @@ class Blackjack:
 
         return result
 
-    def _default_outcome(self, hand_id: str, branch_id: str, hand, is_active: bool) -> str:
+    def _default_outcome(
+        self, hand_id: str, branch_id: str, hand, is_active: bool
+    ) -> str:
         """Outcome for branches not yet in _outcomes dict."""
         if hand.blackjack and branch_id == "1":
             if hand_id in self._bj_early_pay_queue:
@@ -651,7 +658,8 @@ class Blackjack:
         if self._phase in ("playing", "early_pay", "insurance"):
             return self._dealer_cards[0]  # Show only dealer's 1st card.
 
-        if len(self._dealer_cards) == 1:  # Dealer didn't draw cards: all hands are settled.
+        # Dealer didn't draw cards: all hands are settled.
+        if len(self._dealer_cards) == 1:
             return self._dealer_cards[0]
 
         if self._dealer_blackjack:

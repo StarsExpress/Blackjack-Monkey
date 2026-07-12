@@ -155,10 +155,10 @@ class HandProcessor:
             branch_ordinal (str, optional): ordinal of branch. Defaults to '1'.
         """
         stand = True if self.aces_pair else False
-        
+
         # Move split card to new branch.
         self.cards_dict[str(self.splits + 2)] = [self.cards_dict[branch_ordinal][-1]]
-        
+
         self.cards_dict[branch_ordinal] = [self.cards_dict[branch_ordinal][0], card]
 
         self.suits_dict[str(self.splits + 2)] = [self.suits_dict[branch_ordinal][-1]]
@@ -198,7 +198,7 @@ class HandProcessor:
 
         self.chips_dict[branch_ordinal] = self.initial_chips
         self.double_down_dict[branch_ordinal] = False
-        
+
         self.cards_dict[branch_ordinal].append(card)
         self.suits_dict[branch_ordinal].append(suit)
 

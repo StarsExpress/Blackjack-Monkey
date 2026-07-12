@@ -4,9 +4,7 @@ CARDS_LIST = ([str(card) for card in range(2, 11)] + ["J", "Q", "K", "A"]) * 4
 
 # Dictionary to map card name and value.
 CARD_TO_VALUE_DICT = dict(
-    zip(
-        CARDS_LIST, [card for card in range(2, 11)] + [10, 10, 10, 11]
-    )
+    zip(CARDS_LIST, [card for card in range(2, 11)] + [10, 10, 10, 11])
 )
 
 NUMBER_OF_DECKS = 6

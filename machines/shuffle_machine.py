@@ -43,8 +43,12 @@ class ShuffleMachine:
         if two_cards:
             card_1 = self.cards_list.pop()
             card_2 = self.cards_list.pop()
-            suit_1 = self.suits_dict[card_1].pop(randrange(len(self.suits_dict[card_1])))
-            suit_2 = self.suits_dict[card_2].pop(randrange(len(self.suits_dict[card_2])))
+            suit_1 = self.suits_dict[card_1].pop(
+                randrange(len(self.suits_dict[card_1]))
+            )
+            suit_2 = self.suits_dict[card_2].pop(
+                randrange(len(self.suits_dict[card_2]))
+            )
             return card_1, card_2, suit_1, suit_2
 
         card = self.cards_list.pop()

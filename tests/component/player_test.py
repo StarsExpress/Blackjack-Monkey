@@ -52,11 +52,14 @@ class TestPlayer(unittest.TestCase):
         self.assertFalse(self.player.hands_dict['1'].blackjack)
 
     def test_1_indexed_hand_ordinals(self):
-        self.player.prepare([500, 500, 500], [
-            ['2', '3', 'S', 'H'],
-            ['4', '5', 'D', 'C'],
-            ['6', '7', 'S', 'D'],
-        ])
+        self.player.prepare(
+            [500, 500, 500],
+            [
+                ['2', '3', 'S', 'H'],
+                ['4', '5', 'D', 'C'],
+                ['6', '7', 'S', 'D'],
+            ],
+        )
 
         self.assertIn('1', self.player.hands_dict)
         self.assertIn('2', self.player.hands_dict)
