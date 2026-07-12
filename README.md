@@ -4,21 +4,35 @@
 
 # 🎰JOB: Jack's Online Blackjack
 
-### [🤵🏻Let's Have A Seat🐵](https://www.jack-s-onlineblackjack.com)
+### [🤵🏻 Let's Have A Seat 🐵](https://www.jack-s-onlineblackjack.com)
 
 ### [📓 Stories Behind 😸](https://starsexpress.github.io/Faraway-s-Way/monkeyjob/)
 
 ---
 
-### 🛠 Tech Ingredients
+### 🛠 Tech Ingredients Revealed
+#### 1️⃣ Backend
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+
+- Python — entire Blackjack game engine and backend modules.
+- FastAPI — serves all players separately, and responds accordingly to players' interactions.
+
+#### 2️⃣ Frontend
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+
+- JavaScript + CSS + HTML — makes everything feel like casinos vibes through detailed interactions.
+
+#### 3️⃣ CI/CD
 ![Pytest](https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white)
+
+- Pytest — unit, component and integration tests.
+- GitHub — CI/CD pipeline triggers.
+- Railway — game deployment.
 
 ---
 
