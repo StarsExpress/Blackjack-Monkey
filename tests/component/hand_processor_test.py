@@ -161,7 +161,9 @@ class TestSplit(unittest.TestCase):
 
     def test_split_moves_suit_to_second_branch(self):
         self.hand_processor.split('9', 'C')
-        self.assertEqual(self.hand_processor.suits_dict['2'], ['H'])  # second suit moved
+
+        # Second suit moved.
+        self.assertEqual(self.hand_processor.suits_dict['2'], ['H'])
 
     def test_aces_pair_split_marks_aces_pair(self):
         hand_processor = HandProcessor('1', 500, ['A', 'A'], ['S', 'H'])
