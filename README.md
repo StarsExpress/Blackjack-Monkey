@@ -4,6 +4,11 @@
 
 # 🎰JOB: Jack's Online Blackjack
 
+[![main Unit Tests](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/unit_tests.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)
+[![main Component Tests](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/component_tests.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)
+[![main Integration Tests](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/integration_tests.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)
+[![main Black Linter](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/black-lint.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)
+
 ### [🤵🏻 Let's Have A Seat 🐵](https://www.jack-s-onlineblackjack.com)
 
 ### [📓 Stories Behind 😸](https://starsexpress.github.io/Faraway-s-Way/monkeyjob/)
