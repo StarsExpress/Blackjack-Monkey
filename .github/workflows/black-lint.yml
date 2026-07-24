@@ -1,4 +1,4 @@
-name: Black Linter
+name: Black Lint
 
 on:
   push:
