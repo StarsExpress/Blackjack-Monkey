@@ -2,7 +2,7 @@
   <img src="static/images/logo.png" width="200">
 </p>
 
-# 🎰JOB: Jack's Online Blackjack
+# 🎰MonkeyJOB: Jack's Online Blackjack
 
 [![main Unit Tests](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/unit_tests.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)
 [![main Component Tests](https://github.com/StarsExpress/MonkeyJOB/actions/workflows/component_tests.yml/badge.svg?branch=main)](https://github.com/StarsExpress/MonkeyJOB/actions)

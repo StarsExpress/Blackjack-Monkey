@@ -2,9 +2,9 @@ name: Component Tests
 
 on:
   push:
-    branches: ["**"]
+    branches: [main, dev]
   pull_request:
-    branches: ["**"]
+    branches: [main]
 
 jobs:
   test:
