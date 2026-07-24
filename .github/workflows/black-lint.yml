@@ -1,4 +1,4 @@
-name: black-linter
+name: Black Linter
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - '**/*.py'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
